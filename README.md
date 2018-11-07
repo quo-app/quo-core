@@ -1,44 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Quo - Prototyping with components
 
-## Available Scripts
+Max Stein, Deniz Sokullu
 
-In the project directory, you can run:
+### Quo solves the gap in prototyping
+- Much of UX design revolves around reusing components that exist in design systems and throughout the industry
+- Current limitations in prototyping tools cause designers to miss out on opportunities to test with users
+- Quo helps UX designers iterate as fast as developers
 
-### `npm start`
+*In the proposed process, designers spend less time upfront perfecting screen designs because Quo will make it easier to turn assets into prototypes and continue iterating.*
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Drawbacks to existing products
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- **Limited Functionality -** (InVision, XD, Sketch, Figma) Designers can only create ‘click-through prototypes’ that are primarily for user flows by linking screens together with page transitions
+- **Difficult to use and time intensive, code required -** (Principle, Adobe AE, Framer, Origami) Blank slate provided, but requires too much building for rapid prototyping
+- **Poor UI -** (all tools) have become crowded and complex
 
-### `npm test`
+*If designers are working with standard components, the prototyping tools we use should be designed around those same components*
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### A Squarespace model for prototyping
 
-### `npm run build`
+- Squarespace is focused on providing users with standardized components that it has deemed essential to build a beautiful, functional website
+- When a user logs into Squarespace, they know exactly what they’re going to get
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Quo simplifies producing interactive components
+Designers everywhere are using text fields, dropdown or popover menus, card designs, buttons, switches, and sliders, etc
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### What does Quo provide designers?
+In Quo, designers can build fully functioning prototypes centered around standard components and interactions
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Easy file transfer -** Minimize time preparing files in screen design tools before uploading and managing in Quo
+- **Clear workflow -** Create interactive prototypes without code or messy arrows connecting ‘linked’ keyframes
+- **Essential functionality -** Focus on mid - high level interactions in the interface for user testing
+- **Centered around components -** Quo’s building tools support industry standard components creating faster testing cycles
+- **Functioning prototypes to export & share -** Quo’s finished HTML prototype can be shared and interacted with on all platforms
 
-### `npm run eject`
+### Beta release date - December 2018
+- Based on current progress, our large feature releases are scheduled for mid-December 2018
+- We plan on testing with trusted peers, and others who would be able to give us insightful feedback that would lead to a better public release
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Goals for the future of Quo
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **6 months after beta release:** additional beta features and improve overall performance / receive feedback from design community
+- **1 year goal:** begin to extend usage to tablets to make it easier to design without a mouse
+- **3 year goal:** Quo is a product that can be used in the AR / VR space to design digital products the way you would build with lego blocks - manipulating designs with your hands
