@@ -32,6 +32,8 @@ const paths = require('../config/paths');
 const config = require('../config/webpack.config.dev');
 const createDevServerConfig = require('../config/webpackDevServer.config');
 
+
+
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
 
@@ -43,6 +45,12 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
+
+// Uncomment this if you want to see memory usage and leaks.
+if(process.argv[2] === "--memlog"){
+  const { memoryLogger } = require('./memoryLogger');
+  memoryLogger();
+}
 
 if (process.env.HOST) {
   console.log(

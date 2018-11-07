@@ -70,6 +70,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "memoryLogger": "node scripts/start.js --memlog",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
@@ -131,5 +132,9 @@
     "plugins": [
       "wildcard"
     ]
+  },
+  "devDependencies": {
+    "@airbnb/node-memwatch": "^1.0.2",
+    "prettysize": "^1.1.0"
   }
 }
