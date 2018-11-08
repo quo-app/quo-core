@@ -2,6 +2,7 @@ const domain = {
   //Flat Files
   assets:{
     sketch:{},
+    images: {}
   },
   //Edited Components
   components:{},

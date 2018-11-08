@@ -23,10 +23,10 @@ class ComponentRenderCore extends React.PureComponent {
     switch(this.props.component.class){
       case 'shape':
         return (<ShapeComponent component={ this.props.component }></ShapeComponent>)
-        break;
       case 'text':
         return (<TextComponent component={ this.props.component }></TextComponent>)
-        break;
+      case 'image':
+        return <ImageComponent component={this.props.component} />
       default:
         const Wrapper = this.props.wrapper
         return (
