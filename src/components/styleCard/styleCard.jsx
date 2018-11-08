@@ -1,8 +1,12 @@
 import React from 'react';
-import Checkbox from 'material-ui/Checkbox';
+//this needs a instantiated react component rather than an icon function
+// import Checkbox from 'material-ui/Checkbox';
+//
 import { connect } from 'react-redux';
 
-import AddBoxIcon from 'material-ui-icons/AddBox';
+// import AddBoxIcon from 'material-ui-icons/AddBox';
+
+import Icons from 'ui-components/icons';
 
 import { Page, Layers } from './layers/layers';
 
@@ -68,7 +72,7 @@ class ContentPagesCard extends React.Component{
               {this.state.pages ? Object.keys(this.state.pages).length : 0}
             </span></span>
           <span className='add-page'>
-            <AddBoxIcon/>
+            <Icons.AddBox/>
           </span>
         </div>
         <div className='style-card-body layer-card-body'>

@@ -15,6 +15,9 @@
       width: 18px;
     }
   }
+  svg {
+    @include Icon;
+  }
   .state-text {
     text-align:center;
     font-size: $font-l;

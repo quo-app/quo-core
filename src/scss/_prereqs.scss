@@ -16,7 +16,6 @@ $color-text-1:#D8D8D8;
 $color-text-2:#FFFFFF;
 $color-text-3:#7E7E7E;
 $color-text-4:#949494;
-$color-icon-hover:#BCBCBC;
 $color-checkbox-fill:#FFFFFF;
 $color-blue:#0879FE;
 $color-slider-fill:$color-blue;
@@ -57,6 +56,12 @@ $color-button-selected:$color-blue;
 
 $color-card-hover:$color-bg-5;
 
+//Icons
+
+$color-icon: #FFFFFF;
+$color-icon-hover:#BCBCBC;
+$color-icon-selected: $color-blue;
+
 //Vertical Nav
 $vertical-nav-height:44px;
 
@@ -92,6 +97,16 @@ $top-bar-height:44px;
 
   }
 }
+
+@mixin Icon {
+  fill: $color-icon;
+  &:hover {
+    fill: $color-icon-hover;
+  }
+  &.selected {
+    fill: $color-icon-selected;
+  }
+} 
 
 @mixin CardHeader {
 

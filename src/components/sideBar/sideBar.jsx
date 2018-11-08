@@ -21,6 +21,8 @@ import LayersIcon from 'material-ui-icons/Layers';
 import WebAssetIcon from 'material-ui-icons/WebAsset';
 import LinkIcon from 'material-ui-icons/Link';
 
+import Icons from 'ui-components/icons';
+
 
 
 import AssetsTab from './assets';
@@ -35,7 +37,7 @@ class SideBarLeft extends Component {
     this.state = {
       options : props.tabs,
       components : {assets:AssetsTab, layers:LayersTab, globalLinks:AssetsTab},
-      icons : {assets:WebAssetIcon, layers:LayersIcon, globalLinks:LinkIcon },
+      icons : {assets:Icons.WebAsset, layers:Icons.Layers, globalLinks:Icons.Link },
       width:230,
       height:'100%',
     }
@@ -72,7 +74,7 @@ class SideBarLeft extends Component {
                 let CurrentIcon = this.state.icons[icon];
                 return (
                   <div className={`nav-el ${selected}`} onClick={this.onClickNav} id={icon} key={key}>
-                    {/* <CurrentIcon/> */}
+                    <CurrentIcon/>
                   </div>
                 )
               })
@@ -92,8 +94,8 @@ class SideBarRight extends Component {
 
     this.state = {
       options : props.tabs,
-      components : {styles:PropsTab, links:LinksTab, interactions:LinksTab},
-      icons : {styles:ColorLensIcon, links:FlashOnIcon, interactions:GamesIcon},
+      components : {styles: PropsTab, links: LinksTab, interactions: LinksTab},
+      icons : {styles: Icons.ColorLens, links: Icons.FlashOn, interactions: Icons.Games},
       selectedComponent : props.selection
     }
 
@@ -130,7 +132,7 @@ class SideBarRight extends Component {
               let CurrentIcon = this.state.icons[icon];
               return (
                 <div className={`nav-el ${selected}`} onClick={this.onClickNav} id={icon} key={key}>
-                  {/* <CurrentIcon/> */}
+                  <CurrentIcon/>
                 </div>
               )
             })
