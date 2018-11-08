@@ -19,10 +19,16 @@ import TopBar from './components/topBar/topBar';
 import DropzoneContainer from './components/dropzone/dropzoneContainer';
 import Viewer from './components/viewer/viewer';
 
+import Icons from 'ui-components/icons';
+
+
+
 // import PreviewLink from './components/previewLink';
 import MessageStack from './components/messageStack';
 
 import './scss/main.scss';
+
+console.log(Icons.Close);
 
 // import { firebase } from './firebase';
 

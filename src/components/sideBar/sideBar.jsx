@@ -7,21 +7,7 @@ import { getState } from 'quo-redux/state';
 
 import Resizable from '../../packages/resizable/resizable';
 
-// import { ContentPagesCard, LayersCard } from '../styleCard/styleCard';
-
-//Icons for the interaction-nav(right)
-
-import GamesIcon from 'material-ui-icons/Games';
-import FlashOnIcon from 'material-ui-icons/FlashOn';
-import ColorLensIcon from 'material-ui-icons/ColorLens';
-
-//Icons for the interaction-nav(left)
-
-import LayersIcon from 'material-ui-icons/Layers';
-import WebAssetIcon from 'material-ui-icons/WebAsset';
-import LinkIcon from 'material-ui-icons/Link';
-
-
+import Icons from 'ui-components/icons';
 
 import AssetsTab from './assets';
 import LayersTab from './layers';
@@ -35,7 +21,7 @@ class SideBarLeft extends Component {
     this.state = {
       options : props.tabs,
       components : {assets:AssetsTab, layers:LayersTab, globalLinks:AssetsTab},
-      icons : {assets:WebAssetIcon, layers:LayersIcon, globalLinks:LinkIcon },
+      icons : {assets:Icons.WebAsset, layers:Icons.Layers, globalLinks:Icons.Link },
       width:230,
       height:'100%',
     }
@@ -72,7 +58,7 @@ class SideBarLeft extends Component {
                 let CurrentIcon = this.state.icons[icon];
                 return (
                   <div className={`nav-el ${selected}`} onClick={this.onClickNav} id={icon} key={key}>
-                    {/* <CurrentIcon/> */}
+                    <CurrentIcon/>
                   </div>
                 )
               })
@@ -92,8 +78,8 @@ class SideBarRight extends Component {
 
     this.state = {
       options : props.tabs,
-      components : {styles:PropsTab, links:LinksTab, interactions:LinksTab},
-      icons : {styles:ColorLensIcon, links:FlashOnIcon, interactions:GamesIcon},
+      components : {styles: PropsTab, links: LinksTab, interactions: LinksTab},
+      icons : {styles: Icons.ColorLens, links: Icons.FlashOn, interactions: Icons.Games},
       selectedComponent : props.selection
     }
 
@@ -130,7 +116,7 @@ class SideBarRight extends Component {
               let CurrentIcon = this.state.icons[icon];
               return (
                 <div className={`nav-el ${selected}`} onClick={this.onClickNav} id={icon} key={key}>
-                  {/* <CurrentIcon/> */}
+                  <CurrentIcon/>
                 </div>
               )
             })
