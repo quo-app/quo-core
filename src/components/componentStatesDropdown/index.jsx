@@ -7,8 +7,7 @@ import actions from 'quo-redux/actions';
 import { getComponentFromCurrentTab, getSelectionFirstID } from 'quo-redux/helpers';
 import { VerticalListCard } from 'ui-components/cards';
 
-import BackIcon from 'material-ui-icons/ArrowBack';
-import CheckIcon from 'material-ui-icons/Check';
+import Icons from 'ui-components/icons';
 
 
 class ComponentStatesDropdown extends React.Component {
@@ -18,10 +17,10 @@ class ComponentStatesDropdown extends React.Component {
       dropdown:true,
       selected:{},
       values:[
-        {text:'Hover',id:'1', icon:true},
-        {text:'Pressed',id:'2', icon:true},
-        {text:'Focus',id:'3', icon:true},
-        {text:'Double Click',id:'4'}]
+        {text: 'Hover', id:'1', icon: true},
+        {text: 'Pressed', id:'2', icon: true},
+        {text: 'Focus', id:'3', icon: true},
+        {text: 'Double Click', id:'4'}]
     }
   }
 
@@ -45,7 +44,7 @@ class ComponentStatesDropdown extends React.Component {
     return (
       <VerticalListCard
         title='States'
-        // optionIcon={ <CheckIcon/> }
+        optionIcon={ <Icons.Check/> }
         optionIconOrientation='left'
         values={this.state.values}
         onOptionClick={this.onOptionClick.bind(this)}
@@ -55,7 +54,7 @@ class ComponentStatesDropdown extends React.Component {
   renderSelectedView(){
     return (
       <div className='selected-state-wrapper'>
-        <div className='back-icon' onClick={this.onBackIconClick.bind(this)}> <BackIcon/> </div>
+        <div className='back-icon' onClick={this.onBackIconClick.bind(this)}> <Icons.Back/> </div>
         <div className='state-text'> { this.state.selected.text }</div>
       </div>
 

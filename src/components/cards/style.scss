@@ -98,6 +98,7 @@
           .option-icon {
             padding-right: .5rem;
             svg {
+              @include Icon;
               height: 12px;
               width: 12px;
             }

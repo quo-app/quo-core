@@ -1,5 +1,7 @@
 import React from 'react';
-import Checkbox from 'material-ui/Checkbox';
+//this needs a instantiated react component rather than an icon function
+// import Checkbox from 'material-ui/Checkbox';
+//
 import { connect } from 'react-redux';
 
 class PropCardWrapper extends React.Component{

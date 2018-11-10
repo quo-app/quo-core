@@ -4,11 +4,7 @@ import { COMPONENT_SELECT } from '../../../../redux/actions'
 //Component Imports
 import TextInput from '../../../inputElements/textInput/textInput';
 
-import CloseIcon from 'material-ui-icons/Close';
-import FolderIcon from 'material-ui-icons/Folder';
-import FolderOpenIcon from 'material-ui-icons/FolderOpen';
-import KeyboardArrowRightIcon from 'material-ui-icons/KeyboardArrowRight';
-import KeyboardArrowDownIcon from 'material-ui-icons/KeyboardArrowDown';
+import Icons from 'ui-components/icons';
 
 class Page extends React.Component {
   constructor(props){
@@ -26,7 +22,7 @@ class Page extends React.Component {
       <div className='page-name'>
         <TextInput text={this.props.text} onChange={this.onChange} noTitle />
         <span onClick={this.props.removePage}>
-          <CloseIcon/>
+          <Icons.Close/>
         </span>
       </div>
     )
@@ -136,11 +132,11 @@ class Layer extends React.Component {
           {
             this.state.isGroup ? this.state.isMinimized ?
               <span className='folder-icon'>
-                <FolderIcon/>
+                <Icons.Folder/>
               </span>
             :
             <span className='folder-icon'>
-              <FolderOpenIcon/>
+              <Icons.FolderOpen/>
             </span>
             :
             null
@@ -153,9 +149,9 @@ class Layer extends React.Component {
           { this.state.isGroup ?
             <span className='minimize-icon' onClick={this.handleMinimizeChange}>
               {this.state.isMinimized ?
-                <KeyboardArrowRightIcon/>
+                <Icons.KeyboardArrowRight/>
               :
-              <KeyboardArrowDownIcon/>
+              <Icons.KeyboardArrowDown/>
               }
             </span>
           : null
