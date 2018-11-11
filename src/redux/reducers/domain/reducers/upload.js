@@ -19,13 +19,15 @@ const uploadImage = (state = {}, action) => {
   if (!state[filetype]) {
     return {
       ...state,
-      [filetype]: {}
+      [filetype]: {
+        [newImage.id]: newImage
+      }
     }
   }
   return {
     ...state,
     [filetype]: {
-      ...[state[filetype]],
+      ...state[filetype],
       [newImage.id]: newImage
     }
   }
