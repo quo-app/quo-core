@@ -53,12 +53,12 @@ class LinksTab extends Component {
     return (
       <div className='links-tab-wrapper'>
         <LinksViewer/>
-        <Card title='Primary Element'>
+        {/* <Card title='Primary Element'>
           { this.props.links.source ? this.props.links.source : 'Source not selected' }
-        </Card>
+        </Card> */}
 
         {/* Triggers */}
-        <DropdownCard
+        {/* <DropdownCard
           title='Action'
           defaultValue={data.defaultTrigger}
           options={getText(data.triggers)}
@@ -66,14 +66,14 @@ class LinksTab extends Component {
             let { actions } = data.triggers[key];
             this.updateLinkBuilder({ ...actions });
           }}
-        />
+        /> */}
 
-        <Card title='Linked Element'>
+        {/* <Card title='Linked Element'>
           { this.props.links.target ? this.props.links.target : 'Target not selected' }
-        </Card>
+        </Card> */}
 
         {/* Property Changes */}
-        <DropdownCard
+        {/* <DropdownCard
           title='Property Change'
           defaultValue={data.defaultPropChange}
           options={getText(data.propChanges)}
@@ -81,9 +81,9 @@ class LinksTab extends Component {
             let { props } = data.propChanges[key]
             this.updateLinkBuilder({ props })
           }}
-        />
+        /> */}
 
-        <Button title='Create Link' onClick={this.createLink}/>
+        {/* <Button title='Create Link' onClick={this.createLink}/> */}
       </div>
     )
   }

@@ -17,15 +17,14 @@ class LinksOfAComponent extends Component {
     sourceComponent: PropTypes.object,
     targetComponents: PropTypes.arrayOf(PropTypes.object),
   }
+
   generateCard(){
     let srcComp  = this.props.sourceComponent
     let targetIds = this.props.sourceComponent.links.targetStateIds;
     let links = this.props.targetComponents.map( component => {
       let linkStateId = targetIds[component.id];
-      console.log(linkStateId);
       // find the state that is related to the sourceComponent
       let linkState = component.state.states[linkStateId]
-      console.log(linkState, component.state.states)
       return {
         text: `${linkState.title} - (${component.name})`,
         id: linkState.id,
@@ -44,24 +43,47 @@ class LinksOfAComponent extends Component {
   }
 }
 
- class LinksViewer extends Component {
+class LinksViewer extends Component {
   static propTypes = {
     linkMappings: PropTypes.arrayOf(PropTypes.object)
   }
+
   static defaultProps = {
     linkMappings: []
   }
+
+  renderEmptyLinks () {
+    return (
+      <div class='no-link-description'>
+        <div class='text-primary'>
+          No links found
+        </div>
+        <div class='text-secondary'>
+          Create a new link to connect components
+        </div>
+      </div>
+
+    )
+  }
+
+  renderLinks () {
+    return (
+      this.props.linkMappings.map((mapping, id) => {
+        return (
+          <LinksOfAComponent 
+            sourceComponent={mapping.sourceComponent}
+            targetComponents={mapping.targetComponents}
+            key={id}
+          />
+        )})
+    )
+  }
+
   render () {
     return ( 
-      <div>
-        { this.props.linkMappings.map((mapping, id) => {
-          return (
-            <LinksOfAComponent 
-              sourceComponent={mapping.sourceComponent}
-              targetComponents={mapping.targetComponents}
-              key={id}
-            />
-          )})
+      <div class='links-viewer'>
+        {
+          this.props.linkMappings.length > 0 ? this.renderLinks() : this.renderEmptyLinks()
         }
         <Button title='Create a new link' onClick={()=>{}}/>
       </div>
