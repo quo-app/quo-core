@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { getState } from 'quo-redux/state';
-import { LayerCard } from '../../styleCard/styleCard';
 import _ from 'lodash';
 
 import HorizontalOptionGroup from 'ui-components/inputElements/horizontalOptionGroup';

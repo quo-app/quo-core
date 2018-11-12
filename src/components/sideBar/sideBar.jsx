@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
@@ -21,7 +20,7 @@ class SideBarLeft extends Component {
     this.state = {
       options : props.tabs,
       components : {assets:AssetsTab, layers:LayersTab, globalLinks:AssetsTab},
-      icons : {assets:Icons.WebAsset, layers:Icons.Layers, globalLinks:Icons.Link },
+      icons : {assets:Icons.WebAsset, layers: Icons.Layers, globalLinks: Icons.Link },
       width:230,
       height:'100%',
     }

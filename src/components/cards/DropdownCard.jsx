@@ -11,11 +11,11 @@ import Card from './Card';
 export default class DropdownCard extends Component {
 
     static propTypes = {
-      title:PropTypes.string.isRequired,
-      disabled:PropTypes.bool,
-      collapsed:PropTypes.bool,
-      icon:PropTypes.element,
-      defaultValue:PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      disabled: PropTypes.bool,
+      collapsed: PropTypes.bool,
+      icon: PropTypes.element,
+      defaultValue: PropTypes.string.isRequired,
       options: PropTypes.objectOf(PropTypes.string),
       onChange:PropTypes.func,
     }
