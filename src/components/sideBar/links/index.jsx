@@ -31,6 +31,22 @@ class LinksTab extends Component {
     }
   }
 
+
+  constructor (props) {
+    super(props);
+    this.state = {
+      linkBuilderVisible: false
+    }
+  }
+
+  showLinkBuilder = () => {
+    this.setState({linkBuilderVisible: true})
+  }
+
+  hideLinkBuilder = () => {
+    this.setState({linkBuilderVisible: false})
+  }
+
   componentDidMount(){
     let { actions } = this.data.triggers[this.data.defaultTrigger];
     let { props } = this.data.propChanges[this.data.defaultPropChange];
@@ -53,6 +69,7 @@ class LinksTab extends Component {
     return (
       <div className='links-tab-wrapper'>
         <LinksViewer/>
+        <Button title='Create Link' onClick={this.showLinkBuilder}/>
         {/* <Card title='Primary Element'>
           { this.props.links.source ? this.props.links.source : 'Source not selected' }
         </Card> */}
@@ -82,8 +99,8 @@ class LinksTab extends Component {
             this.updateLinkBuilder({ props })
           }}
         /> */}
-
-        {/* <Button title='Create Link' onClick={this.createLink}/> */}
+        {/*  <Button title='Create Link' onClick={this.createLink}/> */}
+        
       </div>
     )
   }

@@ -21,6 +21,7 @@ class LinksOfAComponent extends Component {
   generateCard(){
     let srcComp  = this.props.sourceComponent
     let targetIds = this.props.sourceComponent.links.targetStateIds;
+
     let links = this.props.targetComponents.map( component => {
       let linkStateId = targetIds[component.id];
       // find the state that is related to the sourceComponent
@@ -30,6 +31,7 @@ class LinksOfAComponent extends Component {
         id: linkState.id,
       }
     })
+
     return (
       <VerticalListCard
         title={srcComp.name}
@@ -81,12 +83,7 @@ class LinksViewer extends Component {
 
   render () {
     return ( 
-      <div class='links-viewer'>
-        {
-          this.props.linkMappings.length > 0 ? this.renderLinks() : this.renderEmptyLinks()
-        }
-        <Button title='Create a new link' onClick={()=>{}}/>
-      </div>
+      this.props.linkMappings.length > 0 ? this.renderLinks() : this.renderEmptyLinks()
     )
   }
 }
