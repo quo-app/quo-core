@@ -18,7 +18,6 @@ const mergeActions = (actions) => {
 const combineReducersLoop = (actions,loc) => {
 
   return (state = {}, action) => {
-    console.log(loc)
     // return if no action types are passed in
     if( !actions ) return state;
     // loop through the action handlers
@@ -55,12 +54,11 @@ const getPropsOfSelection = (state, props) => {
   let app = getState(state,'app');
 
   let selection = app.selection
-  let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
 
   //If there is a selection and a single one
   if(selection.data.length === 1){
     let id = selection.data[0]
-    let component = tabRoot.components[id];
+    let component = domain.components[id];
     let currentState = component.state.current
     let pickedProps = _.pick(component.state.states[currentState].props,props)
     //add component id for referencing the component
@@ -71,15 +69,6 @@ const getPropsOfSelection = (state, props) => {
   //Don't return a selection
   return {}
 
-}
-
-// getComponentFromCurrentTab
-// return the component from the current tab that is actively visible on the editor
-const getComponentFromCurrentTab = (tabs, id) => {
-  if(!tabs || !id) return undefined
-  let tabRoot = tabs.allTabs[tabs.activeTab]
-  let component = tabRoot.components[id]
-  return component ? component : undefined
 }
 
 // PropCompositor
@@ -103,7 +92,6 @@ const getLinkBuilder = (app) => {
 export { mergeActions,
          combineReducersLoop,
          getPropsOfSelection,
-         getComponentFromCurrentTab,
          PropCompositor,
          getSelectionFirstID,
          getCurrentLinkBuilderMode,

@@ -23,6 +23,7 @@ class LinksOfAComponent extends Component {
     let targetIds = this.props.sourceComponent.links.targetStateIds;
 
     let links = this.props.targetComponents.map( component => {
+      console.log(component)
       let linkStateId = targetIds[component.id];
       // find the state that is related to the sourceComponent
       let linkState = component.state.states[linkStateId]
@@ -123,13 +124,8 @@ const createLinkMappings = allComponents => {
  */
 const mapStateToProps = (state) => {
   const domain = getState(state,'domain');
-  if(domain.tabs.activeTab){
-    let components = domain.tabs.allTabs[domain.tabs.activeTab].components
-    return { linkMappings: createLinkMappings(components)}
-  }
-  else {
-    return { linkMappings: [] }
-  }
+  // currently returns all components
+  return { linkMappings: createLinkMappings(domain.components)}
 }
 
 export default connect(mapStateToProps)(LinksViewer)

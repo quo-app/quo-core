@@ -1,4 +1,4 @@
-import { getComponentFromCurrentTab, getCurrentState, PropCompositor } from 'quo-redux/helpers';
+import { PropCompositor } from 'quo-redux/helpers';
 import _ from 'lodash';
 
 export const updateComponentProps = (components, action) => {

@@ -63,18 +63,6 @@ class ComponentStatesDropdown extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // stateOptions is the array of states that are being
-  // composited to create the props of the component that is selected
-  // let domain = getState(state,'domain');
-  // let component = getComponentFromCurrentTab(domain.tabs,getSelectionFirstID(state));
-  // if(!component) return { stateOptions:[] };
-  // let stateModifiers = component.state.states.composite.modifiers;
-  // let ids = (_.remove(_.keys(component.state.states),(e)=> e !== 'composite'))
-  // let stateOptions = ids.map((id)=> component.state.states[id])
-  // stateOptions = stateOptions.map(e => { return {
-  //   text:e.title,
-  //   selected:!!(stateModifiers.includes(e.id))
-  // }})
   return {
     // stateOptions
     stateOptions: [

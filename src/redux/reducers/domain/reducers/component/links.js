@@ -1,4 +1,4 @@
-import { getSelectionFirstID, getComponentFromCurrentTab } from 'quo-redux/helpers';
+import { getSelectionFirstID } from 'quo-redux/helpers';
 import uuidv1 from 'uuid/v1';
 import _ from 'lodash';
 import { addComponentState } from './states';
@@ -51,9 +51,9 @@ export const setLinkTarget = (components, action) => {
 
   let { linkId, source, target, triggers, disables, linkState } = action.payload
 
-  let targetComponent = components[source];
+  let targetComponent = components[target];
 
   targetComponent.state.states[linkState.id] = linkState;
 
-  return {...components, [source]:_.cloneDeep(targetComponent)};
+  return {...components, [target]:_.cloneDeep(targetComponent)};
 }
