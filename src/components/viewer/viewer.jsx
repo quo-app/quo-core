@@ -1,16 +1,16 @@
-import _ from 'lodash';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import React from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
+
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 
-import { dimensions } from '../constants/constants';
-import SelectionFrame from '../selectionFrame';
+import { dimensions } from 'ui-components/constants/constants';
+import SelectionFrame from 'ui-components/selectionFrame';
 
 import EditComponent from './EditComponent';
 import PreviewComponent from './PreviewComponent';
-
 
 //fix this to incorporate changing sidebar sizes
 const viewerDimensions = {
@@ -30,7 +30,7 @@ const mainArtboardSize = { w:1500, h:1050 }
 
 const zoomBorderThreshold = 100;
 
-class Viewer extends React.Component {
+class Viewer extends Component {
   constructor(props) {
     super(props);
     this.state = {

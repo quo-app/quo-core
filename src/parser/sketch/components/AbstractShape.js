@@ -1,7 +1,9 @@
-import AbstractComponent, { initAbstractComponent } from './AbstractComponent';
 import React from 'react';
+
 import { roundPathCorners } from 'utils'; 
-import AbstractInterface from '../../abstract/AbstractComponent';
+import AbstractInterface from 'parser/abstract/AbstractComponent';
+
+import AbstractComponent, { initAbstractComponent } from './AbstractComponent';
 
 initAbstractComponent();
 

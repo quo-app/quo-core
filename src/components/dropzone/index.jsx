@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import JSZip from 'jszip';
 import { connect } from 'react-redux'
+
 import actions from 'quo-redux/actions';
 
-class DropzoneContainer extends React.Component {
+class DropzoneContainer extends Component {
   constructor() {
     super();
     this.state = { files: []};

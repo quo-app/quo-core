@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { getState } from '../../redux/state';
 
-class SelectionFrame extends React.Component {
-  constructor(props){
+class SelectionFrame extends Component {
+  constructor (props) {
     super(props);
     this.state = {
       visible: false,
@@ -22,7 +22,7 @@ class SelectionFrame extends React.Component {
 
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps (nextProps) {
     if(nextProps.selection.data.length === 0){
       this.hideSelectionFrame();
     }
@@ -32,17 +32,17 @@ class SelectionFrame extends React.Component {
     }
   }
 
-  hideSelectionFrame(){
+  hideSelectionFrame () {
     this.setState({
       visible:false
     })
   }
 
-  isSelectionSingle(selection){
+  isSelectionSingle (selection) {
     return selection.data.length === 1
   }
 
-  setTarget(nextProps){
+  setTarget (nextProps) {
     if(this.isSelectionSingle(nextProps.selection)){
       let el = document.getElementById(`component-${nextProps.selection.data[0]}`);
       this.setState({
@@ -52,7 +52,7 @@ class SelectionFrame extends React.Component {
     }
   }
 
-  calculateScale(nextProps){
+  calculateScale (nextProps) {
 
     if(this.isSelectionSingle(nextProps.selection)){
       let el = document.getElementById(`component-${nextProps.selection.data[0]}`);
@@ -69,9 +69,9 @@ class SelectionFrame extends React.Component {
   }
 
 
-  render(){
+  render () {
 
-    if(this.state.target){
+    if (this.state.target) {
 
       let style = { transform:`scale(${1/this.state.scale})` }
       let lineStyleH = { transform: `scale(1,${1/this.state.scale})`}
@@ -107,27 +107,9 @@ class SelectionFrame extends React.Component {
   }
 }
 
-
 function mapStateToProps(state) {
-
   let app = getState(state,'app');
-
-  //TODO connect the data correctly here to display the selection
-
-  return {
-    selection:app.selection
-  }
-
-  // if(state.present.currentPage){
-  //   return {
-  //     selection: state.app.selection
-  //   }
-  // }
-  // else{
-  //   return {
-  //     selection: state.present.newSelection
-  //   }
-  // }
+  return { selection:app.selection };
 }
 
 export default connect(mapStateToProps)(SelectionFrame);

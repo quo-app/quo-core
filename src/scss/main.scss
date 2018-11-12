@@ -1,35 +1,7 @@
-@import "prereqs";
-
-@import "../components/previewWindow/previewWindow";
-
-//UI
-@import "../components/topBar/topBar";
-@import "../components/buttons/buttons";
-@import "../components/dropzone/dropzoneContainer";
-@import "../components/viewer/viewer";
-
-// Component State Bar
-// @import "../components/componentStates/componentStates";
-
-// StyleCard
-@import "../components/styleCard/styleCard";
-
-//Mini Preview
-@import "../components/miniPreview/miniPreview";
-@import "../components/previewComponent/previewComponent";
-
-// Input Elements
-@import "../components/inputElements/slider/sliderCore";
-@import "../components/inputElements/textInput/textInput";
-@import "../components/inputElements/colorPicker/colorPicker";
-
-
-//New Formatting
+@import 'prereqs';
 
 // Components
 @import '../components/styles';
 
-
 //Packages
-
 @import '../packages/styles';

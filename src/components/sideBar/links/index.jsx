@@ -6,8 +6,7 @@ import { getState } from 'quo-redux/state';
 import actions from 'quo-redux/actions';
 
 import { Card, DropdownCard } from 'ui-components/cards';
-import { ButtonCore } from 'ui-components/buttons/buttons';
-// import LinksViewer from '../../linksViewer';
+import { Button } from 'ui-components/buttons';
 
 import LinksViewer from 'ui-components/linksViewer';
 
@@ -84,7 +83,7 @@ class LinksTab extends Component {
           }}
         />
 
-        <ButtonCore title='Create Link' onClick={this.createLink}/>
+        <Button title='Create Link' onClick={this.createLink}/>
       </div>
     )
   }

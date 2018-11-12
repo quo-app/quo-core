@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
@@ -12,7 +12,7 @@ import ComponentRender from './ComponentRender';
 
 
 const makePreviewComponent = (WrappedComponent, options) => {
-    return class extends React.Component {
+    return class extends Component {
       stopPropagation = f => e => {
         e.stopPropagation();
         return f(e)
@@ -78,7 +78,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
         this.handleStates('onFocus');
       }
 
-      getStyleProps = () => {
+      getStyleProps = () =>   {
         if(this.props.isParent) return { ...this.props.style }
         const props = this.props.component.state.states.composite.props
         return translatePropData('abstract', 'css', _.pick(props,['width','height','x','y']));

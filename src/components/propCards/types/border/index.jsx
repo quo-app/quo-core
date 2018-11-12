@@ -1,8 +1,11 @@
-import React from 'react';
-import Base from '../base';
-import SliderCore from '../../../inputElements/slider/sliderCore'
+import React, { Component} from 'react';
 
-export default class Border extends React.Component{
+import SliderCore from 'ui-components/inputElements/slider'
+
+import Base from '../base';
+
+
+export default class Border extends Component {
   render(){
     return(
       <Base title='Border'>

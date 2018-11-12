@@ -1,9 +1,11 @@
-import React from 'react';
-import Base from '../base';
-import SliderCore from '../../../inputElements/slider/sliderCore'
-import TextInput from '../../../inputElements/textInput/textInput'
+import React, { Component } from 'react';
 
-export default class CopyState extends React.Component{
+import SliderCore from 'ui-components/inputElements/slider';
+import TextInput from 'ui-components/inputElements/textInput';
+
+import Base from '../base';
+
+export default class CopyState extends Component{
   render(){
     return(
       <Base title='Copy State'>

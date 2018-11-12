@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component} from 'react';
 import 'react-rangeslider/lib/index.css';
 import Slider from 'react-rangeslider';
 
-export default class SliderCore extends React.Component{
+export default class SliderCore extends Component {
 
   constructor(props, context) {
     super(props, context)

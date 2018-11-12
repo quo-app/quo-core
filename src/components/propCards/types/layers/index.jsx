@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { Component} from 'react';
 import {connect} from 'react-redux';
-import { COMPONENT_SELECT } from '../../../../redux/actions'
-//Component Imports
-import TextInput from '../../../inputElements/textInput/textInput';
 
+import actions from 'quo-redux/actions';
+
+import TextInput from 'ui-components/inputElements/textInput';
 import Icons from 'ui-components/icons';
 
-class Page extends React.Component {
-  constructor(props){
+class Page extends Component {
+  constructor (props) {
     super(props);
     this.state = {
       text:this.props.text
     }
     this.onChange = this.onChange.bind(this);
   }
-  onChange(newText){
+  onChange (newText) {
     this.setState({text:newText});
   }
-  render(){
+  render () {
     return (
       <div className='page-name'>
         <TextInput text={this.props.text} onChange={this.onChange} noTitle />
@@ -32,7 +32,7 @@ class Page extends React.Component {
 
 }
 
-class Layers extends React.Component {
+class Layers extends Component {
   constructor(props){
     super(props);
     //if there are pages, select the layers of it.
@@ -89,7 +89,7 @@ class Layers extends React.Component {
 
 }
 
-class Layer extends React.Component {
+class Layer extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -110,7 +110,7 @@ class Layer extends React.Component {
 
   selectComponent(){
     const { dispatch } = this.props;
-    dispatch(COMPONENT_SELECT(this.state.layer.id))
+    dispatch(actions.COMPONENT_SELECT(this.state.layer.id))
    }
 
   renderLayerStructure(){

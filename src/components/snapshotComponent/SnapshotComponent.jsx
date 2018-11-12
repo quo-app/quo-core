@@ -1,18 +1,18 @@
-import _ from 'lodash';
-import React from 'react';
+
+import React, { Component} from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+
 import actions from 'quo-redux/actions';
-
 import { translatePropData } from 'parser/propTranslator';
-
 import { getState } from 'quo-redux/state';
 import { AbstractComponent } from 'parser/abstract';
 
-import ComponentRender from '../viewer/ComponentRender';
+import ComponentRender from 'ui-components/viewer/ComponentRender';
 
 const makeSnapshotComponent = (WrappedComponent, options) => {
-  return class extends React.Component {
+  return class extends Component {
     createWrapperProps = () => {
       let className = 'snapshot-component'
       if(this.props.isParent) className += ' snapshot-parent'

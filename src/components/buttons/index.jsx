@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 
-class ButtonCore extends React.Component {
+class Button extends Component {
   
   static propTypes = {
     title:PropTypes.string.isRequired,
@@ -27,4 +27,4 @@ class ButtonCore extends React.Component {
   }
 }
 
-export { ButtonCore }
+export { Button }

@@ -1,11 +1,10 @@
-import _ from 'underscore';
-import React from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import keydown from 'react-keydown';
 
-import actions from '../../redux/actions';
+import actions from 'quo-redux/actions';
 
-class KeyController extends React.Component {
+class KeyController extends Component {
   constructor(props) {
     super(props);
     this.keyReleased = this.keyReleased.bind(this);

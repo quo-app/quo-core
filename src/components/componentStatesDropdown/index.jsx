@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
-import { getState } from 'quo-redux/state';
 import actions from 'quo-redux/actions';
-import { getComponentFromCurrentTab, getSelectionFirstID } from 'quo-redux/helpers';
 import { VerticalListCard } from 'ui-components/cards';
 
 import Icons from 'ui-components/icons';
 
 
-class ComponentStatesDropdown extends React.Component {
+class ComponentStatesDropdown extends Component {
   constructor(props){
     super(props);
     this.state = {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
-import _ from 'lodash';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { VerticalListCard } from 'ui-components/cards'
-
+import { Button } from  'ui-components/buttons'
 import { getState } from 'quo-redux/state';
 
 /**
@@ -63,6 +63,7 @@ class LinksOfAComponent extends Component {
             />
           )})
         }
+        <Button title='Create a new link' onClick={()=>{}}/>
       </div>
     )
   }
