@@ -7,7 +7,7 @@ import actions from 'quo-redux/actions';
 import { Card, DropdownCard } from 'ui-components/cards';
 import { Button } from 'ui-components/buttons';
 import LinksViewer from 'ui-components/linksViewer';
-import LinkBuilder from 'ui-components/LinkBuilder';
+import LinkBuilder from 'ui-components/linkBuilder';
 
 class LinksTab extends Component {
 

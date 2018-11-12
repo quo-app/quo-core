@@ -23,13 +23,13 @@ import { addComponentState } from './states';
 // { triggers { onHover: [linkid1,linkid2] }, targets {linkid :component}
 // }
 
-export const setLinkSource = (tabs, action) => {
+export const setLinkSource = (components, action) => {
 
-  if(!action.payload) return { ...tabs }
+  if(!action.payload) return components
 
   let { linkId, source, target, enables, disables } = action.payload
 
-  let sourceComponent = getComponentFromCurrentTab(tabs, source);
+  let sourceComponent = components[source]
 
   enables.forEach((event)=>{
     sourceComponent.links.triggers[event].push(target);
@@ -41,19 +41,19 @@ export const setLinkSource = (tabs, action) => {
 
   sourceComponent.links.targetStateIds[target] = linkId;
 
-  return _.cloneDeep(tabs);
+  return {...components, [source]:_.cloneDeep(sourceComponent)};
 
 }
 
-export const setLinkTarget = (tabs,action) => {
+export const setLinkTarget = (components, action) => {
 
-  if(!action.payload) return { ...tabs }
+  if(!action.payload) return components
 
   let { linkId, source, target, triggers, disables, linkState } = action.payload
 
-  let targetComponent = getComponentFromCurrentTab(tabs, target);
+  let targetComponent = components[source];
 
   targetComponent.state.states[linkState.id] = linkState;
 
-  return _.cloneDeep(tabs);
+  return {...components, [source]:_.cloneDeep(targetComponent)};
 }

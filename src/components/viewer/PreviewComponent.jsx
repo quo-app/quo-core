@@ -126,7 +126,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
 
   const mapStateToProps = (state,ownProps) => {
 
-    let domain = getState(state,'domain');
+    let domain = getState(state, 'domain');
     //tab root is the parent component
     let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
     //return the tabRoot
@@ -138,7 +138,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
   
     //return the component
     else{
-      let component = tabRoot.components[ownProps.id];
+      let component = domain.components[ownProps.id];
       return {
         component:component,
       }

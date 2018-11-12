@@ -64,7 +64,7 @@ const mapStateToProps = (state,ownProps) => {
   
     //return the component
     else{
-      let component = tabRoot.components[ownProps.id];
+      let component = domain.components[ownProps.id];
       return {
         component:component,
       }

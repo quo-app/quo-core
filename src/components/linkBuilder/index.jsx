@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
   if(app.linkBuilder.source && app.linkBuilder.source !== ''){
     //find the component
   }
-  else if (app.linkBuiilder.target && app.linkBuilder.target !== '' ){
+  else if (app.linkBuilder.target && app.linkBuilder.target !== '' ){
     //find the component
   }
 

@@ -15,9 +15,10 @@ const mergeActions = (actions) => {
 }
 
 // Maps the actions to the reducer as input.
-const combineReducersLoop = (actions) => {
-  return (state = {}, action) => {
+const combineReducersLoop = (actions,loc) => {
 
+  return (state = {}, action) => {
+    console.log(loc)
     // return if no action types are passed in
     if( !actions ) return state;
     // loop through the action handlers

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import _ from 'lodash';
 import { combineReducersLoop } from '../../helpers.js';
 
 import { uploadSketch, uploadImage } from './reducers/upload';
@@ -14,12 +15,19 @@ const assets = combineReducersLoop({
   'UPLOAD_IMAGE':uploadImage,
 });
 
-const components = combineReducersLoop({
+const projects = combineReducersLoop({
 
 });
 
-const projects = combineReducersLoop({
-
+const components = combineReducersLoop({
+  'ADD_COMPONENT_TO_COMPONENTS': (components, action) => (_.merge(components,action.payload)),
+  // 'REMOVE_COMPONENT': removeComponent,
+  'UPDATE_COMPONENT_PROPS': updateComponentProps,
+  'SET_LINK_SOURCE': setLinkSource,
+  'SET_LINK_TARGET': setLinkTarget,
+  'ADD_COMPONENT_STATE': addComponentState,
+  'ADD_STATE_TO_COMPOSITE': addStateToComposite,
+  'REMOVE_STATE_FROM_COMPOSITE': removeStateFromComposite,
 });
 
 const tabs = combineReducersLoop({
@@ -29,19 +37,12 @@ const tabs = combineReducersLoop({
   'DELETE_TAB': deleteTab,
   'ADD_COMPONENT_TO_TAB': addComponent,
   'ADD_IMAGE_COMPONENT_TO_TAB': addImageComponent,
-  'REMOVE_COMPONENT': removeComponent,
-  'UPDATE_COMPONENT_PROPS': updateComponentProps,
-  'SET_LINK_SOURCE': setLinkSource,
-  'SET_LINK_TARGET': setLinkTarget,
-  'ADD_COMPONENT_STATE': addComponentState,
-  'ADD_STATE_TO_COMPOSITE': addStateToComposite,
-  'REMOVE_STATE_FROM_COMPOSITE': removeStateFromComposite,
 });
 
 const domain = combineReducers({
   assets,
-  components,
   projects,
+  components,
   tabs,
 });
 
