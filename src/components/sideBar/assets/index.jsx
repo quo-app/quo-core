@@ -8,7 +8,7 @@ import _ from 'lodash';
 import HorizontalOptionGroup from 'ui-components/inputElements/horizontalOptionGroup';
 import actions from 'quo-redux/actions';
 
-import { SnapshotContainer, convertSnapshotToImage } from 'ui-components/snapshotComponent';
+import { SnapshotContainer } from 'ui-components/snapshotComponent';
 
 class AssetsTab extends Component {
   constructor(props){

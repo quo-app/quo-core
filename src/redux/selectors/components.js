@@ -1,17 +1,13 @@
 import { getState } from 'quo-redux/state';
 
-export const getComponents = (id) => {
+// These are the selectors for components.
 
-}
+export const getDomain = (state) => getState(state,'domain')
 
-export const getComponent = (id) => {
+export const getComponents = (state) => getDomain(state).components
 
-}
+export const getComponent = (state,id) => getComponents(state)[id]
 
-export const getComponentProps = (id) => {
+export const getComponentStates = (id) => getComponent(state,id).state.states
 
-}
-
-export const getComponentStates = (id) => {
-
-}
+export const getComponentProps = (state,id) => getComponentStates(state,id).composite.props

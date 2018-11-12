@@ -557,8 +557,6 @@ class PreviewComponentCore extends React.Component {
     // Also instead of changing the width of the element, the scaling should
     // be done by the container.
 
-    console.log('\n\n\n\n');
-
     return (
       <div className={`preview-component-container`} onClick={this.resetInteraction.bind(this)}>
         <PreviewComponent

@@ -31,6 +31,7 @@ export function initAbstractComponent(){
             this.id = data.do_objectID;
             this.class = data._class;
 
+            // will be utilized later on
             this.snapshot = '';
 
             //first traverses the tree to create children

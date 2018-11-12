@@ -12,6 +12,7 @@ export default class Card extends Component {
       disabled: PropTypes.bool,
       collapsed: PropTypes.bool,
       icon: PropTypes.element,
+      onIconClick: PropTypes.function,
     }
   
     static defaultProps = {

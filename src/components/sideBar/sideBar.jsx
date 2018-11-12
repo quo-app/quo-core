@@ -98,7 +98,6 @@ class SideBarRight extends Component {
 
   }
 
-  // {/* <ComponentStates/> */}
   // {/* <MiniPreview/> */}
   // {/* <ButtonCore className='add-to-arrangement' title='Add to Arrangement' onClick={this.onClickAddToArr}/> */}
 

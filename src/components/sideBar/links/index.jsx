@@ -7,6 +7,9 @@ import actions from 'quo-redux/actions';
 
 import { Card, DropdownCard } from 'ui-components/cards';
 import { ButtonCore } from 'ui-components/buttons/buttons';
+// import LinksViewer from '../../linksViewer';
+
+import LinksViewer from 'ui-components/linksViewer';
 
 const trigger = (id, text, actions) => ({ id, text, actions })
 const propChange = (id,text,props) => ({ id, text, props })
@@ -44,13 +47,13 @@ class LinksTab extends Component {
     const { dispatch } = this.props;
     dispatch(actions.UPDATE_LINK_BUILDER_DATA({ ...data }));
   }
-
+  
   render(){
     const data = this.data;
     console.log(data);
     return (
       <div className='links-tab-wrapper'>
-      
+        <LinksViewer/>
         <Card title='Primary Element'>
           { this.props.links.source ? this.props.links.source : 'Source not selected' }
         </Card>
