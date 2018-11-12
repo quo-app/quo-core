@@ -25,12 +25,8 @@ class ComponentRenderCore extends React.PureComponent {
         return (<ShapeComponent component={ this.props.component }></ShapeComponent>)
       case 'text':
         return (<TextComponent component={ this.props.component }></TextComponent>)
-<<<<<<< HEAD
       case 'image':
-        console.log('image');
         return <ImageComponent component={this.props.component} />
-=======
->>>>>>> saves work, initial code for updated links ui
       default:
         const Wrapper = this.props.wrapper
         return (

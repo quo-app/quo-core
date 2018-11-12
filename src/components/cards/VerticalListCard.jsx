@@ -30,6 +30,7 @@ export default class VerticalListCard extends React.Component {
       disabled: false,
       collapsed: false,
       optionOrientationOrientation: 'right',
+      values: {},
     }
   
     renderList() {

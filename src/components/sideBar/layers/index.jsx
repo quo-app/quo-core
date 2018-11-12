@@ -115,12 +115,12 @@ class PagesViewer extends Component {
         <VerticalListCard
           collapsed={isCollapsed}
           title='Project Pages'
-          icon={
+          headerIcon={
             <div>
             +
             </div>
           }
-          onIconClick={this.createNewTab}
+          onHeaderIconClick={this.createNewTab}
           values={_.values(this.props.pages)}
           selected={this.props.selected}
           onOptionClick={this.changeActiveTab}
