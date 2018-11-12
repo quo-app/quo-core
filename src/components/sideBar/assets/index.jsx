@@ -38,7 +38,7 @@ class AssetsTab extends Component {
         {
           this.state.currentTab === 'static'
           ?
-          <AssetsViewer assets={this.props.assets[this.state.filetype]} components={this.props.components}/>
+          <AssetsViewer assets={this.props.assets} components={this.props.components}/>
           :
           null
         }
@@ -50,14 +50,15 @@ class AssetsTab extends Component {
 class AssetsViewer extends Component {
   constructor(props){
     super(props);
-    let pages = this.assignPages(props.assets);
+    let pages = this.assignPages(props.assets.sketch);
     let selected = undefined;
     if(pages.length > 0){
       selected = pages[0];
     }
     this.state = {
       pages:pages,
-      selected:selected,
+      images: this.props.assets.image,
+      selected: selected,
     }
     this.onPageChange = this.onPageChange.bind(this);
   }
@@ -70,8 +71,8 @@ class AssetsViewer extends Component {
 
   componentWillReceiveProps(nextProps){
     if(!_.isEmpty(nextProps.assets)){
-      let pages = this.assignPages(nextProps.assets);
-      if(!this.state.selected) this.setState({selected:pages[0]})
+      let pages = this.assignPages(nextProps.assets.sketch);
+      if(!this.state.selected) this.setState({ selected:pages[0] })
       this.setState({pages:pages})
     }
   }
@@ -93,18 +94,18 @@ class AssetsViewer extends Component {
     //find all the artboards
     let allArtboards = [];
 
-    _.mapValues(this.props.assets,(pages) => {
+    _.mapValues(this.props.assets.sketch,(pages) => {
      allArtboards =  _.union(allArtboards, pages.children);
     })
 
-    let artboardIDs = this.props.assets[this.state.selected.id].children;
+    let artboardIDs = this.props.assets.sketch[this.state.selected.id].children;
 
     
     //search all the first depth components
 
     let firstDepthComponents = artboardIDs.map( artboardID =>{
       //get the children of the artboard;
-      let components = this.props.assets[this.state.selected.id].components
+      let components = this.props.assets.sketch[this.state.selected.id].components
       let artboard = components[artboardID];
       return artboard.children.map( childID => {
         return components[childID]
@@ -149,9 +150,16 @@ class AssetsViewer extends Component {
           }
         </div>
         <div className='assets-preview-wrapper'>
+          <React.Fragment>
           {
             this.renderFirstDepthComponents()
           }
+          {
+            Object.values(this.state.images).map(image => (
+              <img src={image.data} />
+            ))
+          }
+          </React.Fragment>
         </div>
       </div>
     )

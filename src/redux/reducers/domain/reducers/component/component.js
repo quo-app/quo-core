@@ -20,16 +20,32 @@ const traverseAndAdd = (component,components,collector) => {
 
 }
 
-export const addComponent = (tabs,action) => {
-
-    var t0 = performance.now();
-
-    //add a tab if there is none
+const handleNoTabCase = (tabs) => {
     if(_.isEmpty(tabs.allTabs)){
         //this is the part where it tries to create a size for the tab
         //for the time being, ignore this aspect;
         tabs = newTab(tabs,{data:undefined});
     }
+    return tabs
+}
+
+export const addImageComponent = (tabs, action) => {
+    tabs = handleNoTabCase(tabs);
+    let domain = action.domain;
+    let payload = action.payload;
+    console.log(payload);
+    let target = { ...tabs.allTabs[domain.tabs.activeTab] };
+    target.components = _.merge(target.components, {[payload.id]: payload})
+    target.children.push(payload.id);
+    return _.cloneDeep(tabs);
+}
+
+export const addComponent = (tabs,action) => {
+
+    var t0 = performance.now();
+
+    //add a tab if there is none
+    tabs = handleNoTabCase(tabs)
 
     //unpack action
     let domain = action.domain;

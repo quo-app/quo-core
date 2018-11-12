@@ -24,7 +24,19 @@ const COMPONENT_SELECT = (component) => (dispatch,getFullState) => {
   dispatch(uiActions.UI_COMPONENT_SELECT(component));
 }
 
+const ADD_IMAGE_COMPONENT_ACTION = (payload, domain) => ({
+  type: 'ADD_IMAGE_COMPONENT_TO_TAB',
+  payload: payload,
+  domain: domain
+});
+
+const ADD_IMAGE_COMPONENT = (payload) => (dispatch, getFullState) => {
+  let domain = getState(getFullState(), 'domain');
+  dispatch(ADD_IMAGE_COMPONENT_ACTION(payload, domain));
+}
+
 export default {
   ADD_COMPONENT,
+  ADD_IMAGE_COMPONENT,
   COMPONENT_SELECT,
 }
