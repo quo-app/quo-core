@@ -21,7 +21,7 @@ const UPDATE_LINK_BUILDER_DATA = (payload) => ({
   payload:payload
 })
 
-const CREATE_LINK = (payload) => (dispatch,getFullState) => {
+const CREATE_LINK = (payload) => (dispatch, getFullState) => {
 
   let domain = getState(getFullState(), 'domain');
   let app = getState(getFullState(), 'app');
