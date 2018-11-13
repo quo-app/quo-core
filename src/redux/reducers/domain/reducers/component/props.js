@@ -1,19 +1,19 @@
-import { getComponentFromCurrentTab, getCurrentState, PropCompositor } from 'quo-redux/helpers';
+import { PropCompositor } from 'quo-redux/helpers';
 import _ from 'lodash';
 
-export const updateComponentProps = (tabs,action) => {
+export const updateComponentProps = (components, action) => {
   // no component specified
-  if(!action.payload.id) return tabs;
+  if(!action.payload.id) return components;
 
   // no prop update specified
-  if(!action.payload.props) return tabs;
+  if(!action.payload.props) return components;
 
   // MOVE THE SELECTED STATE TO UI, and have a parameter for the component.state.current
 
   let id = action.payload.id;
   let propsToUpdate = action.payload.props;
 
-  let component = getComponentFromCurrentTab(tabs,id);
+  let component = components[id];
 
   let states = component.state.states;
   // CHANGE THIS LMAO
@@ -26,9 +26,8 @@ export const updateComponentProps = (tabs,action) => {
 
   // add the property to the composite
   // states.composite = addStateToCompositeHelper(states, selectedState);
-  var t1 = performance.now();
 
-  return _.cloneDeep(tabs);
+  return { ...components, [id]:_.cloneDeep(component)}
 
 }
 
@@ -57,22 +56,22 @@ const addStateToCompositeHelper = (states, selectedState) => {
   return _.cloneDeep(composite);
 }
 
-export const addStateToComposite = (tabs, action) => {
+export const addStateToComposite = (components, action) => {
   let id = action.payload.id;
-  let component = getComponentFromCurrentTab(tabs,id);
+  let component = components[id];
   let states = component.state.states;
   let composite = states.composite;
   component.state.states.composite =  addStateToCompositeHelper(states, action.payload.state.id);
-  return _.cloneDeep(tabs);
+  return { ...components, [id]:_.cloneDeep(component)}
 }
 
-export const removeStateFromComposite = (tabs, action) => {
+export const removeStateFromComposite = (components, action) => {
   let id = action.payload.id;
   let state = action.payload.state;
-  let component = getComponentFromCurrentTab(tabs,id);
+  let component = components[id];
   let states = component.state.states;
   let composite = states.composite;
   composite.modifiers = _.reject(composite.modifiers, id => id === state.id)
   composite.props = PropCompositor.bakeProps(composite.modifiers.map(v => states[v].props))
-  return _.cloneDeep(tabs);
+  return { ...components, [id]:_.cloneDeep(component)}
 }

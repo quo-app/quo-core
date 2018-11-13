@@ -282,7 +282,6 @@ class Viewer extends Component {
   }
 
   render() {
-    // let draggableClass = this.state.draggable ? 'draggable' : ''
     const pos = this.state.viewerPos
     return (
       <React.Fragment>
@@ -314,8 +313,6 @@ function mapStateToProps(state) {
   }
 
   //if there is an active tab, collect the data from the tab
-
-
 
   return {
     controller:ui.controller,

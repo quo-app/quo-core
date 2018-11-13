@@ -12,7 +12,7 @@ class TextComponent extends CoreComponent{
     constructor(props){
         super(props);
         // let that = this;
-        this.state.editMode = false;
+        this.state = { editMode: false };
         // this.handleDoubleClick = this.handleDoubleClick.bind(this);
         // console.log(this.props.component)
     }

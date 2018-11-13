@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { getState } from 'quo-redux/state';
 import actions from 'quo-redux/actions';
-import { getSelectionFirstID, getComponentFromCurrentTab, getPropsOfSelection} from 'quo-redux/helpers';
+import { getSelectionFirstID, getPropsOfSelection} from 'quo-redux/helpers';
 
 import { getCards, getPropsOfCard } from 'parser/componentProps';
 
@@ -35,7 +35,7 @@ class PropsTab extends Component {
 const mapStateToProps = (state) => {
   let domain = getState(state,'domain');
   let id = getSelectionFirstID(state);
-  let component = getComponentFromCurrentTab(domain.tabs,id);
+  let component = domain.components[id];
   if (!component) return { cards: []};
   let cards = getCards(component).map( c => ({
     card: PropCards[c],
