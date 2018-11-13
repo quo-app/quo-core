@@ -60,7 +60,7 @@ const sidebars = {
 const messages = [];
 
 const stateManager = {
-  selectedState:'',
+  currentState:'',
 }
 
 const ui = {
@@ -84,7 +84,7 @@ const getState = (state,target) => {
 }
 
 const constants = {
-  appModes:['EDIT','PREVIEW'],
+  appModes: ['EDIT','PREVIEW'],
 
 }
 
