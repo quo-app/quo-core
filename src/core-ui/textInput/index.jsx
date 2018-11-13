@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { fSafe } from 'utils';
+import { fSafe } from 'quo-utils';
 
 export default class TextInput extends Component{
   constructor(props) {

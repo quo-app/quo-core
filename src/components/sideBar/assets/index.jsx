@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
-import { getState } from 'quo-redux/state';
 import _ from 'lodash';
 
-import HorizontalOptionGroup from 'ui-components/inputElements/horizontalOptionGroup';
 import actions from 'quo-redux/actions';
+import { getState } from 'quo-redux/state';
 
-import { SnapshotContainer } from 'ui-components/snapshotComponent';
+import { SnapshotContainer } from 'quo-components/snapshotComponent';
+
+import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup';
 
 class AssetsTab extends Component {
   constructor(props){

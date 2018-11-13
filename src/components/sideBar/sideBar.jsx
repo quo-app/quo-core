@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 
-import Resizable from '../../packages/resizable/resizable';
+import Resizable from 'quo-packages/resizable';
 
-import Icons from 'ui-components/icons';
+import Icons from 'quo-ui/icons';
 
 import AssetsTab from './assets';
 import LayersTab from './layers';

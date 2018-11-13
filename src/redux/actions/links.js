@@ -1,10 +1,10 @@
+import uuidv1 from 'uuid/v1';
+
 import { getState } from 'quo-redux/state';
 import { getSelectionFirstID,
          getCurrentLinkBuilderMode,
          getLinkBuilder } from 'quo-redux/helpers';
-import ComponenState from 'parser/ComponentState';
-import uuidv1 from 'uuid/v1';
-import ComponentState from '../../parser/ComponentState';
+import ComponentState from 'quo-parser/ComponentState';
 
 const SET_LINK_SOURCE = (payload) => ({
   type:'SET_LINK_SOURCE',

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import SliderCore from 'ui-components/inputElements/slider';
-import TextInput from 'ui-components/inputElements/textInput';
-import ColorPicker from 'ui-components/inputElements/colorPicker';
+import SliderCore from 'quo-ui/slider';
+import TextInput from 'quo-ui/textInput';
+import ColorPicker from 'quo-ui/colorPicker';
 
 import PropCardWrapper from '../PropCardWrapper';
 

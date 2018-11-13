@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { fSafe, bool2s } from 'utils'; 
+import { fSafe, bool2s } from 'quo-utils'; 
 
 import Card from './Card';
 

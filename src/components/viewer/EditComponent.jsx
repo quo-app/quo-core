@@ -3,13 +3,10 @@ import React from 'react';
 import { compose } from 'redux';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+
 import actions from 'quo-redux/actions';
-
-import { translatePropData } from '../../parser/propTranslator';
-
 import { getState } from 'quo-redux/state';
-
-import TextArea from '../inputElements/dynamicTextArea';
+import { translatePropData } from 'quo-parser/propTranslator';
 
 import ComponentRender from './ComponentRender';
 

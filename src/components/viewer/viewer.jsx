@@ -6,9 +6,9 @@ import _ from 'lodash';
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 
-import { dimensions } from 'ui-components/constants/constants';
-import SelectionFrame from 'ui-components/selectionFrame';
+import SelectionFrame from 'quo-components/selectionFrame';
 
+import { dimensions } from './constants';
 import EditComponent from './EditComponent';
 import PreviewComponent from './PreviewComponent';
 

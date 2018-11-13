@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { bool2s, fSafe } from 'utils'; 
+import { bool2s, fSafe } from 'quo-utils'; 
 
 
 export default class Card extends Component {

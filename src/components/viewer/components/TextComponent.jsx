@@ -1,12 +1,13 @@
 import React from 'react';
-import CoreComponent from './CoreComponent';
-import TextArea from 'ui-components/inputElements/dynamicTextArea';
 import { connect } from 'react-redux';
-import actions from 'quo-redux/actions';
-import { translatePropData } from 'parser/propTranslator';
 import _ from 'lodash';
 
+import actions from 'quo-redux/actions';
+import { translatePropData } from 'quo-parser/propTranslator';
 
+import TextArea from 'quo-ui/dynamicTextArea';
+
+import CoreComponent from './CoreComponent';
 
 class TextComponent extends CoreComponent{
     constructor(props){

@@ -1,4 +1,4 @@
-import { SketchParser, PrimativeParser } from '../../../../parser';
+import { SketchParser, PrimativeParser } from 'quo-parser';
 
 const uploadSketch = (assets = {}, action) => {
 

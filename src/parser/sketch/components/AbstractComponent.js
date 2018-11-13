@@ -1,14 +1,14 @@
+import ComponentState from 'quo-parser/ComponentState';
+import { translatePropData } from 'quo-parser/propTranslator';
+
+import { PropCompositor } from 'quo-redux/helpers';
+
 import AbstractGroup from './AbstractGroup';
 import AbstractImage from './AbstractImage';
 import AbstractPage from './AbstractPage';
 import AbstractShape from './AbstractShape';
 import AbstractText from './AbstractText';
 import AbstractViewport from './AbstractViewport';
-
-import ComponentState from 'parser/ComponentState';
-
-import { translatePropData } from '../../propTranslator';
-import { PropCompositor } from 'quo-redux/helpers';
 
 var AbstractComponent;
 

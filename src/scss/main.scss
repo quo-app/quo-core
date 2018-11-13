@@ -1,7 +1,10 @@
 @import 'prereqs';
 
+// Core UI Components
+@import '../core-ui/style';
+
 // Components
-@import '../components/styles';
+@import '../components/style';
 
 //Packages
-@import '../packages/styles';
+@import '../packages/style';

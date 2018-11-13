@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import SliderCore from 'ui-components/inputElements/slider';
-import TextInput from 'ui-components/inputElements/textInput';
+import SliderCore from 'quo-ui/slider';
+import TextInput from 'quo-ui/textInput';
 
 import PropCardWrapper from '../PropCardWrapper';
 

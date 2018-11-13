@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getState } from 'quo-redux/state';
-import actions from 'quo-redux/actions';
 import _ from 'lodash';
 
-import { VerticalListCard } from 'ui-components/cards';
+import { getState } from 'quo-redux/state';
+import actions from 'quo-redux/actions';
+
+import { VerticalListCard } from 'quo-ui/cards';
 
 
 class LayersTab extends Component {

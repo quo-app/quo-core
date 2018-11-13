@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { getPropsOfSelection } from 'quo-redux/helpers';
 
-import TextInput from 'ui-components/inputElements/textInput';
+import TextInput from 'quo-ui/textInput';
 
 import PropCardWrapper from '../PropCardWrapper';
 

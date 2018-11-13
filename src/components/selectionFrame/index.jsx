@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import { getState } from '../../redux/state';
+
+import { getState } from 'quo-redux/state';
 
 class SelectionFrame extends Component {
   constructor (props) {

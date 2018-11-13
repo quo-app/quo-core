@@ -150,10 +150,18 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      // everything store/data manipulation related goes into this folder
       'quo-redux': path.resolve('./src/redux'),
-      'ui-components': path.resolve('./src/components'),
-      'parser': path.resolve('./src/parser'),
-      'utils': path.resolve('./src/utils'),
+      // stores the core ui components that are reused by components
+      // these files should not be connected to the store
+      'quo-ui': path.resolve('./src/core-ui'),
+      // stores the components that connect to data and do logic
+      'quo-components': path.resolve('./src/components'),
+      // everything related to parsing
+      'quo-parser': path.resolve('./src/parser'),
+      'quo-packages': path.resolve('./src/packages'),
+      // util functions similiar to lodash can be stored here
+      'quo-utils': path.resolve('./src/utils'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
