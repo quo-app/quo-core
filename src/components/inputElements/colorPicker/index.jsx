@@ -1,8 +1,7 @@
-import React from 'react'
-import reactCSS from 'reactcss'
+import React, { Component } from 'react';
+import reactCSS from 'reactcss';
 
-
-class ColorPicker extends React.Component {
+class ColorPicker extends Component {
 
   render() {
     const styles = reactCSS({

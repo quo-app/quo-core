@@ -1,37 +1,39 @@
-import React from 'react';
-import PropCardWrapper from '../PropCardWrapper';
-import TextInput from 'ui-components/inputElements/textInput/textInput';
+import React, { Component } from 'react';
 
-class Position extends React.Component{
-  constructor(props){
+import TextInput from 'ui-components/inputElements/textInput';
+
+import PropCardWrapper from '../PropCardWrapper';
+
+class Position extends Component {
+  constructor (props) {
     super(props);
     this.state = {
       x: this.props.x,
       y: this.props.y
     }
   }
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps (nextProps) {
     this.setState({
       x:nextProps.x,
       y:nextProps.y
     })
   }
 
-  updateX(val,title,isFinal){
+  updateX (val,title,isFinal) {
     //set the state and update
     this.setState({x:parseInt(val)},()=>{
       if (isFinal) this.props.update({x:this.state.x})
     });
   }
 
-  updateY(val,title,isFinal){
+  updateY (val,title,isFinal) {
     this.setState({y:parseInt(val)},()=>{
       if (isFinal) this.props.update({y:this.state.y})
     });
   }
 
-  render(){
-    return(
+  render () {
+    return (
       this.props.x && this.props.y ?
       <PropCardWrapper title='Position'>
         <TextInput title='X' text={this.state.x} type='number' after="" onChange={this.updateX.bind(this)}/>
@@ -39,7 +41,6 @@ class Position extends React.Component{
       </PropCardWrapper>
       :
       null
-
     )
   }
 }

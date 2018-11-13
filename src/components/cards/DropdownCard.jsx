@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { fSafe, bool2s } from 'utils'; 
-import { ButtonCore } from 'ui-components/buttons/buttons';
-import Card from './Card';
 import _ from 'lodash';
+
+import { fSafe } from 'utils'; 
+
+import { Button } from 'ui-components/buttons';
+import Card from './Card';
+
 
 export default class DropdownCard extends Component {
 
     static propTypes = {
-      title:PropTypes.string.isRequired,
-      disabled:PropTypes.bool,
-      collapsed:PropTypes.bool,
-      icon:PropTypes.element,
-      defaultValue:PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      disabled: PropTypes.bool,
+      collapsed: PropTypes.bool,
+      icon: PropTypes.element,
+      defaultValue: PropTypes.string.isRequired,
       options: PropTypes.objectOf(PropTypes.string),
       onChange:PropTypes.func,
     }
@@ -65,7 +68,7 @@ export default class DropdownCard extends Component {
           this.state.dropdownVisible ?
           <div className='card-dropdown-options-wrapper'>
             { this.renderDropdown() }
-            <ButtonCore title='Cancel' onClick={() => {this.updateDropdownVisibility(false)}}/>
+            <Button title='Cancel' onClick={() => {this.updateDropdownVisibility(false)}}/>
           </div> : null
         }
         </React.Fragment>

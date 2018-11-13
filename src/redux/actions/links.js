@@ -21,7 +21,7 @@ const UPDATE_LINK_BUILDER_DATA = (payload) => ({
   payload:payload
 })
 
-const CREATE_LINK = (payload) => (dispatch,getFullState) => {
+const CREATE_LINK = (payload) => (dispatch, getFullState) => {
 
   let domain = getState(getFullState(), 'domain');
   let app = getState(getFullState(), 'app');
@@ -46,7 +46,6 @@ const CREATE_LINK = (payload) => (dispatch,getFullState) => {
     case 'TARGET_SELECTED':
     // set the fake data for the time being
     let linkBuilderData = { ...getLinkBuilder(app)};
-    console.log(linkBuilderData)
     let data = {
       // enables:['onMouseEnter'],
       // disables:['onMouseLeave'],

@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import actions from 'quo-redux/actions';
+
+import SliderCore from 'ui-components/inputElements/slider';
+import TextInput from 'ui-components/inputElements/textInput';
+import ColorPicker from 'ui-components/inputElements/colorPicker';
 
 import PropCardWrapper from '../PropCardWrapper';
 
-import SliderCore from 'ui-components/inputElements/slider/sliderCore';
-import TextInput from 'ui-components/inputElements/textInput/textInput';
-import ColorPicker from 'ui-components/inputElements/colorPicker';
-
 import { SketchPicker } from 'react-color';
-import PropCard from '../PropCardWrapper';
 
-class Fill extends React.Component{
-  constructor(props){
+class Fill extends Component {
+  constructor (props) {
     super(props);
     this.state = {
       displayColorPicker:false,
@@ -42,7 +40,7 @@ class Fill extends React.Component{
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
   };
 
-  render(){
+  render () {
     return(
       <div>
         <PropCardWrapper title='Fill'>

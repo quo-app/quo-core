@@ -1,13 +1,5 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
-
 import { Provider } from 'react-redux';
-
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-// import { browserHistory } from 'react-router';
-
-// import { syncHistoryWithStore, routerReducer, ConnectedRouter } from 'react-router-redux';
 
 import store from 'quo-redux';
 
@@ -15,20 +7,13 @@ import store from 'quo-redux';
 
 import { SideBarRight, SideBarLeft } from 'ui-components/sideBar/sideBar';
 
-import TopBar from './components/topBar/topBar';
-import DropzoneContainer from './components/dropzone/dropzoneContainer';
-import Viewer from './components/viewer/viewer';
+import TopBar from 'ui-components/topBar';
+import DropzoneContainer from 'ui-components/dropzone';
+import Viewer from 'ui-components/viewer/viewer';
 
-import Icons from 'ui-components/icons';
-
-
-
-// import PreviewLink from './components/previewLink';
 import MessageStack from './components/messageStack';
 
 import './scss/main.scss';
-
-console.log(Icons.Close);
 
 // import { firebase } from './firebase';
 
@@ -41,7 +26,6 @@ console.log(Icons.Close);
 
 function App() {
   return (
-
     <Provider store={store}>
       <main className="quo-content">
         {/* <KeyController>
@@ -55,31 +39,6 @@ function App() {
         <MessageStack />
       </main>
     </Provider>
-
-
-    //   <Router forceRefresh>
-    //     <main className="quo-content">
-    //       <Switch>
-    //         <Route
-    //           exact
-    //           path="/"
-    //           render={() => (
-
-    //           )}
-    //         />
-    //         <Route
-    //           path="/p/:pageId/:componentId"
-    //           render={({ match }) => (
-    //             <PreviewLink
-    //               pageId={match.params.pageId}
-    //               id={match.params.componentId}
-    //             />
-    //           )}
-    //         />
-    //       </Switch>
-    //     </main>
-    //   </Router>
-
   );
 }
 

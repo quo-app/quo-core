@@ -33,7 +33,6 @@ export const addImageComponent = (tabs, action) => {
     tabs = handleNoTabCase(tabs);
     let domain = action.domain;
     let payload = action.payload;
-    console.log(payload);
     let target = { ...tabs.allTabs[domain.tabs.activeTab] };
     target.components = _.merge(target.components, {[payload.id]: payload})
     target.children.push(payload.id);

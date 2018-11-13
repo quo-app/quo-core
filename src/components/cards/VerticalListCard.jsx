@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { fSafe, bool2s } from 'utils'; 
+
 import Card from './Card';
 
-export default class VerticalListCard extends React.Component {
+export default class VerticalListCard extends Component {
   
     static propTypes = {
       //core props
@@ -30,6 +32,7 @@ export default class VerticalListCard extends React.Component {
       disabled: false,
       collapsed: false,
       optionOrientationOrientation: 'right',
+      values: {},
     }
   
     renderList() {
@@ -41,12 +44,12 @@ export default class VerticalListCard extends React.Component {
   
         return (
           <li className={`vertical-list-option ${selected} ${iconOrientation}`}
-              onClick={ () => fSafe(this.props.onOptionClick.bind(this),v) } 
+              onClick={ () => fSafe(this.props.onOptionClick.bind(this), v) } 
               key={v.id}>
             <div className='text'>
               {v.text}
             </div>
-            <div onClick={ () => fSafe(this.props.onOptionClick.bind(this),v) }
+            <div onClick={ () => fSafe(this.props.onOptionClick.bind(this), v) }
                 className={`option-icon ${iconVisible}`}>
               {this.props.optionIcon}
             </div>

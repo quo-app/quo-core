@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
-import actions from '../../redux/actions';
-import { getState } from '../../redux/state';
+
+import actions from 'quo-redux/actions';
+import { getState } from 'quo-redux/state';
 
 
 class MessageStack extends Component{

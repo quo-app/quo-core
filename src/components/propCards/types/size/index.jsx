@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Component} from 'react';
 import { connect } from 'react-redux';
 
-import Base from '../PropCardWrapper';
-import TextInput from 'ui-components/inputElements/textInput/textInput';
 import { getPropsOfSelection } from 'quo-redux/helpers';
 
-class Size extends React.Component{
+import TextInput from 'ui-components/inputElements/textInput';
+
+import PropCardWrapper from '../PropCardWrapper';
+
+class Size extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -36,15 +38,15 @@ class Size extends React.Component{
   render(){
     return(
       this.props.width && this.props.height ?
-      <Base title='Size'>
+      <PropCardWrapper title='Size'>
         <TextInput title='W' text={this.state.w} type='number' after="" onChange={this.updateW.bind(this)}/>
         <TextInput title='H' text={this.state.h} type='number' after="" onChange={this.updateH.bind(this)}/>
-      </Base>
+      </PropCardWrapper>
       :
-      <Base title='Size'>
+      <PropCardWrapper title='Size'>
         <TextInput title='W' text='0' type='number'/>
         <TextInput title='H' text='0' type='number'/>
-      </Base>
+      </PropCardWrapper>
 
     )
   }

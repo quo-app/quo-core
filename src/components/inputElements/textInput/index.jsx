@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+
 import { fSafe } from 'utils';
 
-export default class TextInput extends React.Component{
+export default class TextInput extends Component{
   constructor(props) {
       super(props);
       this.state = {value: this.props.text};

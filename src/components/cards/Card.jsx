@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { bool2s, fSafe } from 'utils'; 
 
 
@@ -11,7 +12,8 @@ export default class Card extends Component {
       id: PropTypes.string,
       disabled: PropTypes.bool,
       collapsed: PropTypes.bool,
-      icon: PropTypes.element,
+      headerIcon: PropTypes.element,
+      onHeaderIconClick: PropTypes.func,
     }
   
     static defaultProps = {
@@ -30,10 +32,10 @@ export default class Card extends Component {
         <div className={`card ${this.props.className} ${disabled} ${collapsed}`} id={`${this.props.id}`}>
           <div className='card-header'>
             {this.props.title}
-            {this.props.icon
+            {this.props.headerIcon
               ?
-                <div onClick={ () => fSafe(this.props.onIconClick.bind(this)) }>
-                  { this.props.icon }
+                <div onClick={ () => fSafe(this.props.onHeaderIconClick.bind(this)) }>
+                  { this.props.headerIcon }
                 </div>
               : 
                 null }

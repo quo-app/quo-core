@@ -3,7 +3,7 @@ import CoreComponent from './CoreComponent';
 import { pick } from 'lodash';
 import { translatePropData } from '../../../parser/propTranslator';
 
-class ShapeComponent extends CoreComponent{
+class ShapeComponent extends CoreComponent {
 
   getCurrentProps(obj){
     return obj.state.states[obj.state.current].props

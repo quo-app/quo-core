@@ -1,0 +1,17 @@
+.no-link-description {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .text-primary {
+    font-size: $font-l;
+    color: $color-text-1;
+  }
+  
+  .text-secondary {
+    font-size: $font-m;
+    color: $color-text-3;
+  }
+}

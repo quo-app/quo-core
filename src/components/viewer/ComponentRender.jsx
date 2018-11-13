@@ -1,24 +1,10 @@
-import _ from 'lodash';
-import React from 'react';
-import { compose } from 'redux';
-import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
-import actions from 'quo-redux/actions';
+import React, { PureComponent } from 'react';
 
-import { translatePropData } from '../../parser/propTranslator';
-
-import { getState } from 'quo-redux/state';
-
-import SelectionFrame from '../selectionFrame';
-
-import TextArea from '../inputElements/dynamicTextArea';
-
-import CoreComponent from './components/CoreComponent';
 import ImageComponent from './components/ImageComponent';
 import ShapeComponent from './components/ShapeComponent';
 import TextComponent from './components/TextComponent';
 
-class ComponentRenderCore extends React.PureComponent {
+class ComponentRenderCore extends PureComponent {
   render = () => {
     switch (this.props.component.class) {
       case 'shape':
@@ -26,7 +12,6 @@ class ComponentRenderCore extends React.PureComponent {
       case 'text':
         return (<TextComponent component={ this.props.component }></TextComponent>)
       case 'image':
-        console.log('image');
         return <ImageComponent component={this.props.component} />
       default:
         const Wrapper = this.props.wrapper

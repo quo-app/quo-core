@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { Component} from 'react';
 import { connect } from 'react-redux';
-// import { EDIT_STATE_CHANGE } from '../../redux/actions';
 
-class ComponentStates extends React.Component {
+class ComponentStates extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,10 +12,7 @@ class ComponentStates extends React.Component {
   }
 
   onClick(e){
-    console.log(e.target.innerHTML)
     this.setState({selected : e.target.innerHTML.toLowerCase()});
-    // const { dispatch } = this.props;
-    // dispatch(EDIT_STATE_CHANGE(e.target.innerHTML.toLowerCase()));
   }
 
   componentWillReceiveProps(nextProps){

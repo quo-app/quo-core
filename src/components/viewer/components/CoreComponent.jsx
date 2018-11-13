@@ -1,16 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react'
 
-class CoreComponent extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      data: props.data
-    };
-    //add other stuff here
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({data: nextProps.data});
-  }
+class CoreComponent extends Component{
+
 }
 
 export default CoreComponent
