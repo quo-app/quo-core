@@ -1,11 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import actions from 'quo-redux/actions';
 import { translatePropData } from 'quo-parser/propTranslator';
-
-import TextArea from 'quo-ui/dynamicTextArea';
 
 import CoreComponent from './CoreComponent';
 

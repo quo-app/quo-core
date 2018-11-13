@@ -1,4 +1,3 @@
-import uuidv1 from 'uuid/v1';
 import _ from 'lodash';
 import { newTab } from '../tabs';
 

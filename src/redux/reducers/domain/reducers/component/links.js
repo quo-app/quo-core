@@ -1,7 +1,4 @@
-import { getSelectionFirstID } from 'quo-redux/helpers';
-import uuidv1 from 'uuid/v1';
 import _ from 'lodash';
-import { addComponentState } from './states';
 
 // INIT
 // set current link id in link builder
@@ -49,7 +46,7 @@ export const setLinkTarget = (components, action) => {
 
   if(!action.payload) return components
 
-  let { linkId, source, target, triggers, disables, linkState } = action.payload
+  let { target, linkState } = action.payload
 
   let targetComponent = components[target];
 

@@ -3,9 +3,9 @@ import { translatePropData } from 'quo-parser/propTranslator';
 
 import { PropCompositor } from 'quo-redux/helpers';
 
-import AbstractGroup from './AbstractGroup';
-import AbstractImage from './AbstractImage';
-import AbstractPage from './AbstractPage';
+// import AbstractGroup from './AbstractGroup';
+// import AbstractImage from './AbstractImage';
+// import AbstractPage from './AbstractPage';
 import AbstractShape from './AbstractShape';
 import AbstractText from './AbstractText';
 import AbstractViewport from './AbstractViewport';
@@ -58,7 +58,7 @@ export function initAbstractComponent(){
             //if it is a leaf component, return
             if(!data.layers) return;
 
-            data.layers.map( component => {
+            data.layers.forEach( component => {
                 let abstractChild;
                 //Special case for artboards that are
                 //contained by a page

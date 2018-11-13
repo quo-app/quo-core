@@ -5,7 +5,7 @@ import { combineReducersLoop } from '../../helpers.js';
 import { uploadSketch, uploadImage } from './reducers/upload';
 import { newTab, changeActiveTab, editTab, deleteTab } from './reducers/tabs';
 // Component Actions
-import { addComponent, removeComponent, addImageComponent } from './reducers/component/component';
+import { addComponent, addImageComponent } from './reducers/component/component';
 import { updateComponentProps, addStateToComposite, removeStateFromComposite } from './reducers/component/props';
 import { setLinkSource, setLinkTarget } from './reducers/component/links';
 import { addComponentState } from './reducers/component/states';
@@ -21,7 +21,6 @@ const projects = combineReducersLoop({
 
 const components = combineReducersLoop({
   'ADD_COMPONENT_TO_COMPONENTS': (components, action) => (_.merge(components,action.payload)),
-  // 'REMOVE_COMPONENT': removeComponent,
   'UPDATE_COMPONENT_PROPS': updateComponentProps,
   'SET_LINK_SOURCE': setLinkSource,
   'SET_LINK_TARGET': setLinkTarget,

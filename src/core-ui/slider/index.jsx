@@ -28,17 +28,18 @@ export default class SliderCore extends Component {
   }
 
   render(){
-    let { value } = this.state
+    let { step, min, max } = this.props;
+    let { title, value } = this.state;
     return(
       <div className='slider'>
         <Slider
-          step={this.props.step}
-          min={this.props.min}
-          max={this.props.max}
-          value={this.state.value}
+          step={step}
+          min={min}
+          max={max}
+          value={value}
           onChange={this.handleOnChange}
         />
-        <div className='slider-title'>{this.props.title}</div>
+        <div className='slider-title'>{title}</div>
       </div>
     )
   }

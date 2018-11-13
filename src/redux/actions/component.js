@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import uuidv1 from 'uuid/v1';
 import { getState } from 'quo-redux/state';
-import messageActions from './messageStack';
 import uiActions from './uiSpreader';
 
 const ADD_COMPONENT_TO_COMPONENTS = (payload) => ({

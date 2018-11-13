@@ -1,4 +1,3 @@
-import { getState } from 'quo-redux/state';
 import messageActions from './messageStack';
 
 const ADD_COMPONENT_STATE_ACTION = (payload,domain) => ({

@@ -7,7 +7,7 @@ const convertProps = (from,to,prop,val) => {
   let propObj = {...path};
 
   //find the property obj by going through the list
-  prop.split(' ').map(p=>{
+  prop.split(' ').forEach( p => {
     propObj = propObj[p];
   });
 

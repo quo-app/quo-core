@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import { Component } from 'react';
 
-class CoreComponent extends Component{
+class CoreComponent extends Component {
 
 }
 

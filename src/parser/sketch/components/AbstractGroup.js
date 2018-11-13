@@ -5,5 +5,6 @@ initAbstractComponent();
 export default class AbstractGroup extends AbstractComponent {
     constructor(data){
         super(data);
+        this.class = 'group'
     }
 }

@@ -29,7 +29,6 @@ export default class AbstractImage {
     }
 
     initStates(data) {
-        let diffProps = {}
         let states = {
             'composite':{
               props:{},

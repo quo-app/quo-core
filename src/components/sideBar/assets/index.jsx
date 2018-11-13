@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
-import { getState } from 'quo-redux/state';
 
 import { SnapshotContainer } from 'quo-components/snapshotComponent';
 
@@ -114,8 +112,8 @@ class AssetsViewer extends Component {
 
     let flattenedfirstDepthComponents = [];
 
-    firstDepthComponents.map(components => {
-      components.map(component => {
+    firstDepthComponents.forEach( components => {
+      components.forEach( component => {
         flattenedfirstDepthComponents.push(component);
       })
     })
@@ -156,7 +154,7 @@ class AssetsViewer extends Component {
           }
           {
             Object.values(this.state.images).map(image => (
-              <img src={image.data} />
+              <img src={image.data} alt=''/>
             ))
           }
           </React.Fragment>

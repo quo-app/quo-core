@@ -23,7 +23,6 @@ const UPDATE_LINK_BUILDER_DATA = (payload) => ({
 
 const CREATE_LINK = (payload) => (dispatch, getFullState) => {
 
-  let domain = getState(getFullState(), 'domain');
   let app = getState(getFullState(), 'app');
   let currentMode = getCurrentLinkBuilderMode(app);
 
@@ -31,7 +30,6 @@ const CREATE_LINK = (payload) => (dispatch, getFullState) => {
 
     case 'INIT':
     let linkId = uuidv1();
-    let linkName = 'link1'
     let source = getSelectionFirstID(getFullState(),app);
     if(!source) return;
     dispatch(UPDATE_LINK_BUILDER_DATA({ source, linkId, mode: 'SOURCE_SELECTED', ...payload}));

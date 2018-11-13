@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { getComponentFromCurrentTab, getCurrentState, PropCompositor } from 'quo-redux/helpers';
+import { PropCompositor } from 'quo-redux/helpers';
 
 export const updateComponentProps = (components, action) => {
   // no component specified
@@ -61,8 +61,7 @@ export const addStateToComposite = (components, action) => {
   let id = action.payload.id;
   let component = components[id];
   let states = component.state.states;
-  let composite = states.composite;
-  component.state.states.composite =  addStateToCompositeHelper(states, action.payload.state.id);
+  states.composite =  addStateToCompositeHelper(states, action.payload.state.id);
   return { ...components, [id]:_.cloneDeep(component)}
 }
 

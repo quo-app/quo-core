@@ -1,7 +1,5 @@
 import React from 'react';
 
-import AbstractInterface from 'quo-parser/abstract/AbstractComponent';
-
 import AbstractComponent, { initAbstractComponent } from './AbstractComponent';
 
 initAbstractComponent();
@@ -22,7 +20,7 @@ export default class AbstractShape extends AbstractComponent {
         )
       break;
       default:
-        this.path = this.calculateSVGforShapeGroup(data);
+    this.path = this.calculateSVGforShapeGroup(data);
         this.svgComponent = (
           <path d={this.path}/>
         )
@@ -32,8 +30,7 @@ export default class AbstractShape extends AbstractComponent {
   }
 
   calculateSVGforSingleShape(data){
-    let props = this.state.states.composite.props;
-    let frame = { ...data.frame, x: 0, y:0};
+    let frame = { ...data.frame, x: 0, y: 0};
     return this.createPathCode(data,frame);
   }
 
@@ -51,9 +48,9 @@ export default class AbstractShape extends AbstractComponent {
 
   createPointTuples(points,frame,isClosed){
       let pointTuples = [];
-      points.map((point,index)=>{
+      points.forEach((point,index)=>{
           //Edge case for non closed shapes
-          if(index === points.length - 1 && !isClosed){
+          if (index === points.length - 1 && !isClosed) {
               return;
           }
 
@@ -61,12 +58,12 @@ export default class AbstractShape extends AbstractComponent {
           edge.p1 = this.convertPoint(point,frame)
 
           //last point wraps around
-          if(index === points.length - 1){
+          if (index === points.length - 1) {
               edge.p2 = this.convertPoint(points[0],frame);
           }
 
-          else{
-              edge.p2 = this.convertPoint(points[index+1],frame)
+          else {
+              edge.p2 = this.convertPoint(points[index + 1],frame)
           }
 
           pointTuples.push(edge);
@@ -81,10 +78,10 @@ export default class AbstractShape extends AbstractComponent {
       let edges = this.createPointTuples(data.points, frame,data.isClosed);
 
       //loop through the edges
-      edges.map((edge,i) => {
+      edges.forEach((edge,i) => {
 
           //create a starting point
-          if(i == 0){
+          if(i === 0){
               //add M
               path += this.createM(edge.p1.point);
           }
@@ -119,9 +116,10 @@ export default class AbstractShape extends AbstractComponent {
   }
 
   extractPoints(point,frame){
-      return point.replace(/[{}]/g, '').replace(/\s/g, '').split(',').map(parseFloat).map((p,i)=>{
+      return point.replace(/[{}]/g, '').replace(/\s/g, '').split(',').map(parseFloat).map( (p,i)=> {
           if(i === 0) return parseFloat(parseFloat((p * frame.width) + frame.x).toFixed(4));
           if(i === 1) return parseFloat(parseFloat((p * frame.height) + frame.y).toFixed(4));
+          return 0;
       });
   }
 

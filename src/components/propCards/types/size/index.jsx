@@ -1,7 +1,4 @@
 import React, { Component} from 'react';
-import { connect } from 'react-redux';
-
-import { getPropsOfSelection } from 'quo-redux/helpers';
 
 import TextInput from 'quo-ui/textInput';
 

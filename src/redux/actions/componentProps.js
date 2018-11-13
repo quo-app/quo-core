@@ -1,5 +1,4 @@
 import { getState } from 'quo-redux/state';
-import messageActions from './messageStack';
 
 const UPDATE_COMPONENT_PROPS_ACTION = (payload,domain) => ({
   type:'UPDATE_COMPONENT_PROPS',

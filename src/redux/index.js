@@ -6,9 +6,7 @@ import thunk from 'redux-thunk';
 import { storeInitial } from './state';
 import rootReducer from './reducers';
 
-let store;
-
-export default store = createStore(
+export default createStore(
   rootReducer,
   storeInitial,
   compose(

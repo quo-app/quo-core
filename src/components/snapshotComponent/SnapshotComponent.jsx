@@ -1,8 +1,6 @@
 
 import React, { Component} from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
 import { getState } from 'quo-redux/state';
 

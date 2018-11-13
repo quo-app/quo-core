@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
@@ -282,7 +281,6 @@ class Viewer extends Component {
   }
 
   render() {
-    const pos = this.state.viewerPos
     return (
       <React.Fragment>
       <SelectionFrame scale={this.state.scale}/>
