@@ -1,5 +1,6 @@
-import messageActions from './messageStack';
 import { getState } from 'quo-redux/state';
+
+import messageActions from './messageStack';
 import componentActions from './component';
 
 const UPLOAD_SKETCH_ACTION = (uploadData) => ({

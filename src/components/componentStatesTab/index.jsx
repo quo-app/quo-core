@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { getState } from 'quo-redux/state';
 import {  getSelectionFirstID } from 'quo-redux/helpers';
 
-import HorizontalOptionGroup from 'ui-components/inputElements/horizontalOptionGroup';
+import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup';
 
 class ComponentStatesTab extends Component {
   render(){

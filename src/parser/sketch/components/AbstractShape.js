@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { roundPathCorners } from 'utils'; 
-import AbstractInterface from 'parser/abstract/AbstractComponent';
+import AbstractInterface from 'quo-parser/abstract/AbstractComponent';
 
 import AbstractComponent, { initAbstractComponent } from './AbstractComponent';
 

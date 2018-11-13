@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { fSafe } from 'utils'; 
+import { fSafe } from 'quo-utils'; 
 
-import { Button } from 'ui-components/buttons';
+import { Button } from 'quo-ui/buttons';
+
 import Card from './Card';
 
 

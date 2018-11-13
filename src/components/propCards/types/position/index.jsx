@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import TextInput from 'ui-components/inputElements/textInput';
+import TextInput from 'quo-ui/textInput';
 
 import PropCardWrapper from '../PropCardWrapper';
 

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { VerticalListCard } from 'ui-components/cards'
-import { Button } from  'ui-components/buttons'
 import { getState } from 'quo-redux/state';
+
+import { VerticalListCard } from 'quo-ui/cards';
 
 /**
  * Renders a single card of the links viewer.

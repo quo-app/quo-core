@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { combineReducers } from 'redux';
 
 import domain from './domain';

@@ -5,10 +5,10 @@ import { getState } from 'quo-redux/state';
 import actions from 'quo-redux/actions';
 import { getSelectionFirstID, getPropsOfSelection} from 'quo-redux/helpers';
 
-import { getCards, getPropsOfCard } from 'parser/componentProps';
+import { getCards, getPropsOfCard } from 'quo-parser/componentProps';
 
-import ComponentStatesDropdown from 'ui-components/componentStatesDropdown';
-import PropCards from 'ui-components/propCards';
+import ComponentStatesDropdown from 'quo-components/componentStatesDropdown';
+import PropCards from 'quo-components/propCards';
 
 class PropsTab extends Component {
   dispatchAction(){

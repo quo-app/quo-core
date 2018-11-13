@@ -6,8 +6,8 @@ import _ from 'lodash';
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 
-import { Card, DropdownCard } from 'ui-components/cards';
-import { Button } from 'ui-components/buttons';
+import { Card, DropdownCard } from 'quo-ui/cards';
+import { Button } from 'quo-ui/buttons';
 
 const trigger = (id, text, actions) => ({ id, text, actions })
 const propChange = (id,text,props) => ({ id, text, props })

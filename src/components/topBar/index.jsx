@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getState } from 'quo-redux/state';
 import actions from 'quo-redux/actions';
 
-import { Button } from 'ui-components/buttons';
+import { Button } from 'quo-ui/buttons';
 
 class TopBar extends Component {
   setAppMode = (mode) => {

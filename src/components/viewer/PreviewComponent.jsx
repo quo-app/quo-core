@@ -5,9 +5,8 @@ import _ from 'lodash';
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 
-import { translatePropData } from 'parser/propTranslator';
+import { translatePropData } from 'quo-parser/propTranslator';
 
-// Core Rendering of the component
 import ComponentRender from './ComponentRender';
 
 

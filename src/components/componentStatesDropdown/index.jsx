@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 
 import actions from 'quo-redux/actions';
 
-import { VerticalListCard } from 'ui-components/cards';
-import Icons from 'ui-components/icons';
-
+import { VerticalListCard } from 'quo-ui/cards';
+import Icons from 'quo-ui/icons';
 
 class ComponentStatesDropdown extends Component {
   constructor(props){

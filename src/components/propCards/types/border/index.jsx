@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 
-import SliderCore from 'ui-components/inputElements/slider'
+import SliderCore from 'quo-ui/slider'
 
 import Base from '../base';
 

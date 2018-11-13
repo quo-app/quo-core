@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 
 import actions from 'quo-redux/actions';
 
-import TextInput from 'ui-components/inputElements/textInput';
-import Icons from 'ui-components/icons';
+import TextInput from 'quo-ui/textInput';
+import Icons from 'quo-ui/icons';
 
 class Page extends Component {
   constructor (props) {

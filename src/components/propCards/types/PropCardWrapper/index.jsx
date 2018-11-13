@@ -4,24 +4,23 @@ import React, { Component} from 'react';
 //
 import { connect } from 'react-redux';
 
-class PropCardWrapper extends Component{
-  constructor(props){
+class PropCardWrapper extends Component {
+  constructor (props) {
     super(props);
     this.state = {
       enabled:true
     }
-    this.onCheckChange = this.onCheckChange.bind(this);
   }
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
 
-  onCheckChange(e,checked){
+  onCheckChange = (e,checked) => {
     this.setState({enabled:checked});
   }
 
-  render(){
+  render () {
     let isHalf = this.props.half ? 'half-width' : ''
     let isDisabled = this.state.enabled ? '' : 'disabled-card'
     let id = this.props.title.toLowerCase().split(' ').join('-');
@@ -40,10 +39,5 @@ class PropCardWrapper extends Component{
     )
   }
 }
-
-function mapStateToProps(state) {
-  return {pages: state.present.newAssets}
-}
-
 
 export default PropCardWrapper

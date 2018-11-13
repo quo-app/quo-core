@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import _ from 'lodash';
 
-import actions from 'quo-redux/actions';
+import { Button } from 'quo-ui/buttons';
 
+<<<<<<< HEAD
 import { Card, DropdownCard } from 'ui-components/cards';
 import { Button } from 'ui-components/buttons';
 import LinksViewer from 'ui-components/linksViewer';
 import LinkBuilder from 'ui-components/linkBuilder';
+=======
+import LinksViewer from 'quo-components/linksViewer';
+import LinkBuilder from 'quo-components/linkBuilder';
+>>>>>>> adds /core-ui as a folder under src and organizes aliases
 
 class LinksTab extends Component {
 

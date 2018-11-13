@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import { PropCompositor } from 'quo-redux/helpers';
 import _ from 'lodash';
 
 export const updateComponentProps = (components, action) => {
+=======
+import _ from 'lodash';
+
+import { getComponentFromCurrentTab, getCurrentState, PropCompositor } from 'quo-redux/helpers';
+
+export const updateComponentProps = (tabs,action) => {
+>>>>>>> adds /core-ui as a folder under src and organizes aliases
   // no component specified
   if(!action.payload.id) return components;
 

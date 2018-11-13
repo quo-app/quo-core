@@ -4,12 +4,12 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import actions from 'quo-redux/actions';
-import { translatePropData } from 'parser/propTranslator';
 import { getState } from 'quo-redux/state';
-import { AbstractComponent } from 'parser/abstract';
 
-import ComponentRender from 'ui-components/viewer/ComponentRender';
+import { translatePropData } from 'quo-parser/propTranslator';
+import { AbstractComponent } from 'quo-parser/abstract';
+
+import ComponentRender from 'quo-components/viewer/ComponentRender';
 
 const makeSnapshotComponent = (WrappedComponent, options) => {
   return class extends Component {
