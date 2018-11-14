@@ -213,7 +213,16 @@ class AssetPreview extends Component {
       page: this.props.page,
     }
 
+    // padding for the snapshot image
+    let padding = { 
+      top: 10,
+      right: 5,
+      bottom: 5,
+      left: 5
+    }
+
     return (
+
       <div className={`asset-preview-wrapper ${this.props.filetype}-asset`} onDoubleClick={this.addAssetToEditor}>
         <div className='asset-preview-title'>
           {this.props.title}
@@ -224,7 +233,7 @@ class AssetPreview extends Component {
           onDragStart={this.onDragStart}
           onDragEnd={this.onDragEnd}
         >
-          <SnapshotContainer source={source} component={this.props.component} onRender={this.onRender} />
+          <SnapshotContainer source={source} component={this.props.component} onRender={this.onRender} padding={padding}/>
         </div>
       </div>
     )

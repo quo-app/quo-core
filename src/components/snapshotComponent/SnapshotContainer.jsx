@@ -14,7 +14,22 @@ export default class SnapshotContainer extends Component {
       page: PropTypes.string,
     }).isRequired,
     component: PropTypes.object.isRequired,
+    padding: PropTypes.shape({
+      top: PropTypes.number,
+      right: PropTypes.number,
+      bottom: PropTypes.number,
+      left: PropTypes.number,
+    })
   } 
+
+  static defaultProps = {
+    padding: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    }
+  }
 
   constructor(props){ 
     super(props);
@@ -23,9 +38,11 @@ export default class SnapshotContainer extends Component {
 
   getContainerDimensions = () => {
     let dims =  ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect();
+    let paddingHorizontal = this.props.padding.left + this.props.padding.right;
+    let paddingVertical = this.props.padding.top + this.props.padding.bottom;
     return {
-      w: dims.width,
-      h: dims.height
+      w: dims.width - paddingHorizontal,
+      h: dims.height - paddingVertical,
     }
   }
 
