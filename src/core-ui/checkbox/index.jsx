@@ -13,7 +13,6 @@ export default class Checkbox extends Component {
   }
 
   static defaultProps = {
-    defaultSelected: false,
     disabled: false
   }
 
