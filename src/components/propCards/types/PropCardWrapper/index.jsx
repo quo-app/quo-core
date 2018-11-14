@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 //this needs a instantiated react component rather than an icon function
-// import Checkbox from 'material-ui/Checkbox';
+import Checkbox from 'quo-ui/checkbox';
 
 class PropCardWrapper extends Component {
   constructor (props) {
@@ -14,8 +14,8 @@ class PropCardWrapper extends Component {
     this.setState({ [name]: event.target.checked });
   };
 
-  onCheckChange = (e,checked) => {
-    this.setState({enabled:checked});
+  onCheckChange = (checked) => {
+    this.setState({ enabled: checked });
   }
 
   render () {
@@ -26,11 +26,10 @@ class PropCardWrapper extends Component {
       <div className={`prop-card ${isHalf} ${isDisabled}`} id={`card-${id}`}>
         <div className='prop-card-header'>
           {this.props.title}
-          {/* <Checkbox
-            checked={this.state.enabled}
-            value={this.props.title}
-            onChange={this.onCheckChange}
-            /> */}
+          <Checkbox
+            selected={this.state.enabled}
+            onClick={this.onCheckChange}
+          />
         </div>
         <div className='prop-card-body'>{this.props.children}</div>
       </div>
