@@ -1,21 +1,3 @@
-span[class*='MuiCheckbox']{
-  width:18px;
-  height:18px;
-}
-span[class*='MuiCheckbox'] > span[class*='Button']{
-  color:white;
-  width:18px;
-  height:18px;
-  svg {
-    width:18px;
-    height:18px;
-  }
-}
-span[class*='MuiCheckbox-checked'] > span{
-  color:white;
-}
-
-
 .prop-card, .layer-card {
 
   border-radius:8px;
