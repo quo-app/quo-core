@@ -18,20 +18,18 @@ class Fill extends Component {
     }
   }
 
-  getProp = () => {
-    return (this.props.fill ? 'fill' : 'backgroundColor')
-  }
+  getProp = () => this.props.fill ? 'fill' : 'backgroundColor'
 
-  handleChange = (color) => {
+  handleChange = color => {
     this.setState({ color: color.rgb }, ()=>{
       this.props.update({[this.getProp()]:this.state.color})
     });
   };
 
-  handleSliderChange = (alpha) => {
+  handleSliderChange = alpha => {
     let color = {...this.state.color}
     color.a = alpha / 100;
-    this.setState({color:color}, ()=>{
+    this.setState({ color }, () => {
       this.props.update({[this.getProp()]:this.state.color})
     });
   };

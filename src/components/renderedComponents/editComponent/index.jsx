@@ -14,16 +14,10 @@ const makeEditComponent = (WrappedComponent, options) => {
     constructor(props){
       super(props);
       this.state = {
-        drag: {
-          start:{
+        dragStart: {
             x:0,
             y:0
-          },
-          offset: {
-            x:0,
-            y:0
-          }
-        }
+        },
       }
       this.DOMref = React.createRef();
     }
@@ -49,24 +43,19 @@ const makeEditComponent = (WrappedComponent, options) => {
       return translatePropData('abstract', 'css', props(['width','height','x','y']));
     }
 
+    saveDragStart = (x,y) => {
+      this.setState({dragStart: { x, y }});
+    }
+
     onMouseDown = e => {
       // only left mouse click
       if(e.button !== 0) return;
 
-      this.setState({
-        drag:{
-          start:{
-            x:e.pageX,
-            y:e.pageY
-          },
-          offset: this.state.drag.offset
-        }
-      });
+      this.saveDragStart(e.pageX, e.pageY);
 
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
   
-      e.preventDefault();
       e.stopPropagation();
 
     }
@@ -81,56 +70,26 @@ const makeEditComponent = (WrappedComponent, options) => {
 
       const scale = box.width / width;
 
-      let deltaX = (e.pageX - this.state.drag.start.x) * 1 / scale;
-      let deltaY = (e.pageY - this.state.drag.start.y) * 1 / scale;
-
-      let newX = x + deltaX
-      let newY = y + deltaY
+      let deltaX = (e.pageX - this.state.dragStart.x) * 1 / scale;
+      let deltaY = (e.pageY - this.state.dragStart.y) * 1 / scale;
 
       if(deltaX !== 0 || deltaY !== 0){
+        let newX = x + deltaX
+        let newY = y + deltaY
         //update position in the store
         const { dispatch } = this.props;
-        console.log(newX, newY) 
-
         dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x: newX, y: newY}, id: this.props.component.id }));
       }
   
-      this.setState({
-        drag:{
-          offset:{
-            x: newX,
-            y: newY
-          },
-          start:{
-            x:e.pageX,
-            y:e.pageY
-          },
-        }
-      })
+      this.saveDragStart(e.pageX, e.pageY);
   
       e.preventDefault();
     }
 
     onMouseUp = e => {
-
-      if(this.state.drag.offset.x !== 0 || this.state.drag.offset.y !== 0){
-        // const { dispatch } = this.props;
-        // dispatch(actions.COMPONENT_MOVE({...this.state.drag.offset,id:this.state.id}));
-      }
-  
-      this.setState({
-        drag:{
-          ...this.state.drag,
-          offset:{
-            x:0,
-            y:0
-          }
-        }
-      })
-
       document.removeEventListener('mousemove', this.onMouseMove);
       document.removeEventListener('mouseup', this.onMouseUp);
-      e.preventDefault();
+
       e.stopPropagation();
     }
 
@@ -178,66 +137,6 @@ const makeEditComponent = (WrappedComponent, options) => {
 //     }
 
 
-//     }
-//     // edit feature
-//     onMouseUp(e){
-  
-//       if(this.state.drag.offset.x !== 0 || this.state.drag.offset.y !== 0){
-//         const { dispatch } = this.props;
-//         dispatch(actions.COMPONENT_MOVE({...this.state.drag.offset,id:this.state.id}));
-//       }
-  
-//       this.setState({
-//         drag:{
-//           ...this.state.drag,
-//           offset:{
-//             x:0,
-//             y:0
-//           }
-//         }
-//       })
-  
-//       document.removeEventListener('mousemove',this.onMouseMove);
-//       document.removeEventListener('mouseup',this.onMouseUp);
-//       e.preventDefault();
-  
-//     }
-//     // edit feature
-//     onMouseMove(e) {
-  
-//       const ref = ReactDOM.findDOMNode(this.refs.handle);
-//       const body = document.body;
-//       const box = ref.getBoundingClientRect();
-  
-//       const style = this.getStyle();
-  
-//       //including the scale of the viewer zoom
-  
-//       const scale = box.width / parseInt(style.width.slice(0,-2));
-  
-  
-//       this.setState({
-//         drag:{
-//           offset:{
-//             x:(this.state.drag.offset.x + (e.pageX - this.state.drag.start.x)* 1/scale),
-//             y:(this.state.drag.offset.y + (e.pageY - this.state.drag.start.y)* 1/scale )
-//           },
-//           start:{
-//             x:e.pageX,
-//             y:e.pageY
-//           },
-//         }
-//       })
-  
-//       e.preventDefault();
-//     }
-//     // edit feature
-//     calcDragOffset(style){
-  
-//       let left = (parseInt(style.left.slice(0,-2)) + this.state.drag.offset.x) + 'px';
-//       let top = (parseInt(style.top.slice(0,-2)) + this.state.drag.offset.y) + 'px';
-//       return {left:left,top:top}
-  
 //     }
 //     // edit feature
 //     isNestedComponent(){
