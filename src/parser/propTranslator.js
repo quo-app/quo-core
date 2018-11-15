@@ -72,7 +72,7 @@ class Translator {
       if(s.borders){
         let eProp = pickEnabledProp(s.borders);
         if(eProp){
-          if(['rectangle','oval','triangle','polygon','star'].includes(data._class)){
+          if(['rectangle','oval','triangle','polygon','star', 'shapePath'].includes(data._class)){
             addProp('strokeWidth', eProp.thickness);
             addProp('strokeColor', eProp.color);
           }
@@ -103,7 +103,16 @@ class Translator {
         let eProp = pickEnabledProp(s.fills);
         if(eProp){
           addProp('fill',eProp.color)
+          addProp('fillOpacity', eProp.color.alpha)
         }
+        // no enabled fill
+        else {
+          addProp('fillOpacity', 0)
+        }
+      }
+      // no fill on the path
+      else {
+        addProp('fillOpacity', 0)
       }
       //continue this
     }

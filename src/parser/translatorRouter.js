@@ -12,12 +12,9 @@ const commonTranslators = {
   },
   abstract:{
     css:{
-      int2px:(v)=>{
-        return v + 'px';
-      },
-      color:(o)=>{
-        return `rgba(${o.r},${o.g},${o.b},${o.a})`;
-      }
+      int2px: v => v + 'px',
+      color: o => `rgba(${o.r},${o.g},${o.b},${o.a})`,
+      int2string: v => `${v}`,
     },
   }
 }
@@ -107,6 +104,10 @@ export const router = {
         prop:'fill',
         translate: commonTranslators.sketch.abstract.color,
       },
+      fillOpacity:{
+        prop:'fillOpacity',
+        translate: commonTranslators.id,
+      },
       strokeColor: {
         prop: 'strokeColor',
         translate: commonTranslators.sketch.abstract.color
@@ -142,24 +143,23 @@ export const router = {
       },
       'height':{
         prop:'height',
-        translate:commonTranslators.abstract.css.int2px,
+        translate: commonTranslators.abstract.css.int2px,
       },
       'x':{
         prop:'left',
-        translate:commonTranslators.abstract.css.int2px,
+        translate: commonTranslators.abstract.css.int2px,
       },
       'y':{
         prop:'top',
-        translate:commonTranslators.abstract.css.int2px,
+        translate: commonTranslators.abstract.css.int2px,
       },
       fill:{
         prop:'fill',
-        translate:(v)=>{
-          return {
-            'fill': `rgb(${v.r},${v.g},${v.b})`,
-            'fillOpacity': `${v.a}`
-          }
-        }
+        translate: v => `rgb(${v.r},${v.g},${v.b})`
+      },
+      fillOpacity:{
+        prop:'fillOpacity',
+        translate: commonTranslators.abstract.css.int2string,
       },
       textString:{
         disallow:true
@@ -199,19 +199,6 @@ export const router = {
         prop: 'fontSize',
         translate: commonTranslators.abstract.css.int2px,
       }
-      // 'border-width':{
-      //   prop:'border-width',
-      //   translate:commonTranslators.abstract.css.int2px,
-      // },
-      // 'border-color':{
-      //   prop:'border-color',
-      //   translate:commonTranslators.abstract.css.color,
-      // },
-      // 'border-style':{
-      //   prop:'border-style',
-      //   translate:(v)=>{return v},
-      // },
-
     },
     textProps:{
       textString:{

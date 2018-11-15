@@ -41,6 +41,7 @@ const convertSnapshotToImage = (data, callback) => {
   if(full) return {image: convertSnapshot(snapshot, eDimensions.w, eDimensions.h)};
 
   let suitableDimensions = computeRatio(eDimensions, cDimensions);
+
   //don't make things bigger, just resize them down.
   if( eDimensions.w < cDimensions.w && eDimensions.h < cDimensions.h ){
     suitableDimensions = eDimensions;

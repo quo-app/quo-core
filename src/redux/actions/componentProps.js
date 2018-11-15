@@ -1,15 +1,7 @@
-import { getState } from 'quo-redux/state';
-
-const UPDATE_COMPONENT_PROPS_ACTION = (payload,domain) => ({
+const UPDATE_COMPONENT_PROPS = payload => ({
   type:'UPDATE_COMPONENT_PROPS',
-  payload:payload,
-  domain:domain,
+  payload: payload,
 })
-
-const UPDATE_COMPONENT_PROPS = (payload) => (dispatch,getFullState) => {
-  let domain = getState(getFullState(),'domain');
-  dispatch(UPDATE_COMPONENT_PROPS_ACTION(payload,domain));
-}
 
 const ADD_STATE_TO_COMPOSITE = (payload) => ({
   type:'ADD_STATE_TO_COMPOSITE',
