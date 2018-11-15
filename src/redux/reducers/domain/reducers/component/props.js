@@ -16,9 +16,11 @@ export const updateComponentProps = (components, action) => {
 
   let component = components[id];
 
+  console.log(propsToUpdate)
+
   let states = component.state.states;
   // CHANGE THIS LMAO
-  let selectedState = _.keys(states)[2];
+  let selectedState = 'composite';
   // ABOVE
 
   // merge the new properties with the existing properties

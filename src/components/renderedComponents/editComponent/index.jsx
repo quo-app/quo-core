@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -53,8 +52,6 @@ const makeEditComponent = (WrappedComponent, options) => {
     onMouseDown = e => {
       // only left mouse click
       if(e.button !== 0) return;
-      
-      let target = e.target;
 
       this.setState({
         drag:{
@@ -75,20 +72,34 @@ const makeEditComponent = (WrappedComponent, options) => {
     }
 
     onMouseMove = e => {
-      console.log('moving')
+
       const box = this.DOMref.current.getBoundingClientRect(); 
       const props = AbstractComponent.props(this.props.component);
-      const { width } = props(['width']);
+      const { width, x, y } = props(['width','x','y']);
   
       //including the scale of the viewer zoom
 
       const scale = box.width / width;
+
+      let deltaX = (e.pageX - this.state.drag.start.x) * 1 / scale;
+      let deltaY = (e.pageY - this.state.drag.start.y) * 1 / scale;
+
+      let newX = x + deltaX
+      let newY = y + deltaY
+
+      if(deltaX !== 0 || deltaY !== 0){
+        //update position in the store
+        const { dispatch } = this.props;
+        console.log(newX, newY) 
+
+        dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x: newX, y: newY}, id: this.props.component.id }));
+      }
   
       this.setState({
         drag:{
           offset:{
-            x:(this.state.drag.offset.x + (e.pageX - this.state.drag.start.x) * 1 / scale),
-            y:(this.state.drag.offset.y + (e.pageY - this.state.drag.start.y) * 1 / scale )
+            x: newX,
+            y: newY
           },
           start:{
             x:e.pageX,
@@ -101,11 +112,9 @@ const makeEditComponent = (WrappedComponent, options) => {
     }
 
     onMouseUp = e => {
-      console.log('done')
 
       if(this.state.drag.offset.x !== 0 || this.state.drag.offset.y !== 0){
         // const { dispatch } = this.props;
-        console.log({...this.state.drag.offset});
         // dispatch(actions.COMPONENT_MOVE({...this.state.drag.offset,id:this.state.id}));
       }
   
@@ -122,9 +131,11 @@ const makeEditComponent = (WrappedComponent, options) => {
       document.removeEventListener('mousemove', this.onMouseMove);
       document.removeEventListener('mouseup', this.onMouseUp);
       e.preventDefault();
+      e.stopPropagation();
     }
 
     onClick = e => {
+      if(this.props.isParent) return;
       e.stopPropagation();
       this.selectComponent();
     }
