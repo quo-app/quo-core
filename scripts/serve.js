@@ -7,7 +7,7 @@ const port = process.env.PORT || 8080;
 app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/*', function(req, res) {
-  res.sendFile('index.html', { root: '/build' });
+  res.sendFile('index.html');
 });
 
 console.log('Launching Quo...');
