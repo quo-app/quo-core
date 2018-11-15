@@ -31,13 +31,12 @@ export default class AbstractShape extends AbstractComponent {
   }
 
   calculateSVGforSingleShape(data){
-    let frame = { ...data.frame, x: 0, y: 0};
+    let frame = { ...data.frame, x:0, y:0};
     return this.createPathCode(data,frame);
   }
 
   calculateSVGforShapeGroup(data){
-    console.log(data);
-    return data.layers.map((shape,index) => this.createPathCode(shape,data.frame)).join(' ');
+    return data.layers.map( shape => this.createPathCode(shape, shape.frame)).join(' ');
   }
 
   convertPoint(point,frame){
@@ -57,15 +56,15 @@ export default class AbstractShape extends AbstractComponent {
           }
 
           let edge = {}
-          edge.p1 = this.convertPoint(point,frame)
+          edge.p1 = this.convertPoint(point, frame)
 
           //last point wraps around
           if (index === points.length - 1) {
-              edge.p2 = this.convertPoint(points[0],frame);
+              edge.p2 = this.convertPoint(points[0], frame);
           }
 
           else {
-              edge.p2 = this.convertPoint(points[index + 1],frame)
+              edge.p2 = this.convertPoint(points[index + 1], frame)
           }
 
           pointTuples.push(edge);
@@ -77,11 +76,10 @@ export default class AbstractShape extends AbstractComponent {
   createPathCode(data,frame){
 
       let path = '';
-      let edges = this.createPointTuples(data.points, frame,data.isClosed);
+      let edges = this.createPointTuples(data.points, frame, data.isClosed);
 
       //loop through the edges
       edges.forEach((edge,i) => {
-
           //create a starting point
           if(i === 0){
               //add M
@@ -112,7 +110,7 @@ export default class AbstractShape extends AbstractComponent {
           }
 
       });
-
+      console.log(path);
       return path;
 
   }
