@@ -7,7 +7,7 @@ import Icons from 'quo-ui/icons';
 
 export default class Checkbox extends Component {
   static propTypes = {
-    selected: PropTypes.bool.required,
+    selected: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
   }
@@ -21,7 +21,7 @@ export default class Checkbox extends Component {
     let disabledClass = this.props.disabled ? 'disabled' : '';
     return (
       <div 
-        class={`checkbox-wrapper ${selectedClass} ${disabledClass}`}
+        className={`checkbox-wrapper ${selectedClass} ${disabledClass}`}
         onClick={ () => fSafe(this.props.onClick, !this.props.selected)}
       >
         {

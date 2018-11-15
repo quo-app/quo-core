@@ -16,7 +16,7 @@ class ShapeComponent extends CoreComponent {
   }
 
   getStyleCSS(props){
-    return translatePropData('abstract','css', pick(props,['fill','strokeColor','strokeWidth']));
+    return translatePropData('abstract','css', pick(props,['fill','fillOpacity','strokeColor','strokeWidth']));
   }
 
   render(){
@@ -26,7 +26,7 @@ class ShapeComponent extends CoreComponent {
     const dimensions = this.getDimensionsCSS(props);
 
     return(
-      <svg style={{...dimensions,...style, strokeLineJoin:'round'}}>
+      <svg style={{...dimensions, ...style }}>
         { this.props.component.svgComponent }
       </svg>
     )

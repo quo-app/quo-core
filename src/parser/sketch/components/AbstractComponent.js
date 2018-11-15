@@ -74,6 +74,7 @@ export function initAbstractComponent(){
                         case 'oval':
                         case 'rectangle':
                         case 'shapeGroup':
+                        case 'shapePath':
                           abstractChild = new AbstractShape(component);
                           this.children.push(abstractChild);
                         break;
@@ -83,9 +84,6 @@ export function initAbstractComponent(){
                         break;
 
                         case 'artboard':
-                        break;
-
-                        case 'shapePath':
                         break;
 
                         default:

@@ -38,8 +38,6 @@ const convertSnapshotToImage = (data, callback) => {
 
   let snapshot = document.getElementById(`snapshot-${id}`);
 
-  console.log(snapshot)
-
   if(full) return {image: convertSnapshot(snapshot, eDimensions.w, eDimensions.h)};
 
   let suitableDimensions = computeRatio(eDimensions, cDimensions);

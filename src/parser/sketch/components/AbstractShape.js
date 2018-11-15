@@ -14,6 +14,7 @@ export default class AbstractShape extends AbstractComponent {
       case 'triangle':
       case 'rectangle':
       case 'oval':
+      case 'shapePath':
         this.path = this.calculateSVGforSingleShape(data);
         this.svgComponent = (
           <path d={this.path}/>
@@ -35,6 +36,7 @@ export default class AbstractShape extends AbstractComponent {
   }
 
   calculateSVGforShapeGroup(data){
+    console.log(data);
     return data.layers.map((shape,index) => this.createPathCode(shape,data.frame)).join(' ');
   }
 

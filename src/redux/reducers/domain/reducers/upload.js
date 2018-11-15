@@ -1,7 +1,7 @@
-import { SketchParser, PrimativeParser } from 'quo-parser';
+import { SketchParser, PrimitiveParser } from 'quo-parser';
 
 const uploadSketch = (assets = {}, action) => {
-  
+
   let newPage = new SketchParser.AbstractPage(action.payload.data);
   let filetype = action.payload.filetype
 
@@ -14,7 +14,7 @@ const uploadSketch = (assets = {}, action) => {
 }
 
 const uploadImage = (state = {}, action) => {
-  let newImage = new PrimativeParser.AbstractImage(action.payload.data);
+  let newImage = new PrimitiveParser.AbstractImage(action.payload.data);
   let filetype = action.payload.filetype;
   if (!state[filetype]) {
     return {
