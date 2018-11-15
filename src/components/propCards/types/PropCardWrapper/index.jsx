@@ -14,8 +14,8 @@ class PropCardWrapper extends Component {
     this.setState({ [name]: event.target.checked });
   };
 
-  onCheckChange = (checked) => {
-    this.setState({ enabled: checked });
+  onCheckChange = value => {
+    this.setState({ enabled: value });
   }
 
   render () {
@@ -27,8 +27,8 @@ class PropCardWrapper extends Component {
         <div className='prop-card-header'>
           {this.props.title}
           <Checkbox
-            selected={this.state.enabled}
-            onClick={this.onCheckChange}
+            defaultSelected={true}
+            onChange={this.onCheckChange}
           />
         </div>
         <div className='prop-card-body'>{this.props.children}</div>
