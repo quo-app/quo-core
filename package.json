@@ -22,7 +22,6 @@
     "start": "node scripts/start.js",
     "memoryLogger": "node scripts/start.js --memlog",
     "build": "node scripts/build.js",
-    "postinstall": "node scripts/build.js",
     "test": "node scripts/test.js",
     "serve": "node scripts/serve.js"
   },
