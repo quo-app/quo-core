@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
 
-import { SnapshotContainer } from 'quo-components/snapshotComponent';
+import SnapshotContainer from 'quo-components/snapshotContainer';
 
 import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup';
 

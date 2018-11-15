@@ -1,7 +1,9 @@
 import React from 'react';
-import CoreComponent from './CoreComponent';
 import { pick } from 'lodash';
+
 import { translatePropData } from 'quo-parser/propTranslator';
+
+import CoreComponent from './CoreComponent';
 
 class ShapeComponent extends CoreComponent {
 

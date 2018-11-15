@@ -6,7 +6,7 @@ import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 import { translatePropData } from 'quo-parser/propTranslator';
 
-import ComponentRender from './ComponentRender';
+import ComponentRender from '../coreComponent';
 
 const makeEditComponent = (WrappedComponent, options) => {
   return class extends React.Component {

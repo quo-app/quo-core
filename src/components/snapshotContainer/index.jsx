@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 
-import SnapshotComponent from './SnapshotComponent';
+import { SnapshotComponent } from 'quo-components/renderedComponents';
+
 import { convertSnapshotToImage } from './utils';
 
 export default class SnapshotContainer extends Component {
@@ -24,10 +25,10 @@ export default class SnapshotContainer extends Component {
 
   static defaultProps = {
     padding: {
-      top: 8,
-      right: 8,
-      bottom: 8,
-      left: 8,
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10,
     }
   }
 

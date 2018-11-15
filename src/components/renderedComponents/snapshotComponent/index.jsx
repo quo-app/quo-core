@@ -7,7 +7,7 @@ import { getState } from 'quo-redux/state';
 import { translatePropData } from 'quo-parser/propTranslator';
 import { AbstractComponent } from 'quo-parser/abstract';
 
-import ComponentRender from 'quo-components/viewer/ComponentRender';
+import ComponentRender from '../coreComponent';
 
 const makeSnapshotComponent = (WrappedComponent, options) => {
   return class extends Component {
