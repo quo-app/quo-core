@@ -13,7 +13,11 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
   return class extends Component {
     createWrapperProps = () => {
       let className = 'snapshot-component'
-      if(this.props.isParent) className += ' snapshot-parent'
+      className += ` ${this.props.component.class}-component` 
+      if(this.props.isParent){
+        console.log('adding parent')
+        className += ' snapshot-parent'
+      } 
       const id = `snapshot-${this.props.component.id}`
       const style = this.getStyleProps();
       style.position = 'absolute';
@@ -36,19 +40,21 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
       const wrapperProps = this.createWrapperProps();
       return(
         <div {...wrapperProps}>
-          <WrappedComponent {...this.props} wrapper={SnapshotComponent}/>
+          <WrappedComponent isParent={false} {...this.props}  wrapper={SnapshotComponent}/>
         </div>
       )
     }
   }
 }
 
-const mapStateToProps = (state,ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   let domain = getState(state,'domain');
   if(ownProps.source){
-    let source = ownProps.source
+    let { source, isParent } = ownProps
     let components = domain[source.location][source.filetype][source.page].components
-    return { component: components[ownProps.id] }
+    if(!isParent) isParent = false;
+    console.log(isParent)
+    return { component: components[ownProps.id], isParent }
   }
   else{
     //tab root is the parent component

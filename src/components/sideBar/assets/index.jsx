@@ -8,6 +8,8 @@ import { SnapshotContainer } from 'quo-components/snapshotComponent';
 
 import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup';
 
+import data from './data';
+
 class AssetsTab extends Component {
   constructor(props){
     super(props);
@@ -20,6 +22,11 @@ class AssetsTab extends Component {
 
   updateTab(newTab){
     this.setState({currentTab:newTab})
+  }
+
+  componentDidMount(){
+    const { dispatch } = this.props;
+    dispatch(actions.UPLOAD_SKETCH({ data: data, filetype: 'sketch' }));
   }
 
   render(){
@@ -213,14 +220,6 @@ class AssetPreview extends Component {
       page: this.props.page,
     }
 
-    // padding for the snapshot image
-    let padding = { 
-      top: 10,
-      right: 5,
-      bottom: 5,
-      left: 5
-    }
-
     return (
 
       <div className={`asset-preview-wrapper ${this.props.filetype}-asset`} onDoubleClick={this.addAssetToEditor}>
@@ -233,7 +232,7 @@ class AssetPreview extends Component {
           onDragStart={this.onDragStart}
           onDragEnd={this.onDragEnd}
         >
-          <SnapshotContainer source={source} component={this.props.component} onRender={this.onRender} padding={padding}/>
+          <SnapshotContainer source={source} component={this.props.component} onRender={this.onRender}/>
         </div>
       </div>
     )

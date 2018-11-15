@@ -5,6 +5,9 @@ export default class AbstractComponent {
   // given an array of properties
   static props(component){
     let props = component.state.states.composite.props
-    return (filter) => _.pick(props);
+    return (filter) => {
+      if(!filter) filter = _.keys(props);
+      return _.pick(props, filter);
+    }
   }
 }
