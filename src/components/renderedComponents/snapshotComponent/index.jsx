@@ -7,13 +7,13 @@ import { getState } from 'quo-redux/state';
 import { translatePropData } from 'quo-parser/propTranslator';
 import { AbstractComponent } from 'quo-parser/abstract';
 
-import ComponentRender from 'quo-components/viewer/ComponentRender';
+import ComponentRender from '../coreComponent';
 
 const makeSnapshotComponent = (WrappedComponent, options) => {
   return class extends Component {
     createWrapperProps = () => {
       let className = 'snapshot-component'
-      if(this.props.isParent) className += ' snapshot-parent'
+      className += ` ${this.props.component.class}-component` 
       const id = `snapshot-${this.props.component.id}`
       const style = this.getStyleProps();
       style.position = 'absolute';
@@ -28,6 +28,7 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
     getStyleProps = () => {
       const props = AbstractComponent.props(this.props.component);
       let picks = ['width','height','x','y'];
+      // ignore the positioning of the parent since it becomes the root
       if(this.props.isParent) picks = ['width','height'];
       return translatePropData('abstract', 'css', props(picks));
     }
@@ -43,10 +44,10 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
   }
 }
 
-const mapStateToProps = (state,ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   let domain = getState(state,'domain');
   if(ownProps.source){
-    let source = ownProps.source
+    let { source } = ownProps
     let components = domain[source.location][source.filetype][source.page].components
     return { component: components[ownProps.id] }
   }

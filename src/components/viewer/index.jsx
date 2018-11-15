@@ -6,10 +6,9 @@ import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 
 import SelectionFrame from 'quo-components/selectionFrame';
+import { EditComponent, PreviewComponent } from 'quo-components/renderedComponents';
 
 import { dimensions } from './constants';
-import EditComponent from './EditComponent';
-import PreviewComponent from './PreviewComponent';
 
 //fix this to incorporate changing sidebar sizes
 const viewerDimensions = {

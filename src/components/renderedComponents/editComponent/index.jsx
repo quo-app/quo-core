@@ -1,39 +1,100 @@
-import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
 import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 import { translatePropData } from 'quo-parser/propTranslator';
+import { AbstractComponent } from 'quo-parser/abstract';
 
-import ComponentRender from './ComponentRender';
+import ComponentRender from '../coreComponent';
 
 const makeEditComponent = (WrappedComponent, options) => {
   return class extends React.Component {
+
+    constructor(props){
+      super(props);
+      this.state = {
+        dragStart: {
+            x:0,
+            y:0
+        },
+      }
+      this.DOMref = React.createRef();
+    }
+
     createWrapperProps = () => {
 
       const componentClass = this.props.isParent ? 'parent' : this.props.component.class
       const className = `edit-component ${componentClass}-component`
-      const id = `component-${this.props.component.id}`
-      const style = this.getStyleProps();
-      const onClick = this.onClick;
 
       return { 
                className,
-               id, 
-               style,
-               onClick,
+               id: `component-${this.props.component.id}`,
+               style: this.getStyleProps(),
+               onClick: this.onClick,
+               onMouseDown: this.onMouseDown,
              }
 
     }
 
     getStyleProps = () => {
       if(this.props.isParent) return { ...this.props.style }
-      const props = this.props.component.state.states.composite.props
-      return translatePropData('abstract', 'css', _.pick(props,['width','height','x','y']));
+      const props = AbstractComponent.props(this.props.component);
+      return translatePropData('abstract', 'css', props(['width','height','x','y']));
     }
 
-    onClick = (e) => {
+    saveDragStart = (x,y) => {
+      this.setState({dragStart: { x, y }});
+    }
+
+    onMouseDown = e => {
+      // only left mouse click
+      if(e.button !== 0) return;
+
+      this.saveDragStart(e.pageX, e.pageY);
+
+      document.addEventListener('mousemove', this.onMouseMove);
+      document.addEventListener('mouseup', this.onMouseUp);
+  
+      e.stopPropagation();
+
+    }
+
+    onMouseMove = e => {
+
+      const box = this.DOMref.current.getBoundingClientRect(); 
+      const props = AbstractComponent.props(this.props.component);
+      const { width, x, y } = props(['width','x','y']);
+  
+      //including the scale of the viewer zoom
+
+      const scale = box.width / width;
+
+      let deltaX = (e.pageX - this.state.dragStart.x) * 1 / scale;
+      let deltaY = (e.pageY - this.state.dragStart.y) * 1 / scale;
+
+      if(deltaX !== 0 || deltaY !== 0){
+        let newX = x + deltaX
+        let newY = y + deltaY
+        //update position in the store
+        const { dispatch } = this.props;
+        dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x: newX, y: newY}, id: this.props.component.id }));
+      }
+  
+      this.saveDragStart(e.pageX, e.pageY);
+  
+      e.preventDefault();
+    }
+
+    onMouseUp = e => {
+      document.removeEventListener('mousemove', this.onMouseMove);
+      document.removeEventListener('mouseup', this.onMouseUp);
+
+      e.stopPropagation();
+    }
+
+    onClick = e => {
+      if(this.props.isParent) return;
       e.stopPropagation();
       this.selectComponent();
     }
@@ -46,7 +107,7 @@ const makeEditComponent = (WrappedComponent, options) => {
     render = () => {
       const wrapperProps = this.createWrapperProps();
       return(
-        <div {...wrapperProps} tabIndex='0'>
+        <div {...wrapperProps} tabIndex='0' ref={this.DOMref}>
           <WrappedComponent {...this.props} wrapper={EditComponent}/>
         </div>
       )
@@ -72,143 +133,10 @@ const makeEditComponent = (WrappedComponent, options) => {
 //             y:0
 //           }
 //         }
-//       };
-  
-//       this.onClick = this.onClick.bind(this);
-//       this.onMouseMove = this.onMouseMove.bind(this)
-//       this.onMouseUp = this.onMouseUp.bind(this)
   
 //     }
-  
-//     // TODO: Update this to check if component.interactions.clicked == true
-//     isSelected(id){
-//       return false;
-//     }
-  
-//     getPosition(){
-//       let frame = this.getStyle();
-//       return {
-//         x: parseInt(frame.left.slice(0,-2)),
-//         y: parseInt(frame.top.slice(0,-2))
-//       }
-//     }
-    
-//     getStyle() {
-  
-//       if(this.props.isParent) return;
-//       let props = this.props.component.state.states[this.props.component.state.current].props
-//       let style = translatePropData('abstract','css',props)
-  
-//       return style
-//     }
-  
-//     // edit feature
-//     onClick(e){
-//       if(!this.props.isParent){
-//         // if(this.state.components._class === 'group'){
-//         //   e.stopPropagation();
-//         //   console.log('clicked on a grouped component')
-//         //   return
-//         // }
-//         e.stopPropagation();
-//         this.selectComponent();
-  
-//       }
-  
-//       //only group components selectable,
-//       //if double clicked, it takes
-  
-//     }
-//     // edit feature
-//     selectComponent(){
-//       const { dispatch } = this.props;
-//       dispatch(actions.COMPONENT_SELECT(this.props.component.id));
-//     }
-//    // edit feature
-//     onMouseDownHandler(e){
-  
-//       if(e.button !== 0) return
-  
-//       const ref = ReactDOM.findDOMNode(this.refs.handle);
-//       const body = document.body;
-//       const box = ref.getBoundingClientRect();
-  
-//       this.setState({
-//         drag:{
-//           start:{
-//             x:e.pageX,
-//             y:e.pageY
-//           },
-//           offset:this.state.drag.offset
-//         }
-//       });
-  
-//       document.addEventListener('mousemove', this.onMouseMove);
-//       document.addEventListener('mouseup', this.onMouseUp);
-  
-//       e.preventDefault();
-//       e.stopPropagation();
-  
-//     }
-//     // edit feature
-//     onMouseUp(e){
-  
-//       if(this.state.drag.offset.x !== 0 || this.state.drag.offset.y !== 0){
-//         const { dispatch } = this.props;
-//         dispatch(actions.COMPONENT_MOVE({...this.state.drag.offset,id:this.state.id}));
-//       }
-  
-//       this.setState({
-//         drag:{
-//           ...this.state.drag,
-//           offset:{
-//             x:0,
-//             y:0
-//           }
-//         }
-//       })
-  
-//       document.removeEventListener('mousemove',this.onMouseMove);
-//       document.removeEventListener('mouseup',this.onMouseUp);
-//       e.preventDefault();
-  
-//     }
-//     // edit feature
-//     onMouseMove(e) {
-  
-//       const ref = ReactDOM.findDOMNode(this.refs.handle);
-//       const body = document.body;
-//       const box = ref.getBoundingClientRect();
-  
-//       const style = this.getStyle();
-  
-//       //including the scale of the viewer zoom
-  
-//       const scale = box.width / parseInt(style.width.slice(0,-2));
-  
-  
-//       this.setState({
-//         drag:{
-//           offset:{
-//             x:(this.state.drag.offset.x + (e.pageX - this.state.drag.start.x)* 1/scale),
-//             y:(this.state.drag.offset.y + (e.pageY - this.state.drag.start.y)* 1/scale )
-//           },
-//           start:{
-//             x:e.pageX,
-//             y:e.pageY
-//           },
-//         }
-//       })
-  
-//       e.preventDefault();
-//     }
-//     // edit feature
-//     calcDragOffset(style){
-  
-//       let left = (parseInt(style.left.slice(0,-2)) + this.state.drag.offset.x) + 'px';
-//       let top = (parseInt(style.top.slice(0,-2)) + this.state.drag.offset.y) + 'px';
-//       return {left:left,top:top}
-  
+
+
 //     }
 //     // edit feature
 //     isNestedComponent(){

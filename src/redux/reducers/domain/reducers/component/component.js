@@ -22,8 +22,6 @@ export const addImageComponent = (tabs, action) => {
 
 export const addComponent = (tabs,action) => {
 
-    var t0 = performance.now();
-
     //add a tab if there is none
     tabs = handleNoTabCase(tabs)
 
@@ -37,9 +35,6 @@ export const addComponent = (tabs,action) => {
     target.children.push(payload.id);
 
     let newTabs =  _.cloneDeep(tabs);
-
-    var t1 = performance.now();
-    console.log("Call to addComponent took " + (t1 - t0) + " milliseconds.")
 
     return newTabs;
 

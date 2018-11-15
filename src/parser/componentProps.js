@@ -28,7 +28,7 @@ const propsOfCards = {
     Fill: {
         requires: {
             all: ['backgroundColor'],
-            shape: ['fill'],
+            shape: ['fill', 'fillOpacity'],
         }
     },
 }
@@ -40,6 +40,7 @@ const propCardProps = {
     y: 'Position',
     // border: 'Border',
     fill: 'Fill',
+    fillOpacity: 'Fill',
     backgroundColor: 'Fill'
 }
 

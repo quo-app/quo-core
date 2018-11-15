@@ -7,7 +7,7 @@ import { getState } from 'quo-redux/state';
 
 import { translatePropData } from 'quo-parser/propTranslator';
 
-import ComponentRender from './ComponentRender';
+import ComponentRender from '../coreComponent';
 
 
 const makePreviewComponent = (WrappedComponent, options) => {

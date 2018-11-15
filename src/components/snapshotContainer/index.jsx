@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 
-import SnapshotComponent from './SnapshotComponent';
+import { SnapshotComponent } from 'quo-components/renderedComponents';
+
 import { convertSnapshotToImage } from './utils';
 
 export default class SnapshotContainer extends Component {
@@ -14,7 +15,22 @@ export default class SnapshotContainer extends Component {
       page: PropTypes.string,
     }).isRequired,
     component: PropTypes.object.isRequired,
+    padding: PropTypes.shape({
+      top: PropTypes.number,
+      right: PropTypes.number,
+      bottom: PropTypes.number,
+      left: PropTypes.number,
+    })
   } 
+
+  static defaultProps = {
+    padding: {
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10,
+    }
+  }
 
   constructor(props){ 
     super(props);
@@ -23,9 +39,11 @@ export default class SnapshotContainer extends Component {
 
   getContainerDimensions = () => {
     let dims =  ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect();
+    let paddingHorizontal = this.props.padding.left + this.props.padding.right;
+    let paddingVertical = this.props.padding.top + this.props.padding.bottom;
     return {
-      w: dims.width,
-      h: dims.height
+      w: dims.width - paddingHorizontal,
+      h: dims.height - paddingVertical,
     }
   }
 

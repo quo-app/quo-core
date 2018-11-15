@@ -37,7 +37,7 @@ export default class Checkbox extends Component {
     let disabledClass = this.props.disabled ? 'disabled' : '';
     return (
       <div 
-        class={`checkbox-wrapper ${selectedClass} ${disabledClass}`}
+        className={`checkbox-wrapper ${selectedClass} ${disabledClass}`}
         onClick={this.onClick}
       >
         {
