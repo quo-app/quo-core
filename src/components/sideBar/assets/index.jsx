@@ -25,6 +25,7 @@ class AssetsTab extends Component {
   }
 
   componentDidMount(){
+    if(!data) return;
     const { dispatch } = this.props;
     dispatch(actions.UPLOAD_SKETCH({ data: data, filetype: 'sketch' }));
   }
