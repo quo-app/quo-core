@@ -2,15 +2,12 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// use the build directory
-const appBuild = path.join('build');
-
 const port = process.env.PORT || 8080;
 
-app.use(express.static(appBuild));
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(appBuild, 'index.html'));
+  res.sendFile('index.html', { root: '/build' });
 });
 
 console.log('Launching Quo...');
