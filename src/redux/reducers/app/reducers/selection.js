@@ -1,4 +1,4 @@
-export const updateSelection = (selection,action) => {
+export const updateSelection = (selection, action) => {
 
   //default action is unselecting
   let newArray = [];
@@ -12,5 +12,9 @@ export const updateSelection = (selection,action) => {
   }
 
   // let newSelectionArray = selection.data.slice().push(action.payload);
-  return { ...selection, data:newArray}
+  return { ...selection, data: newArray}
+}
+
+export const updateSelectables = (selection, action) => {
+  return { ...selection, selectables: action.payload}
 }

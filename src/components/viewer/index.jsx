@@ -50,12 +50,19 @@ class Viewer extends Component {
         }
       }
     };
+  }
 
+  componentWillReceiveProps(nextProps){
+    if(nextProps.currentTab){
+      const { dispatch } = this.props;
+      dispatch(actions.VIEWER_SELECTABLES(nextProps.currentTab.children))
+    }
   }
 
   mouseDown = () => {
     const { dispatch } = this.props;
     dispatch(actions.COMPONENT_SELECT(""));
+    dispatch(actions.VIEWER_SELECTABLES(this.props.currentTab.children))
   }
 
   onWheel(e){
@@ -223,7 +230,6 @@ class Viewer extends Component {
         <div
           className={`component-viewer-bg ${bgClass}`}
           ref={ c => this.viewerBg = c}
-          onClick={this.onClick}
           style={{
             left:`${pos.x}px`,
             top:`${pos.y}px`,
@@ -275,7 +281,7 @@ function mapStateToProps(state) {
   let activeTab = domain.tabs.activeTab
   if(_.isEmpty(domain.tabs.allTabs)) {
     return {
-      activeTab:activeTab,
+      activeTab: activeTab,
     }
   }
 
@@ -283,6 +289,7 @@ function mapStateToProps(state) {
 
   return {
     activeTab:activeTab,
+    currentTab: domain.tabs.allTabs[activeTab],
     appMode: app.appMode,
   }
 }
