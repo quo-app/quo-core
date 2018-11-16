@@ -37,6 +37,7 @@ class DropzoneContainer extends Component {
               }
               if (filename.includes('.json') && filename.includes('pages/')) {
                 file.async('string').then(fileData => {
+                  console.log(fileData);
                   dispatch(actions.UPLOAD_SKETCH({ data: JSON.parse(fileData), filetype: 'sketch' }));
                 });
               }

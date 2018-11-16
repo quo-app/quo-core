@@ -19,7 +19,6 @@ class ComponentStatesDropdown extends Component {
   onOptionClick = (option) => {
     this.setState({dropdownVisible: false, selected: option});
     const { dispatch } = this.props;
-    console.log(option);
     dispatch(actions.STATE_MANAGER_UPDATE({
       currentState: option.text,
     }))

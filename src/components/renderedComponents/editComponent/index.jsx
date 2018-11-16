@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import actions from 'quo-redux/actions';
@@ -7,6 +8,9 @@ import { translatePropData } from 'quo-parser/propTranslator';
 import { AbstractComponent } from 'quo-parser/abstract';
 
 import ComponentRender from '../coreComponent';
+
+// this speed determines when to fire the click events
+const doubleClickSpeed = 350;
 
 const makeEditComponent = (WrappedComponent, options) => {
   return class extends React.Component {
@@ -18,6 +22,7 @@ const makeEditComponent = (WrappedComponent, options) => {
             x:0,
             y:0
         },
+        doubleClickPossible: false,
       }
       this.DOMref = React.createRef();
     }
@@ -31,8 +36,7 @@ const makeEditComponent = (WrappedComponent, options) => {
                className,
                id: `component-${this.props.component.id}`,
                style: this.getStyleProps(),
-               onClick: this.onClick,
-               onMouseDown: this.onMouseDown,
+               onMouseDownCapture: !this.props.isParent ? this.clickHandler : () => {},
              }
 
     }
@@ -43,24 +47,92 @@ const makeEditComponent = (WrappedComponent, options) => {
       return translatePropData('abstract', 'css', props(['width','height','x','y']));
     }
 
-    saveDragStart = (x,y) => {
+    saveDragStart = (x, y) => {
       this.setState({dragStart: { x, y }});
     }
 
-    onMouseDown = e => {
+    updateComponentPosition = (x, y) => {
+      const { dispatch } = this.props;
+      dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x, y}, id: this.props.component.id }));
+    }
+
+    clickHandler = e => {
       // only left mouse click
       if(e.button !== 0) return;
 
+      // enable dragging capability
       this.saveDragStart(e.pageX, e.pageY);
-
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
-  
-      e.stopPropagation();
 
+      // track timing for figuring out
+      // if this is a second click(double click)
+      if(!this.state.doubleClickPossible){
+        this.setState({doubleClickPossible: true}, ()=>{
+          setTimeout(()=>{
+            this.setState({doubleClickPossible:false});
+          }, doubleClickSpeed)
+        });
+        this.onMouseDown(e);
+      }
+
+      else if( this.state.doubleClickPossible ){
+        this.onDoubleClickMouseDown(e);
+      }
+    }
+
+    onMouseDown = e => {
+      this.selectComponent();
+      e.stopPropagation();
+    }
+
+    onDoubleClickMouseDown = e => {
+      console.log('unpacking the object')
+      // update possible component selections here
+      document.addEventListener('mouseup', this.onDoubleClickMouseUp);
+      e.stopPropagation();
+    }
+
+    onDoubleClickMouseUp = e => {
+      console.log('selecting the inner component')
+
+      if(this.props.component.children.length > 0){
+        // select the child component here
+        this.determineWhichChildToSelect(e);
+      }
+
+      document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
+    }
+
+    determineWhichChildToSelect = e => {
+      let mouse = {x: e.clientX, y: e.clientY}
+      this.props.component.children.some( id => {
+        // this loop determines which inner child is selected.
+        // the criteria is that is it the first
+        // child that for which the mouse falls within its
+        // boundaries
+        let elem = document.getElementById(`component-${id}`);
+        let pos = elem.getBoundingClientRect();
+
+        if(this.isWithinBoundaries(pos, mouse)){
+          this.selectOtherComponent(id)
+          return true;
+        }
+
+        return false;
+      })
+    }
+
+    isWithinBoundaries(box, pos){
+      return box.left <= pos.x &&
+             box.right >= pos.x &&
+             box.top <= pos.y &&
+             box.bottom >= pos.y
     }
 
     onMouseMove = e => {
+
+      if(this.props.isParent) return;
 
       const box = this.DOMref.current.getBoundingClientRect(); 
       const props = AbstractComponent.props(this.props.component);
@@ -74,11 +146,12 @@ const makeEditComponent = (WrappedComponent, options) => {
       let deltaY = (e.pageY - this.state.dragStart.y) * 1 / scale;
 
       if(deltaX !== 0 || deltaY !== 0){
-        let newX = x + deltaX
-        let newY = y + deltaY
-        //update position in the store
-        const { dispatch } = this.props;
-        dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x: newX, y: newY}, id: this.props.component.id }));
+        // case where the component moved and unpacking does not occur
+        // therefore the second mouse up event is not fired
+        document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
+
+        // update the position in the store
+        this.updateComponentPosition(x + deltaX, y + deltaY)
       }
   
       this.saveDragStart(e.pageX, e.pageY);
@@ -87,21 +160,21 @@ const makeEditComponent = (WrappedComponent, options) => {
     }
 
     onMouseUp = e => {
+
       document.removeEventListener('mousemove', this.onMouseMove);
       document.removeEventListener('mouseup', this.onMouseUp);
 
       e.stopPropagation();
     }
 
-    onClick = e => {
-      if(this.props.isParent) return;
-      e.stopPropagation();
-      this.selectComponent();
-    }
-
-    selectComponent(){
+    selectComponent = () => {
       const { dispatch } = this.props;
       dispatch(actions.COMPONENT_SELECT(this.props.component.id));
+    }
+
+    selectOtherComponent = (id) => {
+      const { dispatch } = this.props;
+      dispatch(actions.COMPONENT_SELECT(id));
     }
     
     render = () => {
@@ -301,12 +374,15 @@ const makeEditComponent = (WrappedComponent, options) => {
 const mapStateToProps = (state, ownProps) => {
 
     let domain = getState(state, 'domain');
+    let app = getState(state, 'app');
+
     //tab root is the parent component
     let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
     //return the tabRoot
     if(ownProps.isParent){
       return {
         component: tabRoot,
+        selection: app.selection.data
       }
     }
   
@@ -314,7 +390,8 @@ const mapStateToProps = (state, ownProps) => {
     else{
       let component = domain.components[ownProps.id];
       return {
-        component:component,
+        component: component,
+        selection: app.selection.data
       }
     }
   

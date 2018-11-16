@@ -110,7 +110,6 @@ export default class AbstractShape extends AbstractComponent {
           }
 
       });
-      console.log(path);
       return path;
 
   }
