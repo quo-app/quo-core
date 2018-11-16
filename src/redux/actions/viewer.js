@@ -3,6 +3,12 @@ const VIEWER_RESIZE = zoomAmount => ({
   payload: zoomAmount
 });
 
+const VIEWER_SELECTABLES = selectables => ({
+  type: 'VIEWER_SELECTABLES',
+  payload: selectables
+});
+
 export default {
   VIEWER_RESIZE,
+  VIEWER_SELECTABLES
 }

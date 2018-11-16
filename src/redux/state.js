@@ -19,6 +19,7 @@ const selection = {
   data:[],
   editState:'',
   details:{},
+  selectables:[]
 }
 
 const linkBuilder = {

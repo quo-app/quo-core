@@ -33,11 +33,8 @@ class Viewer extends Component {
     super(props);
     this.state = {
       keyDown: false,
-      draggable: this.props.controller[32],
       draggableClick: false,
       selection: this.props.selection,
-      // newData:this.props.newData,
-      // newSelection:this.props.newSelection,
       viewerPos:{x:-(viewerSize.w/2),y:-(viewerSize.h/2)},
       origin:{x:0,y:0},
       viewerSize:viewerSize,
@@ -53,33 +50,20 @@ class Viewer extends Component {
         }
       }
     };
-
-    this.mouseUp = this.mouseUp.bind(this);
-    this.mouseDown = this.mouseDown.bind(this);
-    this.onClick = this.onClick.bind(this);
-    this.handlePinch = this.handlePinch.bind(this);
-
   }
 
-  mouseDown(){
-    if(this.state.draggable){
-      this.setState({draggableClick:true});
-    }
-  }
-
-  mouseUp(){
-    if(!this.state.draggable){
-      const dispatch = this.props;
-      dispatch(actions.COMPONENT_SELECT(""));
-    }
-    // this.setState({draggableClick:false});
-  }
-
-  onClick(){
-    if(!this.state.draggable){
+  componentWillReceiveProps(nextProps){
+    if(nextProps.currentTab && !this.props.isParent){
       const { dispatch } = this.props;
-      dispatch(actions.COMPONENT_SELECT(""));
+      console.log(nextProps.currentTab.children)
+      dispatch(actions.VIEWER_SELECTABLES(nextProps.currentTab.children))
     }
+  }
+
+  mouseDown = () => {
+    const { dispatch } = this.props;
+    dispatch(actions.COMPONENT_SELECT(""));
+    dispatch(actions.VIEWER_SELECTABLES(this.props.currentTab.children))
   }
 
   onWheel(e){
@@ -202,9 +186,6 @@ class Viewer extends Component {
     return newPos
   }
 
-  handlePinch(){
-  }
-
   renderComponents(){
     const ComponentRenderClass = this.props.appMode === 'EDIT' ? EditComponent : PreviewComponent
     return (
@@ -250,7 +231,6 @@ class Viewer extends Component {
         <div
           className={`component-viewer-bg ${bgClass}`}
           ref={ c => this.viewerBg = c}
-          onClick={this.onClick}
           style={{
             left:`${pos.x}px`,
             top:`${pos.y}px`,
@@ -262,8 +242,7 @@ class Viewer extends Component {
           <div
             className={`component-viewer ${draggableClass}`}
             tabIndex='0'
-            // onMouseDown={this.mouseDown}
-            // onMouseUp={this.mouseUp}
+            onMouseDown={this.mouseDown}
             style={{
               left:`${(viewerSize.w/2) - (mainArtboardSize.w/2)}px`,
               top:`${(viewerSize.h/2) - (mainArtboardSize.h/2)}px`,
@@ -298,22 +277,20 @@ function mapStateToProps(state) {
 
   let domain = getState(state,'domain');
   let app = getState(state,'app');
-  let ui = getState(state,'ui')
 
   //if there are no tabs created, don't display anything
   let activeTab = domain.tabs.activeTab
   if(_.isEmpty(domain.tabs.allTabs)) {
     return {
-      controller:ui.controller,
-      activeTab:activeTab,
+      activeTab: activeTab,
     }
   }
 
   //if there is an active tab, collect the data from the tab
 
   return {
-    controller:ui.controller,
     activeTab:activeTab,
+    currentTab: domain.tabs.allTabs[activeTab],
     appMode: app.appMode,
   }
 }

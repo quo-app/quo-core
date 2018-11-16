@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import actions from 'quo-redux/actions';
@@ -7,6 +8,9 @@ import { translatePropData } from 'quo-parser/propTranslator';
 import { AbstractComponent } from 'quo-parser/abstract';
 
 import ComponentRender from '../coreComponent';
+
+// this speed determines when to fire the click events
+const doubleClickSpeed = 350;
 
 const makeEditComponent = (WrappedComponent, options) => {
   return class extends React.Component {
@@ -18,6 +22,8 @@ const makeEditComponent = (WrappedComponent, options) => {
             x:0,
             y:0
         },
+        doubleClickPossible: false,
+        childrenCanBeSelected: false,
       }
       this.DOMref = React.createRef();
     }
@@ -31,10 +37,15 @@ const makeEditComponent = (WrappedComponent, options) => {
                className,
                id: `component-${this.props.component.id}`,
                style: this.getStyleProps(),
-               onClick: this.onClick,
-               onMouseDown: this.onMouseDown,
+               onMouseDownCapture: !this.props.isParent ? this.clickHandler : () => {},
              }
 
+    }
+
+    componentWillReceiveProps(nextProps){
+      if(!this.props.isParent && !nextProps.selectables.includes(this.props.component.id)){
+        this.makeChildrenUnselectable();
+      }
     }
 
     getStyleProps = () => {
@@ -43,24 +54,108 @@ const makeEditComponent = (WrappedComponent, options) => {
       return translatePropData('abstract', 'css', props(['width','height','x','y']));
     }
 
-    saveDragStart = (x,y) => {
+    saveDragStart = (x, y) => {
       this.setState({dragStart: { x, y }});
     }
 
-    onMouseDown = e => {
+    updateComponentPosition = (x, y) => {
+      const { dispatch } = this.props;
+      dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x, y}, id: this.props.component.id }));
+    }
+
+    clickHandler = e => {
       // only left mouse click
       if(e.button !== 0) return;
+      if(!this.props.selectables.includes(this.props.component.id)) return;
 
+      // enable dragging capability
       this.saveDragStart(e.pageX, e.pageY);
-
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
-  
-      e.stopPropagation();
 
+      // track timing for figuring out
+      // if this is a second click(double click)
+      if(!this.state.doubleClickPossible){
+        this.setState({doubleClickPossible: true}, ()=>{
+          setTimeout(()=>{
+            this.setState({doubleClickPossible:false});
+          }, doubleClickSpeed)
+        });
+        this.onMouseDown(e);
+      }
+
+      else if( this.state.doubleClickPossible ){
+        this.onDoubleClickMouseDown(e);
+      }
+    }
+
+    onMouseDown = e => {
+      if(!this.state.childrenCanBeSelected){
+        this.selectComponent();
+        e.stopPropagation();
+      }
+      else if (this.state.childrenCanBeSelected){
+        document.removeEventListener('mousemove', this.onMouseMove);
+      }
+    }
+
+    onDoubleClickMouseDown = e => {
+      this.makeChildrenSelectable();
+      document.addEventListener('mouseup', this.onDoubleClickMouseUp);
+      e.stopPropagation();
+    }
+
+    makeChildrenSelectable = () => {
+      this.setState({ childrenCanBeSelected: true });
+      const { dispatch } = this.props;
+      // update selectables to be the children
+      dispatch(actions.VIEWER_SELECTABLES(this.props.component.children));
+    }
+
+    makeChildrenUnselectable = () => {
+      this.setState({ childrenCanBeSelected: false });
+    }
+
+    onDoubleClickMouseUp = e => {
+      if(this.props.component.children.length > 0){
+        // select the child component here
+        this.determineWhichChildToSelect(e);
+      }
+      document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
+    }
+
+    determineWhichChildToSelect = e => {
+      let mouse = {x: e.clientX, y: e.clientY}
+      this.props.component.children.some( id => {
+        // this loop determines which inner child is selected.
+        // the criteria is that is it the first
+        // child that for which the mouse falls within its
+        // boundaries
+        let elem = document.getElementById(`component-${id}`);
+        let pos = elem.getBoundingClientRect();
+
+        if(this.isWithinBoundaries(pos, mouse)){
+          this.selectOtherComponent(id);
+          console.log(id);
+          return true;
+        }
+
+        return false;
+      })
+    }
+
+    isWithinBoundaries(box, pos){
+      return box.left <= pos.x &&
+             box.right >= pos.x &&
+             box.top <= pos.y &&
+             box.bottom >= pos.y
     }
 
     onMouseMove = e => {
+
+      if(this.props.isParent) return;
+
+      e.stopPropagation();
 
       const box = this.DOMref.current.getBoundingClientRect(); 
       const props = AbstractComponent.props(this.props.component);
@@ -74,34 +169,35 @@ const makeEditComponent = (WrappedComponent, options) => {
       let deltaY = (e.pageY - this.state.dragStart.y) * 1 / scale;
 
       if(deltaX !== 0 || deltaY !== 0){
-        let newX = x + deltaX
-        let newY = y + deltaY
-        //update position in the store
-        const { dispatch } = this.props;
-        dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x: newX, y: newY}, id: this.props.component.id }));
+        // case where the component moved and unpacking does not occur
+        // therefore the second mouse up event is not fired
+        document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
+        // reset the unpack that happened in doubleClickMouseDown event here
+        this.makeChildrenUnselectable();
+        // update the position in the store
+        this.updateComponentPosition(x + deltaX, y + deltaY)
       }
   
       this.saveDragStart(e.pageX, e.pageY);
-  
-      e.preventDefault();
+
     }
 
     onMouseUp = e => {
+
       document.removeEventListener('mousemove', this.onMouseMove);
       document.removeEventListener('mouseup', this.onMouseUp);
 
       e.stopPropagation();
     }
 
-    onClick = e => {
-      if(this.props.isParent) return;
-      e.stopPropagation();
-      this.selectComponent();
-    }
-
-    selectComponent(){
+    selectComponent = () => {
       const { dispatch } = this.props;
       dispatch(actions.COMPONENT_SELECT(this.props.component.id));
+    }
+
+    selectOtherComponent = (id) => {
+      const { dispatch } = this.props;
+      dispatch(actions.COMPONENT_SELECT(id));
     }
     
     render = () => {
@@ -114,193 +210,12 @@ const makeEditComponent = (WrappedComponent, options) => {
     }
   }
 }
-
-// class ComponentRendererCore extends React.PureComponent {
-//     constructor(props) {
-//       super(props);
-//       this.state = {
-//         controller: props.controller,
-//         clicked:false,
-//         id:props.id,
-//         draggable:true,
-//         drag:{
-//           start:{
-//             x:0,
-//             y:0
-//           },
-//           offset:{
-//             x:0,
-//             y:0
-//           }
-//         }
   
-//     }
-
-
-//     }
-//     // edit feature
-//     isNestedComponent(){
-//       return (this.state.components._class === 'artboard' || this.state.components._class === 'group')
-//     }
-//     // edit feature
-//     isSiblingSelected(){
-//       return _.filter(this.siblings,this.isSelected).length > 0;
-//     }
-  
-//     renderWrapper(content){
-//       let style =  this.getStyle();
-//       //Add in drag offset
-//       if(!this.props.isParent){
-//         style = {...style, ...this.calcDragOffset(style)}
-//       }
-  
-//       else if(this.props.isParent){
-//         style = {...this.props.style}
-//       }
-  
-//       let selectedClass = this.isSelected() ? 'selected' : '';
-  
-//       //selected component just works normally
-  
-//       if(this.isSelected()){
-//         return (
-//           <div className={`component-container ${this.props.isParent ? 'parent' : 'child'} component-${this.props.component.class} ${selectedClass}`} id={this.props.component.id}
-//             style={style}
-//             onClick={this.onClick}
-//             ref='handle'
-//             onMouseDown={this.onMouseDownHandler.bind(this)}
-//           >
-//             { content }
-//         </div>)
-//       }
-  
-//       //artboard can be selected with 1 click always
-  
-//         // else if(this.state.component.class === 'artboard'){
-//         //   return (
-//         //     <div className={`component-container ${this.props.isParent ? 'parent' : 'child'} component-${this.state.components._class} ${selectedClass}`} id={this.state.id}
-//         //       style={style}
-//         //       onClick={this.onClick}
-//         //       ref='handle'
-//         //       onMouseDown={this.onMouseDownHandler.bind(this)}
-//         //     >
-//         //       { content }
-//         //   </div>)
-//         // }
-  
-//       //group
-  
-//       //if the outermost group, can be selected with 1 click
-//       //if inner, can be selected with 2 clicks
-  
-//       // else if(this.state.components._class === 'group' && this.props.selectable){
-//       //   if(this.props.selectionType === 1){
-//       //     return (
-//       //       <div className={`component-container ${this.props.isParent ? 'parent' : 'child'} hover-active component-${this.state.components._class} ${selectedClass}`} id={this.state.id}
-//       //         style={style}
-//       //         onClick={this.onClick}
-//       //       >
-//       //         { content }
-//       //     </div>)
-//       //   }
-//       //   else if(this.props.selectionType === 2){
-//       //     return (
-//       //       <div className={`component-container ${this.props.isParent ? 'parent' : 'child'} hover-active component-${this.state.components._class} ${selectedClass}`} id={this.state.id}
-//       //         style={style}
-//       //         onDoubleClick={this.onClick}
-//       //       >
-//       //         { content }
-//       //     </div>)
-//       //   }
-//       //
-//       // }
-  
-//       //any other component that is currently selectable
-  
-//       // else if(this.props.selectable){
-//       //   if(this.props.selectionType === 1){
-//       //     return (
-//       //       <div className={`component-container ${this.props.isParent ? 'parent' : 'child'} hover-active component-${this.state.components._class} ${selectedClass}`} id={this.state.id}
-//       //         style={style}
-//       //         onClick={this.onClick}
-//       //       >
-//       //         { content }
-//       //     </div>)
-//       //   }
-//       //   else if(this.props.selectionType === 2){
-//       //     //solved sibling selection
-//       //     // console.log(this.isSiblingSelected(),this.state.selection,this.state.components.siblings);
-//       //     return (
-//       //       <div className={`component-container ${this.props.isParent ? 'parent' : 'child'} hover-active component-${this.state.components._class} ${selectedClass}`} id={this.state.id}
-//       //         style={style}
-//       //         onDoubleClick={this.onClick}
-//       //         onClick={(e)=>{e.stopPropagation()}}
-//       //       >
-//       //         { content }
-//       //     </div>)
-//       //   }
-//       // }
-  
-//       //component isnt selectable
-//       else{
-//         return (
-//           <div className={`component-container ${this.props.isParent ? 'parent' : 'child'} component-${this.props.component.class} ${selectedClass}`}
-//             id={this.state.id}
-//             style={style}
-//             onClick={this.onClick}
-//           >
-//             { content }
-//         </div>)
-//       }
-  
-//     }
-//     // edit feature
-//     changeDrag(b){
-//       this.setState({draggable:b});
-//     }
-  
-//     render(){
-  
-//       switch(this.props.component.class){
-//         case 'shapeGroup':
-//           return this.renderWrapper(<ShapeComponent component={ this.props.component }></ShapeComponent>);
-//           break;
-//         case 'text':
-//           return this.renderWrapper(<TextComponent component={this.props.component}></TextComponent>);
-//           break;
-//         default:
-  
-//       }
-  
-//       let parentContent = this.props.component.children.map(id => {
-//         return (
-//           <ComponentRenderer
-//             id={id}
-//             key={id}
-//           />
-//         )
-//       });
-  
-//       let nonParentContent;
-  
-//       nonParentContent = this.props.component.children.map(id => {
-//         return (
-//           <ComponentRenderer
-//             id={id}
-//             key={id}
-//           />
-//         )
-//       })
-  
-//       return ( this.props.isParent ? this.renderWrapper(parentContent) : this.renderWrapper(nonParentContent))
-  
-//     }
-//   }
-  
-
 const mapStateToProps = (state, ownProps) => {
 
     let domain = getState(state, 'domain');
+    let app = getState(state, 'app');
+
     //tab root is the parent component
     let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
     //return the tabRoot
@@ -314,7 +229,8 @@ const mapStateToProps = (state, ownProps) => {
     else{
       let component = domain.components[ownProps.id];
       return {
-        component:component,
+        component: component,
+        selectables: app.selection.selectables,
       }
     }
   
