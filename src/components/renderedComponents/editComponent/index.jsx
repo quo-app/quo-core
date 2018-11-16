@@ -43,7 +43,7 @@ const makeEditComponent = (WrappedComponent, options) => {
     }
 
     componentWillReceiveProps(nextProps){
-      if(!nextProps.selectables.includes(this.props.component.id)){
+      if(!this.props.isParent && !nextProps.selectables.includes(this.props.component.id)){
         this.makeChildrenUnselectable();
       }
     }

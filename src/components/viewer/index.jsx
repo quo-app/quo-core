@@ -53,8 +53,9 @@ class Viewer extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.currentTab){
+    if(nextProps.currentTab && !this.props.isParent){
       const { dispatch } = this.props;
+      console.log(nextProps.currentTab.children)
       dispatch(actions.VIEWER_SELECTABLES(nextProps.currentTab.children))
     }
   }
