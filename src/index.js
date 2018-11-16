@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import LogRocket from 'logrocket';
+// import LogRocket from 'logrocket';
 
-LogRocket.init('ttrenf/quo-app');
+// LogRocket.init('ttrenf/quo-app');
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
