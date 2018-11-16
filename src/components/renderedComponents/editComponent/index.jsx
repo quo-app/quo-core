@@ -149,6 +149,7 @@ const makeEditComponent = (WrappedComponent, options) => {
         // case where the component moved and unpacking does not occur
         // therefore the second mouse up event is not fired
         document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
+        // reset the unpack that happened in doubleClickMouseDown event here
 
         // update the position in the store
         this.updateComponentPosition(x + deltaX, y + deltaY)
