@@ -6,7 +6,7 @@ import actions from 'quo-redux/actions';
 import { getState } from 'quo-redux/state';
 
 import SelectionFrame from 'quo-components/selectionFrame';
-import { EditComponent, PreviewComponent } from 'quo-components/renderedComponents';
+import { EditComponents, PreviewComponent } from 'quo-components/renderedComponents';
 
 import { dimensions } from './constants';
 
@@ -53,9 +53,8 @@ class Viewer extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.currentTab && !this.props.isParent){
+    if(nextProps.currentTab){
       const { dispatch } = this.props;
-      console.log(nextProps.currentTab.children)
       dispatch(actions.VIEWER_SELECTABLES(nextProps.currentTab.children))
     }
   }
@@ -187,7 +186,7 @@ class Viewer extends Component {
   }
 
   renderComponents(){
-    const ComponentRenderClass = this.props.appMode === 'EDIT' ? EditComponent : PreviewComponent
+    const ComponentRenderClass = this.props.appMode === 'EDIT' ? EditComponents.Branch : PreviewComponent
     return (
       <ComponentRenderClass
         style={{
