@@ -6,31 +6,41 @@ class ComponentInterface {
   constructor(target){
     this.target = target;
   }
+  // unpack the react component
+  get props () { return this.target.props }
+  // props
+  get dispatch () { return this.props.dispatch }
+  get component () { return this.props.component }
+  // component related
+  get children () { return this.component.children }
+  get id () { return this.component.id }
+
 }
 
 export class DragInterface extends ComponentInterface {
   constructor(target){
     super(target);
-    this.dragStart =  { x: 0, y:0 }
+    this.saveDragStart();
   }
 
-  saveDragStart = (x, y) => {
+  saveDragStart = (x = 0, y = 0) => {
     this.dragStart =  { x, y }
   }
 
   startDrag = e => {
+    // record the current mouse location,
     this.saveDragStart(e.pageX, e.pageY);
+    // and add events for figuring drag
     document.addEventListener('mousemove', this.dragInstance);
     document.addEventListener('mouseup', this.dragEnd);
   }
 
   dragInstance = e => {
     e.stopPropagation();
-
-    const componentDOM = document.getElementById(`component-${this.target.props.component.id}`);
+    const componentDOM = document.getElementById(`component-${this.id}`);
     const box = componentDOM.getBoundingClientRect(); 
 
-    const props = AbstractComponent.props(this.target.props.component);
+    const props = AbstractComponent.props(this.component);
 
     const { width, x, y } = props(['width','x','y']);
 
@@ -50,8 +60,7 @@ export class DragInterface extends ComponentInterface {
     // run the onDrag of the component if exists
     fSafe(this.target.onDrag)
     // update the store
-    const { dispatch } = this.target.props;
-    dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x, y}, id: this.target.props.component.id }));
+    this.dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x, y}, id: this.id }));
   }
 
   dragEnd =  e => {
@@ -74,6 +83,7 @@ export class DoubleClickInterface extends ComponentInterface {
   }
 
   handle = e => {
+    // this is the first mouseDown
     if(!this.doubleClickPossible){
       this.doubleClickPossible = true;
 
@@ -84,10 +94,9 @@ export class DoubleClickInterface extends ComponentInterface {
       // imitate mouseDown
       fSafe( this.target.onMouseDown, e);
     }
-
+    // this is the second mouseDown
     else if( this.doubleClickPossible ){
       this.onDoubleClickMouseDown(e);
-
     }
   }
 
@@ -111,12 +120,13 @@ export class SelectionInterface extends ComponentInterface {
 
   decideSelection = e => {
     if(!this.areChildrenInFocus){
-      // selecting
-      this.selectComponent();
+      // selecting itself
+      this.selectComponent(this.id);
       e.stopPropagation();
       // selecting
     }
     else if (this.areChildrenInFocus){
+      // going through and selecting child
       // dragging feature
       fSafe(this.target.dragManager.disableDrag)
     }
@@ -124,9 +134,8 @@ export class SelectionInterface extends ComponentInterface {
 
   makeChildrenSelectable = () => {
     this.areChildrenInFocus = true;
-    const { dispatch } = this.target.props;
     // update selectables to be the children
-    dispatch(actions.VIEWER_SELECTABLES(this.target.props.component.children));
+    this.dispatch(actions.VIEWER_SELECTABLES(this.children));
   }
 
   makeChildrenUnselectable = () => {
@@ -134,15 +143,16 @@ export class SelectionInterface extends ComponentInterface {
   }
 
   selectAChild = e => {
-    if(this.target.props.component.children.length > 0){
+    if(this.children.length > 0){
       // select the child component here
-      this.determineWhichChildToSelect(e);
+      this.pickTheChildUnderTheMousePosition(e);
     }
   }
 
-  determineWhichChildToSelect = e => {
+  pickTheChildUnderTheMousePosition = e => {
     let mouse = {x: e.clientX, y: e.clientY}
-    this.target.props.component.children.some( id => {
+
+    this.component.children.some( id => {
       // this loop determines which inner child is selected.
       // the criteria is that is it the first
       // child that for which the mouse falls within its
@@ -151,7 +161,7 @@ export class SelectionInterface extends ComponentInterface {
       let pos = elem.getBoundingClientRect();
 
       if(this.isWithinBoundaries(pos, mouse)){
-        this.selectOtherComponent(id);
+        this.selectComponent(id);
         return true;
       }
 
@@ -159,21 +169,13 @@ export class SelectionInterface extends ComponentInterface {
     })
   }
 
-  isWithinBoundaries(box, pos){
+  isWithinBoundaries = (box, pos) => {
     return box.left <= pos.x &&
            box.right >= pos.x &&
            box.top <= pos.y &&
            box.bottom >= pos.y
   }
 
-  selectComponent = () => {
-    const { dispatch } = this.target.props;
-    dispatch(actions.COMPONENT_SELECT(this.target.props.component.id));
-  }
-
-  selectOtherComponent = (id) => {
-    const { dispatch } = this.target.props;
-    dispatch(actions.COMPONENT_SELECT(id));
-  }
+  selectComponent = id => this.dispatch(actions.COMPONENT_SELECT(id));
 
 }

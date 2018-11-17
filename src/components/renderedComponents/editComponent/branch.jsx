@@ -21,7 +21,6 @@ const makeBranch = (WrappedComponent, options) => {
       this.dragManager = new DragInterface(this);
       this.doubleClickManager = new DoubleClickInterface(this);
       this.selectionManager = new SelectionInterface(this);
-
     }
 
     createStaticProps = () => {
@@ -54,12 +53,6 @@ const makeBranch = (WrappedComponent, options) => {
       return translatePropData('abstract', 'css', props(['width','height','x','y']));
     }
 
-    onDrag = () => {
-      document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
-      // reset the unpack that happened in doubleClickMouseDown event here
-      this.selectionManager.makeChildrenUnselectable();
-    }
-
     clickHandler = e => {
 
       // only left mouse click
@@ -74,6 +67,12 @@ const makeBranch = (WrappedComponent, options) => {
       // onMouseDown and onDoubleClickMouseDown
       // if they exist
       this.doubleClickManager.handle(e);
+    }
+
+    onDrag = () => {
+      document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
+      // reset the unpack that happened in doubleClickMouseDown event here
+      this.selectionManager.makeChildrenUnselectable();
     }
 
     onMouseDown = e => {

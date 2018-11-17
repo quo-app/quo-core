@@ -4,8 +4,6 @@ import ImageComponent from './components/ImageComponent';
 import ShapeComponent from './components/ShapeComponent';
 import TextComponent from './components/TextComponent';
 
-import EditComponents from '../editComponent';
-
 class ComponentRenderCore extends PureComponent {
   render = () => {
     switch (this.props.component.class) {
@@ -17,8 +15,6 @@ class ComponentRenderCore extends PureComponent {
         return <ImageComponent component={this.props.component} />
       default:
         const Wrapper = this.props.wrapper
-        console.log(this.props.type)
-        console.log(this.props.component.class, this.props.component.id)
         return (
           <React.Fragment>
             {
