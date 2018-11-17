@@ -13,6 +13,7 @@
     "react-dev-utils": "^6.1.1",
     "react-dom": "^16.6.0",
     "react-dropzone": "^7.0.1",
+    "react-keydown": "^1.9.7",
     "react-rangeslider": "^2.2.0",
     "react-redux": "^5.1.0",
     "reactcss": "^1.2.3",
@@ -83,6 +84,12 @@
       "react-app"
     ],
     "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
       "wildcard"
     ]
   },

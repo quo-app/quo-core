@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import store from 'quo-redux';
 
-// import KeyController from 'quo-components/keyController';
+import KeyController from 'quo-components/keyController';
 import { SideBarRight, SideBarLeft } from 'quo-components/sideBar';
 import TopBar from 'quo-components/topBar';
 import DropzoneContainer from 'quo-components/dropzone';
@@ -25,8 +25,8 @@ function App() {
   return (
     <Provider store={store}>
       <main className="quo-content">
-        {/* <KeyController>
-        </KeyController> */}
+        <KeyController>
+        </KeyController>
         <DropzoneContainer>
           <Viewer />
           <TopBar />
