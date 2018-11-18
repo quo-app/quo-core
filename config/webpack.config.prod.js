@@ -226,6 +226,7 @@ module.exports = {
       'react-native': 'react-native-web',
       // everything store/data manipulation related goes into this folder
       'quo-redux': path.resolve('./src/redux'),
+      'quo-db': path.resolve('./src/db'),
       // stores the core ui components that are reused by components
       // these files should not be connected to the store
       'quo-ui': path.resolve('./src/core-ui'),
