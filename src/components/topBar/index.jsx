@@ -18,8 +18,8 @@ class TopBar extends Component {
     let previewSelected = this.props.appMode === 'PREVIEW'
     return (
       <div className='top-bar'>
-        <Button title='App Mode: EDIT' selected={editSelected} onClick={() => this.setAppMode('EDIT')}/>
-        <Button title='App Mode: PREVIEW' selected={previewSelected} onClick={() => this.setAppMode('PREVIEW')}/>
+        <Button selected={editSelected} onClick={() => this.setAppMode('EDIT')}>App Mode: EDIT</Button>
+        <Button selected={previewSelected} onClick={() => this.setAppMode('PREVIEW')}>App Mode: PREVIEW</Button>
       </div>
     )
   }

@@ -6,8 +6,9 @@
   width:$border-thickness;
   height:$border-thickness;
   background-color:white;
-  box-shadow:0px 0px 1px rgba(0,0,0,.3);
-  border:1px solid rgba(0,0,0,.3);
+  box-shadow:0px .5px 1px rgba(0,0,0,.5);
+  border:1px solid $color-blue;
+  border-radius: 2px;
   position:absolute;
   z-index: 2;
 
@@ -34,7 +35,7 @@
 
 .selection-line{
   $line-thickness: 1px;
-  background-color:rgba(255,255,255,.4);
+  background-color: $color-blue;
   position:absolute;
   z-index: 2;
   &.h {

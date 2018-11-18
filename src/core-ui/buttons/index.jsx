@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 class Button extends Component {
   
   static propTypes = {
-    title:PropTypes.string.isRequired,
     onClick:PropTypes.func,
     selected:PropTypes.bool,
   }
@@ -20,7 +19,7 @@ class Button extends Component {
       <div className={this.props.className}>
         <button
           className={`button-inner ${selected}`} onClick={this.props.onClick}>
-          {this.props.title}
+          {this.props.children}
         </button>
       </div>
     );

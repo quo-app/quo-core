@@ -5,6 +5,7 @@ import actions from 'quo-redux/actions';
 
 import { VerticalListCard } from 'quo-ui/cards';
 import Icons from 'quo-ui/icons';
+import { Button } from 'quo-ui/buttons';
 
 class StatesHeader extends Component {
   constructor(props){
@@ -65,8 +66,14 @@ class StatesHeader extends Component {
   //     </div>
   //   )
   // }
+
   render(){
-    return ( this.renderDropdown() )
+    return ( 
+      <React.Fragment>
+        { this.renderDropdown() }
+        { this.state.dropdownVisible ? <Button> Create a new link</Button> : null}
+      </React.Fragment>
+    )
   }
 }
 
@@ -81,6 +88,5 @@ const mapStateToProps = state => {
     }
   }
 }
-
 
 export default connect(mapStateToProps)(StatesHeader);
