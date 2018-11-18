@@ -17,10 +17,10 @@ export default class VerticalListCard extends Component {
       headerIcon: PropTypes.node,
       headerMiddleText: PropTypes.string,
       optionIcon: PropTypes.node,
+      selected: PropTypes.string,
       values: PropTypes.arrayOf(PropTypes.shape({
         text: PropTypes.string,
         id: PropTypes.string,
-        selected: PropTypes.bool,
         icon: PropTypes.bool,
       })).isRequired,
       optionIconOrientation: PropTypes.oneOf(['left', 'right']),
@@ -42,7 +42,7 @@ export default class VerticalListCard extends Component {
 
         let v = this.props.values[id];
 
-        let selected = bool2s(v,'selected','');
+        let selected = this.props.selected === id ? 'selected' : ''
         let iconVisible = bool2s(v,'icon','visible');
         let iconOrientation = `icon-${this.props.optionIconOrientation}`;
   
