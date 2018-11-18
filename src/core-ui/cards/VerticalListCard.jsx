@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash'
 
 import { fSafe, bool2s } from 'quo-utils'; 
 
@@ -14,6 +15,7 @@ export default class VerticalListCard extends Component {
       collapsed: PropTypes.bool,
       //data
       headerIcon: PropTypes.node,
+      headerMiddleText: PropTypes.string,
       optionIcon: PropTypes.node,
       values: PropTypes.arrayOf(PropTypes.shape({
         text: PropTypes.string,
@@ -30,26 +32,28 @@ export default class VerticalListCard extends Component {
   
     static defaultProps = {
       disabled: false,
-      collapsed: false,
+      collapsed: true,
       optionOrientationOrientation: 'right',
       values: {},
     }
   
     renderList() {
-      return ( this.props.values.map( (v) => {
-  
+      return ( _.keys(this.props.values).map( id => {
+
+        let v = this.props.values[id];
+
         let selected = bool2s(v,'selected','');
         let iconVisible = bool2s(v,'icon','visible');
         let iconOrientation = `icon-${this.props.optionIconOrientation}`;
   
         return (
           <li className={`vertical-list-option ${selected} ${iconOrientation}`}
-              onClick={ () => fSafe(this.props.onOptionClick.bind(this), v) } 
-              key={v.id}>
+              onClick={ () => fSafe(this.props.onOptionClick.bind(this), id) } 
+              key={id}>
             <div className='text'>
               {v.text}
             </div>
-            <div onClick={ () => fSafe(this.props.onOptionClick.bind(this), v) }
+            <div onClick={ () => fSafe(this.props.onOptionClick.bind(this), id) }
                 className={`option-icon ${iconVisible}`}>
               {this.props.optionIcon}
             </div>

@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { fSafe } from 'quo-utils';
+
 export default class HorizontalOptionGroup extends Component {
-  constructor(props){
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-  }
-  handleChange(option){
-    if(option.callback) option.callback();
-  }
   render(){
     return (
-      this.props.options.length > 0 ? <div className='horizontal-option-group-wrapper'>
+      Object.keys(this.props.options).length > 0 ? <div className='horizontal-option-group-wrapper'>
         {
-          this.props.options.map((option,i)=>{
+          Object.keys(this.props.options).map( id => {
+            let option = this.props.options[id];
             return (
               <div
-                className={`horizontal-option ${ option.selected ? 'selected' : ''}`}
-                onClick={()=>{this.handleChange(option)}}
-                key={i}>
+                className={`horizontal-option ${ this.props.selected === id ? 'selected' : ''}`}
+                onClick={() => {fSafe(this.props.onChange, id)}}
+                key={id}>
                 {option.text}
               </div>
             )
@@ -30,12 +26,11 @@ export default class HorizontalOptionGroup extends Component {
 }
 
 HorizontalOptionGroup.defaultProps = {
-  options: []
+  options: {}
 };
 
 HorizontalOptionGroup.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    selected: PropTypes.bool,
-  }))
+  options: PropTypes.obj,
+  selected: PropTypes.bool,
+  onChange: PropTypes.function
 }

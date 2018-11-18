@@ -1,6 +1,6 @@
 .card {
 
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: $color-bg-3;
   display: inline-block;
   width: 100%;
@@ -33,7 +33,7 @@
   &.collapsed-style {
 
     .card-header{
-      border-radius:8px;
+      border-radius: 6px;
     }
 
     .card-body{

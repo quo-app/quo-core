@@ -23,3 +23,17 @@
     font-size: $font-l;
   }
 }
+
+.state-manager-wrapper, .content-wrapper {
+  border: $sidebar-inner-border;
+}
+
+.content-wrapper {
+  // stretch till the bottom;
+  flex: 1;
+
+  border-color: $color-bg-1;
+  background: $color-bg-1;
+  border-radius: 12px 12px 0px 0px;
+}
+
