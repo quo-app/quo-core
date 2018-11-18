@@ -56,11 +56,11 @@ class LinksViewer extends Component {
 
   renderEmptyLinks () {
     return (
-      <div class='no-link-description'>
-        <div class='text-primary'>
+      <div className='no-link-description'>
+        <div className='text-primary'>
           No links found
         </div>
-        <div class='text-secondary'>
+        <div className='text-secondary'>
           Create a new link to connect components
         </div>
       </div>

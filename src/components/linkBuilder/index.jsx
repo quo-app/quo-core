@@ -58,7 +58,7 @@ class LinkBuilder extends Component {
   render () {
     return (
       <React.Fragment>
-        <Button title='Back to Links' onClick={this.props.onBackClick}/>
+        <Button onClick={this.props.onBackClick}>Back to Links</Button>
         <Card title='Primary Element'>
             { this.props.links.source ? this.props.links.source : 'Source not selected' }
           </Card>
@@ -86,7 +86,7 @@ class LinkBuilder extends Component {
               this.updateLinkBuilder({ props })
             }}
           />
-          <Button title='Create Link' onClick={this.createLink}/>
+          <Button onClick={this.createLink}>Create Link</Button>
       </React.Fragment>
     )
   }

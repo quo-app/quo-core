@@ -1,6 +1,6 @@
 .card {
 
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: $color-bg-3;
   display: inline-block;
   width: 100%;
@@ -33,7 +33,7 @@
   &.collapsed-style {
 
     .card-header{
-      border-radius:8px;
+      border-radius: 6px;
     }
 
     .card-body{
@@ -45,11 +45,7 @@
 }
 
 .vertical-list-card {
-  overflow:hidden;
-  .card-header {
-
-
-  }
+  margin-bottom: .5rem;
 
   .card-body {
     padding:0;
@@ -58,6 +54,9 @@
       width:100%;
 
       ul {
+        &:hover {
+          cursor: pointer;
+        }
         margin: 0;
         padding: 0;
         li.vertical-list-option {
@@ -75,12 +74,16 @@
           }
 
           &:hover {
-            cursor: pointer;
             background-color: $color-bg-5;
           }
 
           &:active {
-            background-color: $color-blue;
+            // background-color: $color-blue;
+          }
+
+          &:last-of-type {
+            border: 0px solid transparent;
+            border-radius: 0px 0px 6px 6px;
           }
 
           &.selected {

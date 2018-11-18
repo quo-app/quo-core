@@ -14,6 +14,7 @@ export default class Card extends Component {
       collapsed: PropTypes.bool,
       headerIcon: PropTypes.element,
       onHeaderIconClick: PropTypes.func,
+      headerMiddleText: PropTypes.string,
     }
   
     static defaultProps = {
@@ -21,6 +22,7 @@ export default class Card extends Component {
       collapsed: false,
       className: '',
       id: '',
+      headerMiddleText: null
     }
   
     render(){
@@ -31,10 +33,11 @@ export default class Card extends Component {
       return(
         <div className={`card ${this.props.className} ${disabled} ${collapsed}`} id={`${this.props.id}`}>
           <div className='card-header'>
-            {this.props.title}
+            <div>{this.props.title}</div>
+            <div class='middle-text'>{ this.props.headerMiddleText }</div>
             {this.props.headerIcon
               ?
-                <div onClick={ () => fSafe(this.props.onHeaderIconClick.bind(this)) }>
+                <div className='header-icon' onClick={ () => fSafe(this.props.onHeaderIconClick.bind(this)) }>
                   { this.props.headerIcon }
                 </div>
               : 

@@ -70,6 +70,7 @@ $color-sidebar-bg:$color-bg-1;
 $sidebar-width:260px;
 $sidebar-width-left:230px;
 $interaction-nav-height:$vertical-nav-height;
+$sidebar-inner-border: .5rem solid transparent;
 
 //Top Bar
 $color-topbar-bg:$color-bg-7;
@@ -83,18 +84,6 @@ $top-bar-height:44px;
     span:last-child {
       color:$color-checkbox-fill;
     }
-  }
-
-  .check-checked {
-
-  }
-
-  .check-checked-primary {
-
-  }
-
-  .check-checked-secondary {
-
   }
 }
 
@@ -111,23 +100,42 @@ $top-bar-height:44px;
 @mixin CardHeader {
 
   height:24px;
-  padding:0 6px 0 .75rem;
-  box-sizing:border-box;
+  padding: 0 6px 0 8px;
+  box-sizing: border-box;
 
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
 
-  border-radius:$border-r $border-r 0 0;
+  font-weight: 500;
 
-  font-size:$card-header-font-size;
+  border-radius: $border-r $border-r 0 0;
 
-  letter-spacing:.5px;
+  font-size: $card-header-font-size;
 
-  text-transform:uppercase;
-  background-color:$color-bg-4;
-  color:$color-text-2;
-  user-select:none;
+  letter-spacing: .5px;
+
+  text-transform: uppercase;
+  background-color: $color-bg-4;
+  color: $color-text-2;
+  user-select: none;
+
+  position: relative;
+
+  .header-icon {
+    height: 18px;
+    width: 18px;
+  }
+
+  .middle-text {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    text-align: center;
+    font-size: $font-s;
+    text-transform: none;
+    letter-spacing: normal;
+  }
 
 }
 

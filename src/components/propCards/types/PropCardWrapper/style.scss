@@ -1,9 +1,11 @@
-.prop-card, .layer-card {
+.prop-card {
 
   border-radius:8px;
   background-color:$color-bg-3;
   display:inline-block;
   width:100%;
+
+  margin-bottom: .5rem;
 
   &.half-width {
 

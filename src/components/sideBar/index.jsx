@@ -10,8 +10,8 @@ import Icons from 'quo-ui/icons';
 
 import AssetsTab from './assets';
 import LayersTab from './layers';
-import LinksTab from './links';
-import PropsTab from './props';
+
+import StateManager from '../stateManager';
 
 class SideBarLeft extends Component {
 
@@ -63,69 +63,21 @@ class SideBarLeft extends Component {
               })
             }
           </div>
-        {/* </div> */}
       </Resizable>
       )
   }
 }
 
 class SideBarRight extends Component {
-
-  constructor(props) {
-
-    super(props);
-
-    this.state = {
-      options : props.tabs,
-      components : {styles: PropsTab, links: LinksTab, interactions: LinksTab},
-      icons : {styles: Icons.ColorLens, links: Icons.FlashOn, interactions: Icons.Games},
-      selectedComponent : props.selection
-    }
-
-    this.onClickNav = this.onClickNav.bind(this);
-
-  }
-
-  onClickNav(e) {
-    if(e.currentTarget.id !== this.props.selected){
-      const { dispatch } = this.props;
-      dispatch(actions.UPDATE_SIDEBAR_TAB({target:'right',selected:e.currentTarget.id}));
-    }
-  }
-
-  onClickAddToArr() {
-
-  }
-
   render() {
-    const CurrentComponent = this.state.components[this.props.selected];
     return (
       <div className='sidebar-wrapper'>
         <div className={`sidebar-container sidebar-right`}>
-            <CurrentComponent/>
-        </div>
-        <div className='interaction-nav right-nav'>
-          {
-            this.state.options.map((icon,key)=>{
-              let selected = this.props.selected === icon ? 'selected-icon' : '';
-              let CurrentIcon = this.state.icons[icon];
-              return (
-                <div className={`nav-el ${selected}`} onClick={this.onClickNav} id={icon} key={key}>
-                  <CurrentIcon/>
-                </div>
-              )
-            })
-          }
+            <StateManager/>
         </div>
       </div>
     );
   }
-}
-
-function mapStateToPropsRight(state) {
-
-  let ui = getState(state,'ui');
-  return { ...ui.sidebars.right }
 }
 
 function mapStateToPropsLeft(state) {
@@ -133,7 +85,6 @@ function mapStateToPropsLeft(state) {
   return { ...ui.sidebars.left }
 }
 
-SideBarRight = connect(mapStateToPropsRight)(SideBarRight)
 SideBarLeft = connect(mapStateToPropsLeft)(SideBarLeft)
 
 export { SideBarLeft, SideBarRight }
