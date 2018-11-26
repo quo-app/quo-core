@@ -1,5 +1,6 @@
-import ComponentState from 'quo-parser/ComponentState';
+import ComponentState, { StateGraph } from 'quo-parser/ComponentState';
 import { translatePropData } from 'quo-parser/propTranslator';
+import { deepFreeze } from 'quo-utils';
 
 import { PropCompositor } from 'quo-redux/helpers';
 
@@ -96,19 +97,33 @@ export function initAbstractComponent(){
         }
   
         
-        initStates(data){
+        initStates = data => {
+            let _core = deepFreeze(this.initStyleProps(data));
 
-            let base = new ComponentState('base', [], [], this.initStyleProps(data), 0);
+            // default state is always combined with everything. But has the lowest priority,
+            // if there are overlapping props.
+            let defaultState = new ComponentState('base', [], [], _core, 0);
+            
+            // these states all have the this.type =  self, 
             let hover = new ComponentState('hover', ['onMouseEnter'], ['onMouseLeave'],{}, 1);
             let pressed = new ComponentState('pressed', ['onMouseDown'], ['onMouseUp'],{}, 1);
             let focused = new ComponentState('focused', ['onFocus'], ['onBlur'], {}, 1);
 
+            // this creates a data structure to hold a reference for how to preview
+            // should switch between states, and with which states can it start etc.
+            let stateGraph = new StateGraph();
+            // adding the default state as it's own node
+
+            // adding all the 
+            let mouseEventsNode = stateGraph.addNode([defaultState.id, hover.id, pressed.id, focused.id]) // no neigbors
+            let headNode = mouseEventsNode;
+
             let states = {
                 'composite':{
                   props:{},
-                  modifiers:[base.id]
+                  modifiers:[defaultState.id]
                 },
-                [base.id]:base,
+                [defaultState.id]:defaultState,
                 [hover.id]:hover,
                 [pressed.id]:pressed,
                 [focused.id]:focused,
@@ -117,7 +132,11 @@ export function initAbstractComponent(){
             states.composite.props = PropCompositor.bakeProps(states.composite.modifiers.map(v => states[v].props));
 
             this.state = {
+                _core,
+                headNode,
+                defaultState: defaultState.id,
                 current:'composite',
+                stateGraph,
                 states
             }
 

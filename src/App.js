@@ -12,15 +12,6 @@ import MessageStack from 'quo-components/messageStack';
 
 import './scss/main.scss';
 
-// import { firebase } from './firebase';
-
-// const config = {
-//   apiKey: "AIzaSyCOJCrAjbXhyjVF94rUH6GEqoxI0jEuutM",
-//   authDomain: "quo-app-data.firebaseapp.com",
-//   databaseURL: "https://quo-app-data.firebaseio.com",
-//   storageBucket: "quo-app-data.appspot.com",
-// };
-
 function App() {
   return (
     <Provider store={store}>

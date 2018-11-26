@@ -1,10 +1,12 @@
 const domain = {
-  //Flat Files
+  // Uploads
   assets:{
     sketch:{},
     image: {}
   },
-  //Edited Components
+  // Preview containers
+  previewInstances: {},
+  // Edited Components
   components:{},
   projects:{},
   tabs:{
