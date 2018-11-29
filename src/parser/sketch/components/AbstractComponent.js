@@ -95,16 +95,16 @@ export function initAbstractComponent(){
                 }
             })
         }
-  
-        
+
+
         initStates = data => {
             let _core = deepFreeze(this.initStyleProps(data));
 
             // default state is always combined with everything. But has the lowest priority,
             // if there are overlapping props.
-            let defaultState = new ComponentState('base', [], [], _core, 0);
-            
-            // these states all have the this.type =  self, 
+            let defaultState = new ComponentState('default', [], [], _core, 0);
+
+            // these states all have the this.type =  self,
             let hover = new ComponentState('hover', ['onMouseEnter'], ['onMouseLeave'],{}, 1);
             let pressed = new ComponentState('pressed', ['onMouseDown'], ['onMouseUp'],{}, 1);
             let focused = new ComponentState('focused', ['onFocus'], ['onBlur'], {}, 1);
@@ -114,7 +114,7 @@ export function initAbstractComponent(){
             let stateGraph = new StateGraph();
             // adding the default state as it's own node
 
-            // adding all the 
+            // this is the edit setup, 1 node for the mouse events.
             let mouseEventsNode = stateGraph.addNode([defaultState.id, hover.id, pressed.id, focused.id]) // no neigbors
             let headNode = mouseEventsNode;
 

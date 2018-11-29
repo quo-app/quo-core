@@ -1,4 +1,5 @@
 import uuid from 'uuid/v1';
+import { notEqual } from 'assert';
 
 export default class ComponentState {
   constructor(title, ins = [], outs = [], props = {}, order = 0, id, type = 'self'){
@@ -13,12 +14,25 @@ export default class ComponentState {
 }
 
 // a state node that contains states
-class StateNode {
+export class StateNode {
   constructor(states = [], neighbors = []){
     this.id = uuid();
     this.neighbors = neighbors
     this.states = states;
+    this.active = [];
   }
+
+  static activateState = (node, stateId) => {
+    if(!node.states.includes(stateId)) return;
+    node.active.push(stateId);
+    return node;
+  }
+
+  static disableState = (node, stateId) => {
+    node.active = node.active.filter( id => stateId !== id)
+    return node;
+  }
+
   addNeighbor = neighbor => this.neighbors.push(neighbor)
   removeNeighbor = targetNeighbor => {
     this.neighbors = this.neighbors.filter(neighbor => neighbor !== targetNeighbor)
@@ -31,6 +45,9 @@ export class StateGraph {
     this[node.id] = node;
     return node.id
   }
+
+  static getCurrentStateNode = (graph, nodeId) => graph[nodeId]
+
   addNeighbor = (nodeId, neighbor) => this[nodeId].addNeighbor(neighbor)
   removeNeighbor = (nodeId, neighbor) => this[nodeId].removeNeighbor(neighbor)
   removeNode = (nodeId) => delete this[nodeId]
@@ -44,7 +61,7 @@ export class StateGraph {
 // previewComponent should look at the stateGraph to figure where to start, and switch nodes as necessary if an event
 // triggers a node jump.
 
-// the previewComponent should do some smart thinking about whether the link states and related stateNodes should be a part of 
+// the previewComponent should do some smart thinking about whether the link states and related stateNodes should be a part of
 
 
 // let state = {
@@ -65,4 +82,3 @@ export class StateGraph {
 //     'componentStateId3': ComponentState,
 //   }
 // }
-

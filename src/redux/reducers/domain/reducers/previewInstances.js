@@ -9,8 +9,8 @@ export const createPreviewInstance = (previewInstances, action) => {
   let { allComponents, selectedComponents, previewId } = action.payload;
   // selected components is an object of components
   // components
-  selectedComponents = selectedComponents.map( id => allComponents[id]);
-  let flattenedSelections = _.map(selectedComponents, comp => traverseAndAdd(comp, allComponents));
+  let selectedComponentsObj = selectedComponents.map( id => allComponents[id]);
+  let flattenedSelections = _.map(selectedComponentsObj, comp => traverseAndAdd(comp, allComponents));
 
   // create new ids here but just make a root instead of having to think of every id in that
   // array as a root id! genius!
@@ -19,7 +19,9 @@ export const createPreviewInstance = (previewInstances, action) => {
 
   // do the state management here!
 
-  previewInstances[previewId] = { components};
+  let root = { children: selectedComponents }
+
+  previewInstances[previewId] = { components, root};
   return previewInstances
 }
 

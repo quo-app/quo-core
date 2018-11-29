@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { getState } from 'quo-redux/state';
 import { translatePropData } from 'quo-parser/propTranslator';
 import { AbstractComponent } from 'quo-parser/abstract';
+import { StateGraph, StateNode } from 'quo-parser/ComponentState';
 
 import { DragInterface, DoubleClickInterface, SelectionInterface } from './features';
+
 
 import ComponentRender from '../coreComponent';
 
@@ -17,7 +19,7 @@ const makeBranch = (WrappedComponent, options) => {
 
       this.staticProps = this.createStaticProps();
 
-      // Distribute feature across interfaces for 
+      // Distribute feature across interfaces for
       this.dragManager = new DragInterface(this);
       this.doubleClickManager = new DoubleClickInterface(this);
       this.selectionManager = new SelectionInterface(this);
@@ -26,8 +28,17 @@ const makeBranch = (WrappedComponent, options) => {
     createStaticProps = () => {
       const componentClass = this.props.isParent ? 'parent' : this.props.component.class;
       const className = `edit-component ${componentClass}-component`;
+      if(!this.props.isParent){
+        let { stateGraph, headNode } = this.props.component.state;
+        // gets the current possible states to apply
+        let node = StateGraph.getCurrentStateNode(stateGraph, headNode);
+        node = StateNode.activateState(node, node.states[0]);
+        node = StateNode.disableState(node, node.states[0]);
+        console.log(node);
+      }
 
-      return { 
+
+      return {
         className,
         id: `component-${this.props.component.id}`,
         onMouseDownCapture: !this.props.isParent ? this.clickHandler : () => {},
@@ -59,11 +70,11 @@ const makeBranch = (WrappedComponent, options) => {
       if(e.button !== 0) return;
       if(!this.props.selectables.includes(this.props.component.id)) return;
 
-      // Start Drag 
+      // Start Drag
       this.dragManager.startDrag(e);
 
       // Double Click Handler
-      // this handler calls the 
+      // this handler calls the
       // onMouseDown and onDoubleClickMouseDown
       // if they exist
       this.doubleClickManager.handle(e);
@@ -86,7 +97,7 @@ const makeBranch = (WrappedComponent, options) => {
     onDoubleClickMouseUp = e => {
       this.selectionManager.selectAChild(e);
     }
-    
+
     render = () => {
       const dynamicProps = this.createDynamicProps();
       return(
@@ -97,7 +108,7 @@ const makeBranch = (WrappedComponent, options) => {
     }
   }
 }
-  
+
 const mapStateToProps = (state, ownProps) => {
 
     let domain = getState(state, 'domain');
@@ -111,7 +122,7 @@ const mapStateToProps = (state, ownProps) => {
         component: tabRoot,
       }
     }
-  
+
     //return the component
     else{
       let component = domain.components[ownProps.id];
@@ -120,7 +131,7 @@ const mapStateToProps = (state, ownProps) => {
         selectables: app.selection.selectables,
       }
     }
-  
+
   }
 
 const BranchComponent = connect(mapStateToProps)(makeBranch(ComponentRender));
