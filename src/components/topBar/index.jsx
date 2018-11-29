@@ -18,6 +18,7 @@ class TopBar extends Component {
     let previewSelected = this.props.appMode === 'PREVIEW'
     return (
       <div className='top-bar'>
+        <Button onClick={()=> {this.props.dispatch(actions.CREATE_PREVIEW_INSTANCE({selectedComponents:[], previewId:'asdasd'}))}}>preview instance</Button>
         <Button selected={editSelected} onClick={() => this.setAppMode('EDIT')}>App Mode: EDIT</Button>
         <Button selected={previewSelected} onClick={() => this.setAppMode('PREVIEW')}>App Mode: PREVIEW</Button>
       </div>

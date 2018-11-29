@@ -51,8 +51,10 @@ const makePreviewComponent = (WrappedComponent, options) => {
         })
       }
       handleStates(event){
+        // states of the component
         this.addStates(this.props.component.id, this.findStates(event,'ins'));
         this.removeStates(this.props.component.id, this.findStates(event,'outs'));
+        // states for other components
         this.addLinkStates(event);
         this.removeLinkStates(event);
       }

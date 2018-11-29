@@ -1,7 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-// import undoable, { excludeAction } from 'redux-undo';
 import thunk from 'redux-thunk';
-// import { routerReducer, routerMiddleware } from 'react-router-redux';
 
 import { storeInitial } from './state';
 import rootReducer from './reducers';

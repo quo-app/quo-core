@@ -44,6 +44,9 @@ export class StateGraph {
 // previewComponent should look at the stateGraph to figure where to start, and switch nodes as necessary if an event
 // triggers a node jump.
 
+// the previewComponent should do some smart thinking about whether the link states and related stateNodes should be a part of 
+
+
 // let state = {
 //   _core : [], //core properties at import, call .deepFreeze() on this to guarantee.
 //   // head is how to make sure what to render first
@@ -62,3 +65,4 @@ export class StateGraph {
 //     'componentStateId3': ComponentState,
 //   }
 // }
+

@@ -5,7 +5,7 @@ const handleNoTabCase = (tabs) => {
     if(_.isEmpty(tabs.allTabs)){
         //this is the part where it tries to create a size for the tab
         //for the time being, ignore this aspect;
-        tabs = newTab(tabs,{data:undefined});
+        tabs = newTab(tabs, {data: undefined});
     }
     return tabs
 }

@@ -134,47 +134,6 @@ const makePreviewComponent = (WrappedComponent, options) => {
         component:tabRoot,
       }
     }
-    // links
-let state = {
-  _core = core properties that the component gets and are changeble(always keep this here)
-  states = {
-    'default': {
-      type: self
-      name: 'Default'
-      order: 0
-      props: _core.props
-    }
-    stateId2: {
-      type: self
-      name: 'On Blue button click'
-      order: 1
-      props: [ opacity: 0 ]
-      pointsTo: [ 'default' ]
-      pointedFrom: [ 'default' ]
-    }
-    stateId3: {
-      type: self
-      name: 'hover'
-      order: 1
-      props: [ opacity: 80]
-      pointsTo: [ 'default' ]
-      pointedFrom: ['default']
-    }
-    // retrieved from global links!
-    stateId1: {
-      type: link
-      order: -1
-      name: 'On Blue button click'
-      props: [ opacity: 0]
-      pointsTo: [ 'default' ]
-      pointedFrom: ['default']
-    }
-  }
-}
-    // get the states ignoring states 
-    // loop through the states to create a state chain
-
-    // 
   
     //return the component
     else{

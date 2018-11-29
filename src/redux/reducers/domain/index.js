@@ -9,6 +9,8 @@ import { addComponent, addImageComponent } from './reducers/component/component'
 import { updateComponentProps, addStateToComposite, removeStateFromComposite } from './reducers/component/props';
 import { setLinkSource, setLinkTarget } from './reducers/component/links';
 import { addComponentState } from './reducers/component/states';
+// Preview Instance
+import { createPreviewInstance, removePreviewInstance } from './reducers/previewInstances.js';
 
 const assets = combineReducersLoop({
   'UPLOAD_SKETCH':uploadSketch,
@@ -18,6 +20,11 @@ const assets = combineReducersLoop({
 const projects = combineReducersLoop({
 
 });
+
+const previewInstances = combineReducersLoop({
+  'CREATE_PREVIEW_INSTANCE': createPreviewInstance,
+  'REMOVE_PREVIEW_INSTANCE': removePreviewInstance,
+})
 
 const components = combineReducersLoop({
   'ADD_COMPONENT_TO_COMPONENTS': (components, action) => (_.merge(components,action.payload)),
@@ -42,6 +49,7 @@ const domain = combineReducers({
   assets,
   projects,
   components,
+  previewInstances,
   tabs,
 });
 
