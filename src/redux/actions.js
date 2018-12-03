@@ -10,4 +10,6 @@ import { State } from './state';
 
 let actions = State.createActions();
 
+console.log(actions);
+
 export default actions

@@ -1,26 +1,31 @@
-import { combineReducersLoop } from '../../helpers.js';
-import { combineReducers } from 'redux';
+import { ReduxBranch } from 'quo-redux/redux-wrapper';
 
-import { updateSelection, updateSelectables } from './reducers/selection';
-import { updateLinkBuilderData } from './reducers/links';
+import linkBuilder from './reducers/linkBuilder';
+import appMode from './reducers/appMode';
+import selection from './reducers/selection';
+import user from './reducers/user';
 
-const user = combineReducersLoop({})
-const appMode = combineReducersLoop({
-  'SET_APP_MODE': (appMode, action) => action.payload
-})
-const selection = combineReducersLoop({
-  'COMPONENT_SELECT': updateSelection,
-  'VIEWER_SELECTABLES': updateSelectables,
-})
-const linkBuilder = combineReducersLoop({
-  'UPDATE_LINK_BUILDER_DATA': updateLinkBuilderData,
-});
+// const appMode = combineReducersLoop({
+//   'SET_APP_MODE': (appMode, action) => action.payload
+// init should become LINKBUILDER_CLEAR
+// set app mode => link builder update
+// })
+// const selection = combineReducersLoop({
+//   'COMPONENT_SELECT': updateSelection,
+//   'VIEWER_SELECTABLES': updateSelectables,
+// })
+// const linkBuilder = combineReducersLoop({
+//   'UPDATE_LINK_BUILDER_DATA': updateLinkBuilderData,
+// });
 
-const app = combineReducers({
-  user,
-  appMode,
-  selection,
-  linkBuilder
+let app = new ReduxBranch({
+  slug: 'app',
+  children: {
+    appMode,
+    user,
+    selection,
+    linkBuilder
+  }
 })
 
 export default app

@@ -1,28 +1,30 @@
-import uuidv1 from 'uuid/v1';
+import { ReduxLeaf } from 'quo-redux/redux-wrapper'
+import uuid from 'uuid/v1';
 
-function removeMessageFromStack(messages, message) {
-  return messages.filter( (item, index) => message.id !== item.id);
+//     id:uuidv1(),
+//     type: type,
+//     text: text,
+//     duration: duration,
+
+// const messages = combineReducersLoop({
+//   'ADD_MESSAGE': addMessage,
+//   'REMOVE_MESSAGE': removeMessage,
+// })
+
+class MessagesReducer extends ReduxLeaf {
+
+  static initialState = () => []
+
+  __clear = MessagesReducer.initialState
+
+  __add = messageData => this.state.slice().push(({ ...messageData, id:uuid()}))
+
+  __remove = message => this.state.filter(item => message.id !== item.id)
 }
 
-function addMessageToStack(messages, message) {
-  let newMessages = messages.slice();
-  newMessages.push(message);
-  return newMessages;
-}
+let messages = new MessagesReducer({
+  slug: 'messages',
+  children: MessagesReducer.initialState()
+})
 
-function createMessage(text,type,duration){
-  return {
-    id:uuidv1(),
-    type:type,
-    text:text,
-    duration:duration,
-  }
-}
-
-export const addMessage = (messages,action) => {
-  return addMessageToStack(messages,createMessage(action.payload.text,action.payload.type,action.payload.duration));
-}
-
-export const removeMessage = (messages,action) => {
-  return removeMessageFromStack(messages,action.payload.id);
-}
+export default messages

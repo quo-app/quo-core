@@ -107,24 +107,18 @@
 // //   ui
 // // }
 
-// const getState = (state: State, target: 'domain' | 'ui' | 'app') => {
-//   //later on, the main root(domain, app, ui) might be pushed
-//   //deeper in the tree, having to update mapStateToProps on
-//   //the components might be annoying so use this method instead.
-//   return state[target]
-// }
+import { ReduxBranch } from 'quo-redux/redux-wrapper';
+import app from './app';
+import ui from './ui';
 
-// const constants = {
-//   appModes: ['EDIT','PREVIEW'],
-// }
+const getState = (state: State, target: 'domain' | 'ui' | 'app') => {
+  //later on, the main root(domain, app, ui) might be pushed
+  //deeper in the tree, having to update mapStateToProps on
+  //the components might be annoying so use this method instead.
+  return state[target]
+}
 
-// const storeInitial = Record({
-//   domain: '',
-//   app: '',
-//   ui: '',
-// })
 
-import { ReduxLeaf, ReduxBranch } from 'quo-redux/reduxWrapper';
 
 // const selection = {
 //   type:'',
@@ -151,26 +145,11 @@ import { ReduxLeaf, ReduxBranch } from 'quo-redux/reduxWrapper';
 //   selection,
 // }
 
-
-class AppModeReducer extends ReduxLeaf {
-  __update = newAppMode => this.state + newAppMode
-}
-
-let appMode = new AppModeReducer({ slug: 'appmode', children: 'EDIT'})
-let user = new ReduxBranch({ slug: 'user', children: {}})
-
-let app = new ReduxBranch({
-  slug: 'app',
-  children: {
-    appMode,
-    user
-  }
-})
-
 let State = new ReduxBranch({
   slug: 'root',
   children: {
-    app
+    // app,
+    ui
   }
 })
 
@@ -178,4 +157,8 @@ let State = new ReduxBranch({
 // let actions = mainState.createActions();
 // let reducer = mainState.createMainReducer()
 
-export { State }
+const constants = {
+  appModes: ['EDIT','PREVIEW'],
+}
+
+export { State, constants, getState }

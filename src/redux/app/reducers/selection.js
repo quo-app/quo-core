@@ -1,20 +1,35 @@
-export const updateSelection = (selection, action) => {
+// @flow
 
-  //default action is unselecting
-  let newArray = [];
-  //single selection
-  if(typeof action.payload === 'string' && action.payload !== ''){
-    newArray.push(action.payload);
-  }
-  //multiple selection
-  else if(typeof action.payload === 'object'){
-    newArray = action.payload
-  }
+import { ReduxLeaf, ReduxBranch } from 'quo-redux/redux-wrapper';
 
-  // let newSelectionArray = selection.data.slice().push(action.payload);
-  return { ...selection, data: newArray}
+type componentID = string;
+
+class ComponentSelectReducer extends ReduxLeaf {
+  __update = (payload: componentID[]) : componentID[] => payload
+  __clear = () => []
 }
 
-export const updateSelectables = (selection, action) => {
-  return { ...selection, selectables: action.payload}
+let componentSelect = new ComponentSelectReducer({
+  slug: 'componentSelect',
+  children: []
+})
+
+class SelectablesReducer extends ReduxLeaf {
+  __update = (payload: componentID[]) : componentID[] => payload
+  __clear = () => []
 }
+
+let selectables = new SelectablesReducer({
+  slug: 'selectables',
+  children: []
+})
+
+let selection = new ReduxBranch({
+  slug: 'selection',
+  children: {
+    componentSelect,
+    selectables
+  }
+})
+
+export default selection

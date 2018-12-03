@@ -1,6 +1,5 @@
-import { Map } from 'immutable';
 import _ from 'lodash';
-import { selector } from 'postcss-selector-parser';
+import { Map } from 'immutable';
 
 class ReduxShell {
   constructor({ slug, children, isLeaf }) {
@@ -17,7 +16,7 @@ class ReduxShell {
 
   createActions = () => this._composeActions();
 
-  createSelectors = () => this._flattenSelectors(this._composeSelectors());
+  createSelectors = () => this._flattenSelectors(this._composeSelectors(), state => state, {});
 
   createMainReducer = () => (state = this.state, action) => {
     let reducers = this.createReducers();
@@ -31,18 +30,23 @@ class ReduxShell {
 
   _composeReducers = children => this._isLeaf() ? this._getReducers() : _.merge(this._getChildrenReducers(children),this._getReducers())
 
-  _composeActions = () => _.mapValues(this.createReducers(), (type, f) => (payload) => ({ payload, type }))
+  _composeActions = () => _.mapValues(this.createReducers(), (f, type) => (payload) => ({ payload, type }))
 
   _composeSelectors = () => this._isLeaf() ? this._composeLeafSelector() : this._composeBranchSelectors()
 
-  _composeLeafSelector = () =>  () => this.state
+  _composeLeafSelector = () =>  state => state
 
-  _composeBranchSelectors = () => _.mapValues(this.children, v => v._composeSelectors())
+  _composeBranchSelectors = () => _.mapValues(this.children, (v, k) => v._composeSelectors())
 
-  _flattenSelectors = (selectors, collection = {}) => {
-    _.mapValues(selectors, (selector, key) => typeof selector !== 'function' ? this._flattenSelectors(selector, collection) : _.merge(collection, { [key]: selector}))
+  _flattenSelectors = (selectors, currentSelector, collection = {} ) => {
+    _.mapValues(selectors, (selector, key) => {
+      let childSelector = state => currentSelector(state).get(key)
+      return typeof selector !== 'function' ? this._flattenSelectors(selector, childSelector, _.merge(collection, { [key]: this._getSelfSelector(key)})) : _.merge(collection, { [key]: state => selector(childSelector(state)) })
+    })
     return collection
   }
+
+  _getSelfSelector = key => state => state.get(key)
 
   _getReducers = () => _.mapKeys(_.pick(this, this._findReducerKeys()), (v, k) => this._addSlug(k))
 

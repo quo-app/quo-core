@@ -3,23 +3,20 @@ import {connect} from 'react-redux';
 import keydown from 'react-keydown';
 
 import actions from 'quo-redux/actions';
+import selectors from 'quo-redux/selectors';
+
+console.log(actions.KEY_UP)
 
 class KeyController extends Component {
-  constructor(props) {
-    super(props);
-    this.keyReleased = this.keyReleased.bind(this);
-    this.state = {
-      keyDown:false
-    }
-    // this.onWheel = this.onWheel.bind(this);
+  state = {
+    keyDown:false
   }
 
-  keyReleased(e){
-    this.setState({keyDown:false});
-    if(e.keyCode === 32){
-      const { dispatch } = this.props
-      dispatch(actions.KEY_UP(e));
-    }
+  keyUp = (e) => this.props.dispatch(actions.KEY_UP(e.keyCode));
+
+  keyDown = (e) => {
+    if(this.props.keys.has(e.keyCode)) return;
+    this.props.dispatch(actions.KEY_DOWN(e.keyCode))
   }
 
   // @keydown('cmd+shift+z')
@@ -39,42 +36,47 @@ class KeyController extends Component {
   //   }
   // }
 
-  @keydown('cmd+s')
-  dispatchSave(e){
-    e.preventDefault();
-  }
+  // @keydown('cmd+s')
+  // dispatchSave(e){
+  //   e.preventDefault();
+  // }
 
   render() {
     return (
-      <div className='main-container' tabIndex='0' onKeyUp={this.keyReleased} >
+      <div className='main-container' tabIndex='0' onKeyUp={this.keyUp} onKeyDown={this.keyDown} style={{width: '100%',
+        height: '100%'}}>
         {this.props.children}
       </div>
     )
   }
 
-  @keydown('space')
-  dragEnable(e){
-    if(!this.state.keyDown){
-      const { dispatch } = this.props
-      this.setState({keyDown:true},()=>{
-        dispatch(actions.KEY_DOWN(e));
-      })
-    }
-  }
+  // @keydown('space')
+  // dragEnable(e){
+  //   if(!this.state.keyDown){
+  //     const { dispatch } = this.props
+  //     this.setState({keyDown:true},()=>{
+  //       dispatch(actions.KEY_DOWN(e));
+  //     })
+  //   }
+  // }
 
-  @keydown('esc')
-  dispatchDeselectComponent(e){
-    e.preventDefault();
-    if(!this.state.keyDown){
-      const { dispatch } = this.props
-      this.setState({keyDown:true},()=>{
-        dispatch(actions.KEY_DOWN(e));
-        dispatch(actions.COMPONENT_SELECT(''));
-      })
-    }
-  }
-
-
+  // @keydown('esc')
+  // dispatchDeselectComponent(e){
+  //   e.preventDefault();
+  //   if(!this.state.keyDown){
+  //     const { dispatch } = this.props
+  //     this.setState({keyDown:true},()=>{
+  //       dispatch(actions.KEY_DOWN(e));
+  //       dispatch(actions.COMPONENT_SELECT(''));
+  //     })
+  //   }
+  // }
 }
 
-export default connect()(KeyController);
+const mapStateToProps = state => {
+  return {
+    keys: selectors.key(state)
+  }
+}
+
+export default connect(mapStateToProps)(KeyController);
