@@ -19,7 +19,7 @@ var AbstractComponent;
 export function initAbstractComponent(){
     if (AbstractComponent) return;
 
-    AbstractComponent = class AbstractComponent {
+    AbstractComponent = class AbstractComponent implements Component {
 
         constructor(data){
             this.initCoreProps(data);
@@ -180,13 +180,6 @@ export function initAbstractComponent(){
 
     }
 }
-
-// components => these are everything u have created a rendering of?
-// assets => everything you have brought in and translated
-// tabs => looks at the components, and finds the components to use in that tab.
-// tab does not contain any actual component, just a list of all the ids, and the children to start from?
-
-
 
 initAbstractComponent();
 

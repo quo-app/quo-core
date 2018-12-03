@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { Record } from 'immutable';
 import _ from 'lodash';
 import { combineReducersLoop } from '../../helpers.js';
 
@@ -35,6 +36,8 @@ const components = combineReducersLoop({
   'ADD_STATE_TO_COMPOSITE': addStateToComposite,
   'REMOVE_STATE_FROM_COMPOSITE': removeStateFromComposite,
 });
+
+
 
 const tabs = combineReducersLoop({
   'NEW_TAB': newTab,

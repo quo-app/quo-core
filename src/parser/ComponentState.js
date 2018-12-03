@@ -1,5 +1,4 @@
 import uuid from 'uuid/v1';
-import { notEqual } from 'assert';
 
 export default class ComponentState {
   constructor(title, ins = [], outs = [], props = {}, order = 0, id, type = 'self'){

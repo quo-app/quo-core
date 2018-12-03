@@ -16,7 +16,7 @@ function App() {
   return (
     <Provider store={store}>
       <main className="quo-content">
-        <KeyController>
+        {/* <KeyController>
         </KeyController>
         <DropzoneContainer>
           <Viewer />
@@ -24,7 +24,7 @@ function App() {
           <SideBarLeft />
           <SideBarRight />
         </DropzoneContainer>
-        <MessageStack />
+        <MessageStack /> */}
       </main>
     </Provider>
   );

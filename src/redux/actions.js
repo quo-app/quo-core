@@ -1,7 +1,13 @@
-import * as actions from './actions';
-import { mergeActions } from './helpers';
-console.log(actions);
-let actionsMerged = mergeActions(actions)
+// import * as actions from './actions';
+// import { mergeActions } from './helpers';
 
-//add custom action middleware here
-export default actionsMerged
+// let actionsMerged = mergeActions(actions)
+
+// //add custom action middleware here
+// export default actionsMerged
+
+import { State } from './state';
+
+let actions = State.createActions();
+
+export default actions

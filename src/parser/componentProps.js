@@ -49,9 +49,9 @@ const getCardsOf = (props) => _.chain(propCardProps).pick(props).values().uniq()
 export const getCards = (component) => getCardsOf(getPropsOf(component.class))
 export const getPropsOfCard = (card,component) => {
     let requires = propsOfCards[card].requires;
-    // if the component has a unique prop 
-    // that is used in the card, return that. 
-    // Otherwise return the common properties 
+    // if the component has a unique prop
+    // that is used in the card, return that.
+    // Otherwise return the common properties
     // that are used.
     return requires[component.class] ? requires[component.class] : requires.all
 }

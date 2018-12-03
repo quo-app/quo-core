@@ -1,94 +1,181 @@
-const domain = {
-  // Uploads
-  assets:{
-    sketch:{},
-    image: {}
-  },
-  // Preview containers
-  previewInstances: {},
-  // Edited Components
-  components:{},
-  projects:{},
-  tabs:{
-    activeTab:'',
-    allTabs:{},
-    tabCount:0
+// // @flow
+// import { Record } from 'immutable';
+
+// const domain = {
+//   // Uploads
+//   assets:{
+//     sketch:{},
+//     image: {}
+//   },
+//   // Preview containers
+//   previewInstances: {},
+//   // Edited Components
+//   components:{},
+//   projects:{},
+//   tabs:{
+//     activeTab:'',
+//     allTabs:{},
+//     tabCount:0
+//   }
+// }
+
+// type SelectionState = {
+//   type: string,
+//   data: string[],
+//   editState: string,
+//   details: Object,
+
+// }
+
+// const selection = {
+//   type:'',
+//   data:[],
+//   editState:'',
+//   details:{},
+//   selectables:[]
+// }
+
+// const linkBuilder = {
+//   mode:'INIT', // possible modes INIT, SOURCE_SELECTED, TARGET_SELECTED
+//   linkId: '',
+//   source: '',
+//   target: '',
+//   enables: [],
+//   disables: [],
+//   linkState: undefined,
+// }
+
+// const app = {
+//   user:{},
+//   appMode: 'EDIT',
+//   linkBuilder,
+//   selection,
+// }
+
+// const controller = {
+//     key:{
+//       // 'a':false,
+//       // 'b':false,
+//     }
+//   }
+
+// const sidebars = {
+//   left:{
+//     selected:'assets',
+//     tabs:['assets','layers','globalLinks'],
+//     width:230,
+//   },
+//   right:{
+//     selected:'styles',
+//     tabs:['styles','links','interactions'],
+//   }
+// }
+
+// const messages = [];
+
+// type StateManager = {
+//   currentState: string
+// }
+
+// const stateManager:StateManager = {
+//   currentState:'',
+// }
+
+// type UIState = {
+//   controller: Object,
+//   sidebars: Object,
+//   messages: Object[],
+//   stateManager: StateManager,
+// }
+
+// const ui:UIState = {
+//   controller,
+//   sidebars,
+//   messages,
+//   stateManager,
+// }
+
+// type State = {
+//   domain: Object,
+//   app: Object,
+//   ui: UIState,
+// }
+
+// // const storeInitial:State = {
+// //   domain,
+// //   app,
+// //   ui
+// // }
+
+// const getState = (state: State, target: 'domain' | 'ui' | 'app') => {
+//   //later on, the main root(domain, app, ui) might be pushed
+//   //deeper in the tree, having to update mapStateToProps on
+//   //the components might be annoying so use this method instead.
+//   return state[target]
+// }
+
+// const constants = {
+//   appModes: ['EDIT','PREVIEW'],
+// }
+
+// const storeInitial = Record({
+//   domain: '',
+//   app: '',
+//   ui: '',
+// })
+
+import { ReduxLeaf, ReduxBranch } from 'quo-redux/reduxWrapper';
+
+// const selection = {
+//   type:'',
+//   data:[],
+//   editState:'',
+//   details:{},
+//   selectables:[]
+// }
+
+// const linkBuilder = {
+//   mode:'INIT', // possible modes INIT, SOURCE_SELECTED, TARGET_SELECTED
+//   linkId: '',
+//   source: '',
+//   target: '',
+//   enables: [],
+//   disables: [],
+//   linkState: undefined,
+// }
+
+// const app = {
+//   user:{},
+//   appMode: 'EDIT',
+//   linkBuilder,
+//   selection,
+// }
+
+
+class AppModeReducer extends ReduxLeaf {
+  __update = newAppMode => this.state + newAppMode
+}
+
+let appMode = new AppModeReducer({ slug: 'appmode', children: 'EDIT'})
+let user = new ReduxBranch({ slug: 'user', children: {}})
+
+let app = new ReduxBranch({
+  slug: 'app',
+  children: {
+    appMode,
+    user
   }
-}
+})
 
-const selection = {
-  type:'',
-  data:[],
-  editState:'',
-  details:{},
-  selectables:[]
-}
-
-const linkBuilder = {
-  mode:'INIT', // possible modes INIT, SOURCE_SELECTED, TARGET_SELECTED
-  linkId: '',
-  source: '',
-  target: '',
-  enables: [],
-  disables: [],
-  linkState: undefined,
-}
-
-const app = {
-  user:{},
-  appMode: 'EDIT',
-  linkBuilder,
-  selection,
-}
-
-const controller = {
-    key:{
-      // 'a':false,
-      // 'b':false,
-    }
+let State = new ReduxBranch({
+  slug: 'root',
+  children: {
+    app
   }
+})
 
-const sidebars = {
-  left:{
-    selected:'assets',
-    tabs:['assets','layers','globalLinks'],
-    width:230,
-  },
-  right:{
-    selected:'styles',
-    tabs:['styles','links','interactions'],
-  }
-}
+// let selectors = mainState.createSelectors()
+// let actions = mainState.createActions();
+// let reducer = mainState.createMainReducer()
 
-const messages = [];
-
-const stateManager = {
-  currentState:'',
-}
-
-const ui = {
-  controller,
-  sidebars,
-  messages,
-  stateManager,
-}
-
-const storeInitial = {
-  domain,
-  app,
-  ui,
-};
-
-const getState = (state,target) => {
-  //later on, the main root(domain, app, ui) might be pushed
-  //deeper in the tree, having to update mapStateToProps on
-  //the components might be annoying so use this method instead.
-  return state[target]
-}
-
-const constants = {
-  appModes: ['EDIT','PREVIEW'],
-
-}
-
-export { storeInitial, constants, getState }
+export { State }
