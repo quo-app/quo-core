@@ -1,28 +1,49 @@
-const pickSidebar = (sidebars,action) => {
-  return { ...sidebars[action.payload.target] }
+import { ReduxLeaf, ReduxBranch } from 'quo-redux/redux-wrapper'
+import { Map } from 'immutable';
+
+class SidebarReducer extends ReduxLeaf {
+  __selected_update = newSelected => this.state.set('selected', newSelected)
+  __width_update = newWidth => this.state.set('width', newWidth)
 }
 
-const mergeSidebar = (sidebars,action,updatedSidebar) => {
-  sidebars[action.payload.target] = updatedSidebar;
-  return { ...sidebars };
-}
+let leftSidebar = new SidebarReducer({
+  slug: 'leftSidebar',
+  children: Map({
+    selected: 'assets',
+    tabs: ['assets', 'layers', 'globalLinks'],
+    width: 230
+  })
+})
 
-export const updateTab = (sidebars,action) => {
+let rightSidebar = new SidebarReducer({
+  slug: 'rightSidebar',
+  children: Map({
+    selected: 'styles',
+    tabs: ['styles','links','interactions'],
+  })
+})
 
-  let updatedSidebar = pickSidebar(sidebars,action);
+let sidebars = new ReduxBranch({
+  slug: 'sidebars',
+  children: {
+    leftSidebar,
+    rightSidebar
+  }
+})
 
-  updatedSidebar.selected = action.payload.selected;
+export default sidebars
 
-  return mergeSidebar(sidebars,action,updatedSidebar)
+// const sidebars = combineReducersLoop({
+//   'UPDATE_SIDEBAR_TAB': updateTab,
+//   'RESIZE_SIDEBAR': resizeSidebar,
+// })
 
-}
-
-export const resizeSidebar = (sidebars,action) => {
-
-  let updatedSidebar = pickSidebar(sidebars,action);
-
-  updatedSidebar.width = action.payload.width;
-
-  return mergeSidebar(sidebars,action,updatedSidebar)
-
-}
+//   left:{
+//     selected:'assets',
+//     tabs:['assets','layers','globalLinks'],
+//     width:230,
+//   },
+//   right:{
+//     selected:'styles',
+//     tabs:['styles','links','interactions'],
+//   }

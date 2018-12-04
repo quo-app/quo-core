@@ -19,6 +19,9 @@ type StateEvent = MouseEvent
 type StateId = string
 type StateType = 'self' | 'link'
 
+// one of the states id will be 'default'. this is what the edit
+// will render first(children will be parsed through that)
+
 type State = {|
   title: string,
   id: StateId,
@@ -42,18 +45,38 @@ type StateNode = {
   active: StateId[],
 }
 
-
 type AbstractComponent = {
-  name: string,
+  title: string,
   id: ComponentId,
   // add this to a state type
   stateGraph: {
-    [StateNodeId]: StateNode,
+    nodes: {
+      [StateNodeId]: StateNode,
+    },
     headNode: StateNodeId,
     activeNode: StateNodeId,
   },
   states: {
-    _core: Property[],
     [StateId]: State,
-  }
+  },
+  _coreProps: Property[]
 }
+
+
+// Flow of creating a component
+// Use translator functions that return parts of a
+
+
+
+// Translate Sketch Components
+
+// the flow type system will declare the data structure of the
+// redux store
+
+// data comes => create components(this should be a function that returns pure data)
+
+// creating the class abstractions are not necessary.
+
+// parser
+// AbstractComponent
+   // Contains a type declaration

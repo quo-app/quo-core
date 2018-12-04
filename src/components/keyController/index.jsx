@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import keydown from 'react-keydown';
+import uuid from 'uuid/v1'
 
 import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
 
-console.log(actions.KEY_UP)
+let uuid1 = uuid()
 
 class KeyController extends Component {
   state = {
     keyDown:false
+  }
+
+  componentDidMount(){
+    this.props.dispatch(actions.COMPONENTS_ADD({id: uuid1, title: 'deniz'}))
+    this.props.dispatch(actions.COMPONENT_TITLE_UPDATE({id: uuid1, title: 'deniz2'}))
   }
 
   keyUp = (e) => this.props.dispatch(actions.KEY_UP(e.keyCode));
@@ -74,6 +80,8 @@ class KeyController extends Component {
 }
 
 const mapStateToProps = state => {
+  let value = selectors.component(state, {id: uuid1});
+  if(value) console.log(value.toJS())
   return {
     keys: selectors.key(state)
   }
