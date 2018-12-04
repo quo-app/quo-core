@@ -32,14 +32,9 @@ const getState = (state: State, target: 'domain' | 'ui' | 'app') => {
 let State = new ReduxBranch({
   slug: 'root',
   children: {
-    engine: new ReduxBranch({
-      slug: 'engine',
-      children: {
-        domain,
-        app,
-        ui
-      }
-    })
+    domain,
+    app,
+    ui
   }
 })
 

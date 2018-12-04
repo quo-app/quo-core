@@ -1,5 +1,7 @@
 import uuidv1 from 'uuid/v1';
 
+import { ReduxLeaf, ReduxBranch } from 'quo-redux/redux-wrapper';
+
 const newTab = (tabs,action) => {
 
   let newTab = {

@@ -1,21 +1,7 @@
-// import { combineReducers } from 'redux';
-// import { Record } from 'immutable';
-// import _ from 'lodash';
-// import { combineReducersLoop } from '../../helpers.js';
-
-// import { uploadSketch, uploadImage } from './reducers/upload';
-// import { newTab, changeActiveTab, editTab, deleteTab } from './reducers/tabs';
-// // Component Actions
-// import { addComponent, addImageComponent } from './reducers/component/component';
-// import { updateComponentProps, addStateToComposite, removeStateFromComposite } from './reducers/component/props';
-// import { setLinkSource, setLinkTarget } from './reducers/component/links';
-// import { addComponentState } from './reducers/component/states';
-// // Preview Instance
-// import { createPreviewInstance, removePreviewInstance } from './reducers/previewInstances.js';
-
 import { ReduxBranch } from 'quo-redux/redux-wrapper';
 
 import components from './reducers/components';
+import projects from './reducers/projects';
 
 // const assets = combineReducersLoop({
 //   'UPLOAD_SKETCH':uploadSketch,
@@ -69,7 +55,8 @@ import components from './reducers/components';
 let domain = new ReduxBranch({
   slug: 'domain',
   children: {
-    components
+    components,
+    projects
   }
 })
 
