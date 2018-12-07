@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
-import { getState } from 'quo-redux/state';
+import selectors from 'quo-redux/selectors';
 
 import SelectionFrame from 'quo-components/selectionFrame';
 import { EditComponents, PreviewComponent } from 'quo-components/renderedComponents';
@@ -35,34 +34,34 @@ class Viewer extends Component {
       keyDown: false,
       draggableClick: false,
       selection: this.props.selection,
-      viewerPos:{x:-(viewerSize.w/2),y:-(viewerSize.h/2)},
-      origin:{x:0,y:0},
-      viewerSize:viewerSize,
-      scale:1.0,
+      viewerPos:{ x: -(viewerSize.w / 2), y: -(viewerSize.h / 2) },
+      origin: { x: 0, y: 0 },
+      viewerSize: viewerSize,
+      scale: 1.0,
       threshold:{
         x:{
-          min:0,
-          max:0
+          min: 0,
+          max: 0
         },
         y:{
-          min:0,
-          max:0
+          min: 0,
+          max: 0
         }
       }
     };
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.currentTab){
+    if(nextProps.activeTabObject){
       const { dispatch } = this.props;
-      dispatch(actions.VIEWER_SELECTABLES(nextProps.currentTab.children))
+      dispatch(actions.SELECTABLES_UPDATE(nextProps.activeTabObject.children))
     }
   }
 
   mouseDown = () => {
     const { dispatch } = this.props;
-    dispatch(actions.COMPONENT_SELECT(""));
-    dispatch(actions.VIEWER_SELECTABLES(this.props.currentTab.children))
+    dispatch(actions.SELECTED_COMPONENTS_UPDATE([]));
+    dispatch(actions.SELECTABLES_UPDATE(this.props.activeTabObject.children))
   }
 
   onWheel(e){
@@ -139,7 +138,7 @@ class Viewer extends Component {
         return;
       }
 
-      this.setState({ viewerSize:newSize,scale:newScale });
+      this.setState({ viewerSize:newSize, scale:newScale });
 
     }
 
@@ -243,8 +242,8 @@ class Viewer extends Component {
             tabIndex='0'
             onMouseDown={this.mouseDown}
             style={{
-              left:`${(viewerSize.w/2) - (mainArtboardSize.w/2)}px`,
-              top:`${(viewerSize.h/2) - (mainArtboardSize.h/2)}px`,
+              left:`${(viewerSize.w / 2) - (mainArtboardSize.w / 2)}px`,
+              top:`${(viewerSize.h / 2) - (mainArtboardSize.h / 2)}px`,
               width:`${mainArtboardSize.w}px`,
               height:`${mainArtboardSize.h}px`,
             }}>
@@ -273,24 +272,22 @@ class Viewer extends Component {
 //The viewer views the current window
 
 function mapStateToProps(state) {
-
-  let domain = getState(state,'domain');
-  let app = getState(state,'app');
-
   //if there are no tabs created, don't display anything
-  let activeTab = domain.tabs.activeTab
-  if(_.isEmpty(domain.tabs.allTabs)) {
+  let activeTab = selectors.tabs(state).get('currentTab');
+
+
+  if(activeTab === '') {
     return {
       activeTab: activeTab,
     }
   }
 
+  let activeTabObject = selectors.tabs(state).getIn(['tabs', activeTab]);
   //if there is an active tab, collect the data from the tab
-
   return {
-    activeTab:activeTab,
-    currentTab: domain.tabs.allTabs[activeTab],
-    appMode: app.appMode,
+    activeTab: activeTab,
+    activeTabObject: activeTabObject,
+    appMode: selectors.appMode(state)
   }
 }
 

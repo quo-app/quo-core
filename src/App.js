@@ -10,8 +10,6 @@ import DropzoneContainer from 'quo-components/dropzone';
 import Viewer from 'quo-components/viewer';
 import MessageStack from 'quo-components/messageStack';
 
-import selectors from 'quo-redux/selectors'
-
 import './scss/main.scss';
 
 function App() {
@@ -22,7 +20,7 @@ function App() {
 
         <DropzoneContainer>
 
-          {/* <Viewer /> */}
+          <Viewer />
           <TopBar />
          <SideBarLeft />
           <SideBarRight />

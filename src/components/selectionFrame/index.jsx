@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 
-import { getState } from 'quo-redux/state';
+import selectors from 'quo-redux/selectors';
 
 class SelectionFrame extends Component {
   constructor (props) {
@@ -24,7 +24,7 @@ class SelectionFrame extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if(nextProps.selection.data.length === 0){
+    if(nextProps.selection.length === 0){
       this.hideSelectionFrame();
     }
     else{
@@ -40,12 +40,12 @@ class SelectionFrame extends Component {
   }
 
   isSelectionSingle (selection) {
-    return selection.data.length === 1
+    return selection.length === 1
   }
 
   setTarget (nextProps) {
     if(this.isSelectionSingle(nextProps.selection)){
-      let el = document.getElementById(`component-${nextProps.selection.data[0]}`);
+      let el = document.getElementById(`component-${nextProps.selection[0]}`);
       this.setState({
         visible:true,
         target:el,
@@ -56,7 +56,7 @@ class SelectionFrame extends Component {
   calculateScale (nextProps) {
 
     if(this.isSelectionSingle(nextProps.selection)){
-      let el = document.getElementById(`component-${nextProps.selection.data[0]}`);
+      let el = document.getElementById(`component-${nextProps.selection[0]}`);
       let elDims = el.getBoundingClientRect();
       let style = window.getComputedStyle(el);
       let styleWidth = style.width.slice(0,-2);
@@ -109,8 +109,7 @@ class SelectionFrame extends Component {
 }
 
 function mapStateToProps(state) {
-  let app = getState(state,'app');
-  return { selection:app.selection };
+  return { selection: selectors.selectedComponents(state) };
 }
 
 export default connect(mapStateToProps)(SelectionFrame);
