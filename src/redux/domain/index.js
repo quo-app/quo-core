@@ -3,14 +3,11 @@ import { ReduxBranch } from 'quo-redux/redux-wrapper';
 import components from './reducers/components';
 import projects from './reducers/projects';
 import tabs from './reducers/tabs';
+import previews from './reducers/previews';
 
 // const assets = combineReducersLoop({
 //   'UPLOAD_SKETCH':uploadSketch,
 //   'UPLOAD_IMAGE':uploadImage,
-// });
-
-// const projects = combineReducersLoop({
-
 // });
 
 // const previewInstances = combineReducersLoop({
@@ -27,14 +24,6 @@ import tabs from './reducers/tabs';
 //   'ADD_STATE_TO_COMPOSITE': addStateToComposite,
 //   'REMOVE_STATE_FROM_COMPOSITE': removeStateFromComposite,
 // });
-
-// let ComponentsData = Record({});
-
-// class ComponentsReducer extends ComponentsData {
-//   addComponent = component => this.set(component.id, component);
-//   removeComponent = component => this.delete(component.id);
-
-// }
 
 // const tabs = combineReducersLoop({
 //   'NEW_TAB': newTab,
@@ -57,11 +46,10 @@ let domain = new ReduxBranch({
   slug: 'domain',
   children: {
     components,
+    previews,
     projects,
     tabs,
   }
 })
-
-// ReduxPolymorphicBranch
 
 export default domain

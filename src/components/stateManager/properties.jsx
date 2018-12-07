@@ -46,7 +46,7 @@ const mapStateToProps = (state) => {
     //     card: PropCards[c],
     //     props: getPropsOfSelection(state, getPropsOfCard(c,component))
     //   }));
-    // let component = selectors.component(state,{ id: selectedComponents[0] });
+    // let component = selectors.component(state, { id: selectedComponents[0] });
     return { id, cards: []}
   }
   // case where there is a multiple selection

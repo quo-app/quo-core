@@ -18,9 +18,10 @@ import { ReduxLeaf, ReduxBranch, ReduxPolyBranch } from 'quo-redux/redux-wrapper
 //   children: { id: payload.id }
 // })
 class Tab {
-  constructor({id, rootComponent}){
-    this.id = id;
-    this.rootComponent = rootComponent;
+  constructor({id, tabCount, rootComponent}){
+    this.id = id
+    this.title = `Tab ` + tabCount
+    this.rootComponent = rootComponent
   }
 }
 
@@ -54,6 +55,23 @@ class TabsReducer extends ReduxLeaf {
     this.updateCurrentTab(payload.id)
     this.incrementTabCount()
     return this.state
+  }
+
+  __change_active = ({ id }) => {
+    this.state = this.state.set('currentTab', id)
+    return this.state;
+  }
+
+  __edit_title = ({ id, title }) => {
+    let newTab = { ...this.tabs.get(id), title };
+    this.state = this.state.setIn(['tabs', id], newTab);
+    return this.state;
+  }
+
+  __edit_root = ({ id, root }) => {
+    let newTab = { ...this.tabs.get(id), rootComponent: root };
+    this.state = this.state.setIn(['tabs', id], newTab);
+    return this.state;
   }
 
   __remove = ({ id })=> {
