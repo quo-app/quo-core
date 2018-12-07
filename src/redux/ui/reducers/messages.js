@@ -31,7 +31,6 @@ class MessagesReducer extends ReduxLeaf {
     let id = uuid()
     let newMessage = new Message({ ...messageData, id})
     this.state = this.state.set(id, newMessage)
-    console.log(this.state);
     return this.state
   }
   __remove = message => {

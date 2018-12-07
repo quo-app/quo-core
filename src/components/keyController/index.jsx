@@ -25,13 +25,12 @@ class KeyController extends Component {
     }))
   }
 
-  // keyUp = (e) => this.props.dispatch(actions.KEY_UP(e.keyCode));
-  keyUp = () => {}
+  keyUp = (e) => this.props.dispatch(actions.KEY_UP(e.keyCode));
 
   keyDown = (e) => {
     console.log(this.props.tabs)
     if(this.props.keys.has(e.keyCode)) return;
-    // this.props.dispatch(actions.KEY_DOWN(e.keyCode))
+    this.props.dispatch(actions.KEY_DOWN(e.keyCode))
   }
 
   // @keydown('cmd+shift+z')
@@ -89,8 +88,6 @@ class KeyController extends Component {
 }
 
 const mapStateToProps = state => {
-  let value = selectors.tabs(state);
-  if(value) console.log(value.toJS())
   return {
     tabs: selectors.tabs(state),
     keys: selectors.key(state)

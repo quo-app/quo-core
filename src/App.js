@@ -19,15 +19,16 @@ function App() {
     <Provider store={store}>
       <main className="quo-content">
          <KeyController>
-        </KeyController>
+
         <DropzoneContainer>
 
           {/* <Viewer /> */}
           <TopBar />
-{/*          <SideBarLeft />
-          <SideBarRight /> */}
+         <SideBarLeft />
+          <SideBarRight />
         </DropzoneContainer>
         <MessageStack />
+        </KeyController>
       </main>
     </Provider>
   );

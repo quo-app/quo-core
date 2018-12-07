@@ -15,19 +15,20 @@
           1: { text: 'Interactions', obj: null}
         }
       }
+      console.log(this.state.options);
     }
     render = () => {
       return (
         <React.Fragment>
           <div className='state-manager-wrapper'>
-            <Header/>
+            {/* <Header/> */}
           </div>
           <div className='content-wrapper'>
-            <HorizontalOptionGroup
+            {/* <HorizontalOptionGroup
               selected={ this.state.selected }
               options={ this.state.options }
               onChange={ id => this.setState({selected: id})}
-            />
+            /> */}
             {
               this.state.options[this.state.selected].obj
             }
@@ -36,4 +37,3 @@
       )
     }
   }
-  

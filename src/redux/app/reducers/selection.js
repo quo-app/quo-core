@@ -4,13 +4,13 @@ import { ReduxLeaf, ReduxBranch } from 'quo-redux/redux-wrapper';
 
 type componentID = string;
 
-class ComponentSelectReducer extends ReduxLeaf {
+class SelectedComponentsReducer extends ReduxLeaf {
   __update = (payload: componentID[]) : componentID[] => payload
   __clear = () => []
 }
 
-let componentSelect = new ComponentSelectReducer({
-  slug: 'componentSelect',
+let selectedComponents = new SelectedComponentsReducer({
+  slug: 'selectedComponents',
   children: []
 })
 
@@ -27,7 +27,7 @@ let selectables = new SelectablesReducer({
 let selection = new ReduxBranch({
   slug: 'selection',
   children: {
-    componentSelect,
+    selectedComponents,
     selectables
   }
 })

@@ -51,7 +51,6 @@ class Message extends Component {
 }
 
 const mapState = (state) =>{
-  console.log(selectors.messages(state))
   return { messages: selectors.messages(state) };
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import actions from 'quo-redux/actions';
-import { getState } from 'quo-redux/state';
+import selectors from 'quo-redux/selectors';
 
 import Resizable from 'quo-packages/resizable';
 
@@ -19,7 +19,7 @@ class SideBarLeft extends Component {
     super(props);
     this.state = {
       options : props.tabs,
-      components : {assets:AssetsTab, layers:LayersTab, globalLinks:AssetsTab},
+      components : {assets: AssetsTab, layers: LayersTab, globalLinks: AssetsTab},
       icons : {assets:Icons.WebAsset, layers: Icons.Layers, globalLinks: Icons.Link },
       width:230,
       height:'100%',
@@ -39,7 +39,7 @@ class SideBarLeft extends Component {
   onClickNav(e) {
     if(e.currentTarget.id !== this.props.selected){
       const { dispatch } = this.props;
-      dispatch(actions.UPDATE_SIDEBAR_TAB({target:'left',selected:e.currentTarget.id}));
+      dispatch(actions.LEFT_SIDEBAR_SELECTED_UPDATE(e.currentTarget.id));
     }
   }
 
@@ -48,7 +48,7 @@ class SideBarLeft extends Component {
     return(
       <Resizable height='100%' width={`${this.state.width}px`} minWidth='230' onResize={this.dispatchResize}>
           <div className={`sidebar-container sidebar-left`}>
-            <CurrentComponent/>
+            {/* <CurrentComponent/> */}
           </div>
           <div className='interaction-nav left-nav'>
             {
@@ -81,8 +81,10 @@ class SideBarRight extends Component {
 }
 
 function mapStateToPropsLeft(state) {
-  let ui = getState(state,'ui')
-  return { ...ui.sidebars.left }
+  let leftSidebar = selectors.leftSidebar(state);
+  let tabs = leftSidebar.get('tabs');
+  let selected = leftSidebar.get('selected');
+  return { tabs, selected }
 }
 
 SideBarLeft = connect(mapStateToPropsLeft)(SideBarLeft)
