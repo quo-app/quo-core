@@ -20,14 +20,14 @@ function App() {
       <main className="quo-content">
          <KeyController>
         </KeyController>
-        {/*
         <DropzoneContainer>
-          <Viewer />
+
+          {/* <Viewer /> */}
           <TopBar />
-          <SideBarLeft />
-          <SideBarRight />
+{/*          <SideBarLeft />
+          <SideBarRight /> */}
         </DropzoneContainer>
-        <MessageStack /> */}
+        <MessageStack />
       </main>
     </Provider>
   );

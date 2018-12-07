@@ -16,13 +16,22 @@ class KeyController extends Component {
   componentDidMount(){
     this.props.dispatch(actions.COMPONENTS_ADD({id: uuid1, title: 'deniz'}))
     this.props.dispatch(actions.COMPONENT_TITLE_UPDATE({id: uuid1, title: 'deniz2'}))
+    this.props.dispatch(actions.TABS_ADD({id: uuid1, rootComponent: uuid1}));
+    this.props.dispatch(actions.TABS_REMOVE({id: uuid1}));
+    this.props.dispatch(actions.MESSAGES_ADD({
+      type:'status',
+      text:'this is a test message',
+      duration: 5000
+    }))
   }
 
-  keyUp = (e) => this.props.dispatch(actions.KEY_UP(e.keyCode));
+  // keyUp = (e) => this.props.dispatch(actions.KEY_UP(e.keyCode));
+  keyUp = () => {}
 
   keyDown = (e) => {
+    console.log(this.props.tabs)
     if(this.props.keys.has(e.keyCode)) return;
-    this.props.dispatch(actions.KEY_DOWN(e.keyCode))
+    // this.props.dispatch(actions.KEY_DOWN(e.keyCode))
   }
 
   // @keydown('cmd+shift+z')
@@ -80,9 +89,10 @@ class KeyController extends Component {
 }
 
 const mapStateToProps = state => {
-  let value = selectors.component(state, {id: uuid1});
+  let value = selectors.tabs(state);
   if(value) console.log(value.toJS())
   return {
+    tabs: selectors.tabs(state),
     keys: selectors.key(state)
   }
 }

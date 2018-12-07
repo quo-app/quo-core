@@ -2,6 +2,7 @@ import { ReduxBranch } from 'quo-redux/redux-wrapper';
 
 import components from './reducers/components';
 import projects from './reducers/projects';
+import tabs from './reducers/tabs';
 
 // const assets = combineReducersLoop({
 //   'UPLOAD_SKETCH':uploadSketch,
@@ -56,7 +57,8 @@ let domain = new ReduxBranch({
   slug: 'domain',
   children: {
     components,
-    projects
+    projects,
+    tabs,
   }
 })
 

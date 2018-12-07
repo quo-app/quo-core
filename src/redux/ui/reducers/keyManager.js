@@ -1,14 +1,12 @@
 import { ReduxBranch, ReduxLeaf } from 'quo-redux/redux-wrapper'
 import { Map } from 'immutable'
 
-// const controller = {
-//     key:{
-//       // 'a':false,
-//       // 'b':false,
-//     }
-//   }
-
 class KeyReducer extends ReduxLeaf {
+  //Example state
+  // {
+  //  'cmd': true,
+  //  'enter': true,
+  // }
   static initialState = () => Map({})
   __down = keyCode => this.state.set(keyCode, true)
   __up = keyCode => this.state.delete(keyCode)

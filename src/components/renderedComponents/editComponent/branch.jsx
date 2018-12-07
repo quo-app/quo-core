@@ -34,7 +34,6 @@ const makeBranch = (WrappedComponent, options) => {
         let node = StateGraph.getCurrentStateNode(stateGraph, headNode);
         node = StateNode.activateState(node, node.states[0]);
         node = StateNode.disableState(node, node.states[0]);
-        console.log(node);
       }
 
 
