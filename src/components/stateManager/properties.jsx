@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
 
-import { getCards, getPropsOfCard } from 'quo-parser/componentProps';
+// import { getCards, getPropsOfCard } from 'quo-parser/componentProps';
 
-import PropCards from 'quo-components/propCards';
+// import PropCards from 'quo-components/propCards';
 
 
 class Properties extends Component {

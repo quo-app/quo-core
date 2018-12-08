@@ -19,7 +19,7 @@ var AbstractComponent;
 export function initAbstractComponent(){
     if (AbstractComponent) return;
 
-    AbstractComponent = class AbstractComponent implements Component {
+    AbstractComponent = class AbstractComponent {
 
         constructor(data){
             this.initCoreProps(data);

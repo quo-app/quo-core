@@ -2,6 +2,7 @@ import { ReduxBranch } from 'quo-redux/redux-wrapper';
 
 import components from './reducers/components';
 import projects from './reducers/projects';
+import assets from './reducers/assets';
 import tabs from './reducers/tabs';
 import previews from './reducers/previews';
 
@@ -47,6 +48,7 @@ let domain = new ReduxBranch({
   children: {
     components,
     previews,
+    assets,
     projects,
     tabs,
   }

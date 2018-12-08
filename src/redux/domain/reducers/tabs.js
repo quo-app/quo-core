@@ -1,6 +1,5 @@
-import uuid from 'uuid/v1';
 import { Map } from 'immutable';
-import { ReduxLeaf, ReduxBranch, ReduxPolyBranch } from 'quo-redux/redux-wrapper';
+import { ReduxLeaf } from 'quo-redux/redux-wrapper';
 
 // let ComponentReducer = payload => new ReduxBranch({
 //   slug: 'component',

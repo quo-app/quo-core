@@ -1,9 +1,9 @@
   import React, { Component } from 'react';
 
-  import Header from './header';
+  // import Header from './header';
   import Properties from './properties';
 
-  import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup';
+  // import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup';
 
   export default class StateManager extends Component {
     constructor(props){
@@ -15,7 +15,6 @@
           1: { text: 'Interactions', obj: null}
         }
       }
-      console.log(this.state.options);
     }
     render = () => {
       return (

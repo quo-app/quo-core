@@ -48,7 +48,7 @@ class SideBarLeft extends Component {
     return(
       <Resizable height='100%' width={`${this.state.width}px`} minWidth='230' onResize={this.dispatchResize}>
           <div className={`sidebar-container sidebar-left`}>
-            {/* <CurrentComponent/> */}
+            <CurrentComponent/>
           </div>
           <div className='interaction-nav left-nav'>
             {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
+import selectors from 'quo-redux/selectors';
 
 import SnapshotContainer from 'quo-components/snapshotContainer';
 
@@ -27,27 +28,27 @@ class AssetsTab extends Component {
   componentDidMount(){
     if(!data) return;
     const { dispatch } = this.props;
-    dispatch(actions.UPLOAD_SKETCH({ data: data, filetype: 'sketch' }));
+    dispatch(actions.SKETCH_ASSETS_ADD(data));
   }
 
   render(){
     return (
       <div className='assets-tab-wrapper'>
-        <HorizontalOptionGroup
+        {/* <HorizontalOptionGroup
           options={
             [
               {text:'Static',callback:()=>{this.updateTab('static')}},
               {text:'Reactive',callback:()=>{this.updateTab('reactive')}}
             ]
           }
-        />
-        {
+        /> */}
+        {/* {
           this.state.currentTab === 'static'
           ?
           <AssetsViewer assets={this.props.assets} components={this.props.components}/>
           :
           null
-        }
+        } */}
       </div>
     )
   }
@@ -106,7 +107,7 @@ class AssetsViewer extends Component {
 
     let artboardIDs = this.props.assets.sketch[this.state.selected.id].children;
 
-    
+
     //search all the first depth components
 
     let firstDepthComponents = artboardIDs.map( artboardID =>{
@@ -147,16 +148,16 @@ class AssetsViewer extends Component {
           Sketch Pages
         </div>
         <div className='card-body'>
-          {
+          {/* {
             this.state.pages.map((page,i)=>{
               return(
                 <div className={`page ${page.id === this.state.selected.id ? 'selected' : ''}`} key={i} onClick={()=>{this.onPageChange(page)}}>{page.name}</div>
               )
             })
-          }
+          } */}
         </div>
         <div className='assets-preview-wrapper'>
-          <React.Fragment>
+          {/* <React.Fragment>
           {
             this.renderFirstDepthComponents()
           }
@@ -165,7 +166,7 @@ class AssetsViewer extends Component {
               <img src={image.data} alt=''/>
             ))
           }
-          </React.Fragment>
+          </React.Fragment> */}
         </div>
       </div>
     )
@@ -227,7 +228,7 @@ class AssetPreview extends Component {
         <div className='asset-preview-title'>
           {this.props.title}
         </div>
-        <div 
+        <div
           className={`asset-preview-image ${this.state.draggable ? 'draggable' : ''}`}
           draggable
           onDragStart={this.onDragStart}
@@ -244,8 +245,8 @@ AssetPreview = connect()(AssetPreview)
 
 const mapStateToProps = (state) => {
   return {
-    assets:state.domain.assets,
-    components:state.domain.components
+    assets: selectors.assets(state),
+    components: selectors.components(state),
   }
 }
 

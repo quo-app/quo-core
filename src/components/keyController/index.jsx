@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import keydown from 'react-keydown';
+// import keydown from 'react-keydown';
 import uuid from 'uuid/v1'
 
 import actions from 'quo-redux/actions';

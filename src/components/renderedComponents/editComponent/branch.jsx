@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getState } from 'quo-redux/state';
 import { translatePropData } from 'quo-parser/propTranslator';
 import { AbstractComponent } from 'quo-parser/abstract';
-import { StateGraph, StateNode } from 'quo-parser/ComponentState';
+// import { StateGraph, StateNode } from 'quo-parser/ComponentState';
 
 import { DragInterface, DoubleClickInterface, SelectionInterface } from './features';
 
@@ -29,11 +29,11 @@ const makeBranch = (WrappedComponent, options) => {
       const componentClass = this.props.isParent ? 'parent' : this.props.component.class;
       const className = `edit-component ${componentClass}-component`;
       if(!this.props.isParent){
-        let { stateGraph, headNode } = this.props.component.state;
+        // let { stateGraph, headNode } = this.props.component.state;
         // gets the current possible states to apply
-        let node = StateGraph.getCurrentStateNode(stateGraph, headNode);
-        node = StateNode.activateState(node, node.states[0]);
-        node = StateNode.disableState(node, node.states[0]);
+        // let currentNode = StateGraph.getCurrentStateNode(stateGraph, headNode);
+        // currentNode = StateNode.activateState(currentNode, currentNode.states[0]);
+        // currentNode = StateNode.disableState(currentNode, currentNode.states[0]);
       }
 
 
