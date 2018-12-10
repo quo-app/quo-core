@@ -92,7 +92,8 @@ let ComponentReducer = new ReduxBranch({
     states,
     _coreProps: new CoreProps({ slug: 'coreProps'}),
   },
-  includeSlugInChildReducers: true
+  includeSlugInChildReducers: true,
+  includeSlugInChildSelectors: true,
 })
 
 export default ComponentReducer

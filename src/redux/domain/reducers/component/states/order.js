@@ -1,15 +1,10 @@
 import { ReduxLeaf } from 'redux-shrub';
 
 class StateOrderReducer extends ReduxLeaf {
-  static initialState = ({ order }) => {
-    if(order) return order;
-    return 0
-  }
-  __update = ({ order }) => order
+  _newState = ({ order }) => order ? order : 0
+  update = state => ({ order }) => order
 }
-const stateOrder = payload => new StateOrderReducer({
-  slug: 'order',
-  children: StateOrderReducer.initialState(payload)
-})
+
+const stateOrder = new StateOrderReducer({ slug: 'order' })
 
 export default stateOrder

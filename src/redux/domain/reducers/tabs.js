@@ -19,18 +19,11 @@ class TabsReducer extends ReduxLeaf {
   // private methods
   __updateCurrentTab = (state, id) => state.set('currentTab', id)
 
-  __addTab = (state, id, tab) => state.setIn(['tabs', id], tab)
-
-  __incrementTabCount = state => {
-    let tabCount = state.get('tabCount')
-    return state.set('tabCount', tabCount + 1)
-  }
-
   // reducers
   add = state => payload => {
-    state = this.__addTab(state, payload.id, new Tab({...payload, tabCount: state.get('tabCount')}))
+    state = state.setIn(['tabs', payload.id], new Tab({...payload, tabCount: state.get('tabCount')}))
     state = this.__updateCurrentTab(state, payload.id)
-    state = this.__incrementTabCount(state)
+    state = state.set('tabCount', state.get('tabCount') + 1)
     return state
   }
 

@@ -1,12 +1,9 @@
 import { ReduxLeaf } from 'redux-shrub';
 
 class StateClassReducer extends ReduxLeaf {
-  static initialState = payload => payload.class
-  __update = payload => payload.class
+  _newState = payload => payload.class
+  update = state => payload => payload.class
 }
-const stateClass = payload => new StateClassReducer({
-  slug: 'class',
-  children: StateClassReducer.initialState(payload)
-})
+const stateClass = new StateClassReducer({ slug: 'class' })
 
 export default stateClass

@@ -21,6 +21,8 @@ const sketchAssets = new SketchAssetContainer({ slug: 'sketchAssets' })
 const assets = createReduxBranch('assets', {
   sketch: sketchAssets,
   image: imageAssets,
+}, {
+  includeSlugInChildSelectors: true,
 })
 
 export default assets

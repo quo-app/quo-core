@@ -1,15 +1,5 @@
 // @flow
-import _ from 'lodash';
 
-import { ReduxPolyBranch, ReduxBranch, composeFixedLeaf } from 'redux-shrub';
-
-import title from './title';
-import type from './type';
-import order from './order';
-import componentClass from './class';
-import children from './children';
-import props from './props';
-import events from './events';
 
 // export const addComponentState = (components, action) => {
 //   // this is incomplete
@@ -70,18 +60,34 @@ import events from './events';
 //   _coreProps: Property[]
 // }
 
+import { ReduxLeaf, ReduxPolyBranch, ReduxBranch } from 'redux-shrub';
+
+import title from './title';
+import type from './type';
+import order from './order';
+import componentClass from './class';
+import children from './children';
+import props from './props';
+import events from './events';
+
+class Id extends ReduxLeaf {
+  _newState = ({ stateID }) => stateID
+}
+
 const StateReducer = new ReduxBranch({
   slug: 'state',
   children: {
-    // id: composeFixedLeaf('id', payload.stateID),
-    // class: componentClass,
-    // title,
-    // type,
-    // order,
-    // children,
-    // props,
-    // events
-  }
+    id: new Id({ slug: 'id'}),
+    class: componentClass,
+    title,
+    type,
+    order,
+    children,
+    props,
+    events
+  },
+  includeSlugInChildReducers: true,
+  includeSlugInChildSelectors: true,
 })
 
 // Translate Sketch Components

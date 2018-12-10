@@ -51,6 +51,6 @@ const domain = createReduxBranch('domain', {
   assets,
   projects,
   tabs,
-})
+}, { includeSelfSelector: false })
 
 export default domain

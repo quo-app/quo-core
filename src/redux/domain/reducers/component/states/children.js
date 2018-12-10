@@ -2,13 +2,11 @@ import { ReduxLeaf } from 'redux-shrub';
 import { OrderedSet } from 'immutable';
 
 class StateChildrenReducer extends ReduxLeaf {
-  static initialState = ({ children }) => OrderedSet(children ? children : [])
-  __add = ({ child }) => this.state.set(child)
-  __remove = ({ child }) => this.state.delete(child)
+  _newState = ({ children }) => OrderedSet(children ? children : [])
+  add = state => ({ child }) => state.set(child)
+  remove = state => ({ child }) => state.delete(child)
 }
-const stateChildren = payload => new StateChildrenReducer({
-  slug: 'children',
-  children: StateChildrenReducer.initialState(payload)
-})
+
+const stateChildren = new StateChildrenReducer({ slug: 'children' })
 
 export default stateChildren

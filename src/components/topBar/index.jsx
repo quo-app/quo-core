@@ -6,6 +6,8 @@ import selectors from 'quo-redux/selectors';
 
 import { Button } from 'quo-ui/buttons';
 
+import uuid from 'uuid/v1'
+
 class TopBar extends Component {
   setAppMode = (mode) => {
     const { dispatch } = this.props;
@@ -18,7 +20,7 @@ class TopBar extends Component {
     let previewSelected = this.props.appMode === 'PREVIEW'
     return (
       <div className='top-bar'>
-        <Button onClick={()=> {this.props.dispatch(actions.CREATE_PREVIEW_INSTANCE({selectedComponents:[], previewId:'asdasd'}))}}>preview instance</Button>
+        <Button onClick={()=> {this.props.dispatch(actions.PREVIEWINSTANCES_ADD({selectedComponents:[], previewID: uuid()}))}}>preview instance</Button>
         <Button selected={editSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_EDIT())}>App Mode: EDIT</Button>
         <Button selected={previewSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_PREVIEW())}>App Mode: PREVIEW</Button>
       </div>

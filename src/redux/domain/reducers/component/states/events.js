@@ -1,35 +1,26 @@
-import { ReduxLeaf, ReduxBranch } from 'redux-shrub';
+import { ReduxLeaf, createReduxBranch } from 'redux-shrub';
 import { Set } from 'immutable';
 
 class EventsReducer extends ReduxLeaf {
-  __add = ({ event }) => this.state.set(event)
-  __remove = ({ event }) => this.state.delete(event)
+  add = state => ({ event }) => state.set(event)
+  remove = state => ({ event }) => state.delete(event)
 }
 
 class AddEventsReducer extends EventsReducer {
-  static initialState = ({ addEvents }) => Set(addEvents ? addEvents : [])
+  _newState = ({ addEvents }) => Set(addEvents ? addEvents : [])
 }
 
 class RemoveEventsReducer extends EventsReducer {
-  static initialState = ({ removeEvents }) => Set(removeEvents ? removeEvents : [])
+  _newState = ({ removeEvents }) => Set(removeEvents ? removeEvents : [])
 }
 
-const addEvents = payload => new AddEventsReducer({
-  slug: 'addEvents',
-  children: AddEventsReducer.initialState(payload)
-})
+const addEvents = new AddEventsReducer({ slug: 'addEvents' })
 
-const removeEvents = payload => new RemoveEventsReducer({
-  slug: 'removeEvents',
-  children: RemoveEventsReducer.initialState(payload)
-})
+const removeEvents = new RemoveEventsReducer({ slug: 'removeEvents' })
 
-const events = payload => new ReduxBranch({
-  slug: 'events',
-  children: {
-    addEvents: addEvents(payload),
-    removeEvents: removeEvents(payload)
-  }
+const events = createReduxBranch('events', {
+  addEvents,
+  removeEvents,
 })
 
 export default events

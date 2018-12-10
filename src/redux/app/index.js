@@ -23,6 +23,6 @@ let app = createReduxBranch('app', {
   user,
   selection,
   linkBuilder
-});
+}, { includeSelfSelector: false });
 
 export default app

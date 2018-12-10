@@ -1,5 +1,6 @@
-// import { createNewIds, traverseAndAdd } from 'quo-utils/component';
 import { ReduxLeaf, ReduxPolyBranch, createReduxBranch  } from  'redux-shrub';
+
+import accessors from 'quo-redux/accessors';
 
 // export const createPreviewInstance = (previewInstances, action) => {
 //   // components is an array of root components;
@@ -17,13 +18,14 @@ import { ReduxLeaf, ReduxPolyBranch, createReduxBranch  } from  'redux-shrub';
 //   flattenedSelections = flattenedSelections.reduce(_.merge, {})
 //   let { components } = createNewIds({components: flattenedSelections});
 
-//   // do the state management here!
+//   // do the state calculations here!
 
 //   let root = { children: selectedComponents }
 
 //   previewInstances[previewId] = { components, root};
 //   return previewInstances
 // }
+
 class ID extends ReduxLeaf {
   _newState = ({ id }) => id
 }
@@ -46,11 +48,13 @@ const Preview = createReduxBranch('preview', {
   title: new Title({ slug: 'title'}),
   components: new Components({ slug: 'components'}),
   root: new Root({ slug: 'root'})
+}, {
+  includeSlugInChildSelectors: true,
 })
 
 const previewInstances = new ReduxPolyBranch({
   slug: 'previewinstances',
-  accessor: 'previewID',
+  accessor: accessors.preview,
   childReducer: Preview
 })
 

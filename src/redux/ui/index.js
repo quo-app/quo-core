@@ -24,6 +24,6 @@ let ui = createReduxBranch('ui', {
   stateManager,
   messages,
   sidebars
-})
+}, { includeSelfSelector: false })
 
 export default ui
