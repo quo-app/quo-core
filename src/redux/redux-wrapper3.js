@@ -12,7 +12,15 @@ class ReduxShell {
   // Public Methods
   showState = () => this.state instanceof Map ? this.state.toJS() : this.state
 
-  createReducers = () => this._composeReducers(this.children);
+  createReducers = (waitForState) => {
+    let reducers = this._composeReducers(this.children)
+    if(waitForState){
+      return _.mapValues(reducers, f => (state => f))
+    }
+    return reducers
+  }
+
+  createPolyReducers = () => this._composePolyReducers(this.children);
 
   createActions = () => this._composeActions();
 
@@ -29,6 +37,8 @@ class ReduxShell {
   _composeState = children => this._isLeaf() ? children : Map(_.mapValues(children, child => child.state))
 
   _composeReducers = children => this._isLeaf() ? this._getReducers() : _.merge(this._getChildrenReducers(children), this._getReducers())
+
+  _composePolyReducers = children => this._isLeaf() ? this._getReducers() : _.merge(this._getChildrenPolyReducers(children), this._getReducers())
 
   _composeActions = () => _.mapValues(this.createReducers(), (f, type) => (payload) => ({ payload, type }))
 
@@ -76,6 +86,29 @@ class ReduxShell {
     return _.values(reducers).reduce(_.merge, {});
   }
 
+  _getChildrenPolyReducers = children => {
+    let reducers = _.mapValues(children, (child, key) =>
+    {
+      // console.log(child, key)
+      let waitForState = true
+      let childReducers = child.createReducers(waitForState)
+      return _.mapValues(childReducers, reducer => {
+        return (state => payload => {
+          this.state = state;
+          this.state = this.state.set(key, reducer(this.state.get(key))(payload))
+          return this.state
+        })
+      })
+    })
+
+    // version with long action types
+    // let flattenedReducers  = _.values(reducers).reduce(_.merge, {})
+    // return _.mapKeys(flattenedReducers, (v, k) => this._addSlug(k))
+
+    // version with short action types
+    return _.values(reducers).reduce(_.merge, {});
+  }
+
   _propagateState = (reducer, key) => payload => {
     this.state = this.state.set(key, reducer(payload))
     return this.state
@@ -105,10 +138,10 @@ class ReduxPolyBranch {
     this.reducerPrefix = '__';
     this.state = this._composeState(children)
     this.accessor = accessor;
-
-    let childReducerTemp = childReducer({})
+    this.childReducerFunction = childReducer;
+    let childReducerTemp = childReducer({ title: 'fake'})
     this.childSlug = childReducerTemp.slug;
-    this.childReducers = this._mapChildReducers(childReducerTemp.createReducers());
+    this.childReducers = this._mapChildReducers(childReducerTemp.createPolyReducers());
   }
   // Public Methods
   showState = () => this.state instanceof Map ? this.state.toJS() : this.state
@@ -182,15 +215,22 @@ class ReduxPolyBranch {
   }
 
   _mapChildReducers = (childReducers) => {
+    // let correctReducers = this.childReducerFunction(this.state.get(payload[this.accessor]).toJS());
     childReducers = _.mapValues(childReducers, (reducer,key) => payload => {
     // if there is no key to find, don't call the reducer
+    console.log(this.state.get(payload[this.accessor]))
     if(!payload.id) return this.state
-    this.state.set(payload[this.accessor], reducer(payload))
+    this.state = this.state.set(payload[this.accessor], reducer(this.state.get(payload[this.accessor]))(payload))
+    console.log(this.state.get(payload[this.accessor]))
     return this.state
     })
     return _.mapKeys(childReducers, (reducer, key) => this._addSlug(key, this.childSlug))
   }
 }
 
+const composeFixedLeaf = (slug, children) => new ReduxLeaf({
+  slug,
+  children
+})
 
-export { ReduxLeaf, ReduxBranch, ReduxPolyBranch }
+export { ReduxLeaf, ReduxBranch, ReduxPolyBranch, composeFixedLeaf }

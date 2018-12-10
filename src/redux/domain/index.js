@@ -1,10 +1,6 @@
-import { ReduxBranch } from 'quo-redux/redux-wrapper';
+import { createReduxBranch } from 'redux-shrub';
 
-import components from './reducers/components';
-import projects from './reducers/projects';
-import assets from './reducers/assets';
-import tabs from './reducers/tabs';
-import previews from './reducers/previews';
+
 
 // const assets = combineReducersLoop({
 //   'UPLOAD_SKETCH':uploadSketch,
@@ -43,15 +39,18 @@ import previews from './reducers/previews';
 //   tabs,
 // });
 
-let domain = new ReduxBranch({
-  slug: 'domain',
-  children: {
-    components,
-    previews,
-    assets,
-    projects,
-    tabs,
-  }
+import components from './reducers/components';
+import projects from './reducers/projects';
+import assets from './reducers/assets';
+import tabs from './reducers/tabs';
+import previews from './reducers/previews';
+
+const domain = createReduxBranch('domain', {
+  components,
+  previews,
+  assets,
+  projects,
+  tabs,
 })
 
 export default domain

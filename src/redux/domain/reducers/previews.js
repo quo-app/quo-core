@@ -1,6 +1,5 @@
 // import { createNewIds, traverseAndAdd } from 'quo-utils/component';
-import { ReduxLeaf, ReduxPolyBranch } from  'quo-redux/redux-wrapper';
-import { ReduxBranch } from '../../redux-wrapper';
+import { ReduxLeaf, ReduxPolyBranch, createReduxBranch  } from  'redux-shrub';
 
 // export const createPreviewInstance = (previewInstances, action) => {
 //   // components is an array of root components;
@@ -25,53 +24,36 @@ import { ReduxBranch } from '../../redux-wrapper';
 //   previewInstances[previewId] = { components, root};
 //   return previewInstances
 // }
-
-// export const removePreviewInstance = (previewInstances, action) => {
-//   return previewInstances
-// }
-
-class Preview {
-  constructor({ id, title, components, root }){
-    this.id = id
-    this.title = title
-    this.components = components
-    this.root = root
-  }
-  // do the work of copying new ids here
+class ID extends ReduxLeaf {
+  _newState = ({ id }) => id
 }
 
-class PreviewReducer extends ReduxLeaf {
-  __titleUpdate = ({ title }) => {
-    this.state.title = title;
-    return this.state;
-  }
+class Title extends ReduxLeaf {
+  _newState = ({ title }) => title
+  update = state => ({ title }) => title
 }
 
-let previewReducer = payload => new PreviewReducer({
-  slug: 'component',
-  children: new Preview(payload)
+class Components extends ReduxLeaf {
+  _newState = ({ components }) => components
+}
+
+class Root extends ReduxLeaf {
+  _newState = ({ root }) => root
+}
+
+const Preview = createReduxBranch('preview', {
+  id:  new ID({ slug: 'id'}),
+  title: new Title({ slug: 'title'}),
+  components: new Components({ slug: 'components'}),
+  root: new Root({ slug: 'root'})
 })
 
-class PreviewInstancesReducer extends ReduxPolyBranch {
-  __add = payload => {
-    let newPreviewInstance = this.childReducer(payload).state
-    this.state = this.state.set(payload.id, newPreviewInstance);
-    return this.state
-  }
-}
-
-const previewInstances = new PreviewInstancesReducer({
+const previewInstances = new ReduxPolyBranch({
   slug: 'previewinstances',
   accessor: 'previewID',
-  childReducer: previewReducer,
-  children: {}
+  childReducer: Preview
 })
 
-const previews = new ReduxBranch({
-  slug:'previews',
-  children: {
-    previewInstances
-  }
-})
+const previews = createReduxBranch('previews', { previewInstances })
 
 export default previews

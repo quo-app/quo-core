@@ -1,4 +1,4 @@
-import { ReduxBranch } from 'quo-redux/redux-wrapper';
+import { createReduxBranch } from 'redux-shrub';
 
 import linkBuilder from './reducers/linkBuilder';
 import appMode from './reducers/appMode';
@@ -18,14 +18,11 @@ import user from './reducers/user';
 //   'UPDATE_LINK_BUILDER_DATA': updateLinkBuilderData,
 // });
 
-let app = new ReduxBranch({
-  slug: 'app',
-  children: {
-    appMode,
-    user,
-    selection,
-    linkBuilder
-  }
-})
+let app = createReduxBranch('app', {
+  appMode,
+  user,
+  selection,
+  linkBuilder
+});
 
 export default app

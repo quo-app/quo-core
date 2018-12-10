@@ -246,7 +246,8 @@ AssetPreview = connect()(AssetPreview)
 const mapStateToProps = (state) => {
   return {
     assets: selectors.assets(state),
-    components: selectors.components(state),
+    // components: selectors.components(state),
+    components: []
   }
 }
 

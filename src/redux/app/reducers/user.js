@@ -1,5 +1,5 @@
-import { ReduxBranch } from  'quo-redux/redux-wrapper';
+import { createReduxBranch } from  'redux-shrub';
 
-let user = new ReduxBranch({ slug: 'user', children: {}})
+let user = createReduxBranch('user')
 
 export default user

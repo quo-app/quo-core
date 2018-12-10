@@ -2,11 +2,11 @@
 
 import { Map } from 'immutable';
 
-import { ReduxLeaf } from 'quo-redux/redux-wrapper';
+import { ReduxLeaf } from 'redux-shrub';
 
 class LinkBuilderReducer extends ReduxLeaf {
 
-  static initialState = () => Map({
+  _newState = () => Map({
     source : '',
     target : '',
     linkId : '',
@@ -14,15 +14,12 @@ class LinkBuilderReducer extends ReduxLeaf {
     disables : [],
   })
 
-  __clear = () => LinkBuilderReducer.initialState()
+  clear = state => payload => this._newState()
 
-  __update = payload => this.state.merge(payload)
+  update = state => payload => state.merge(payload)
 
 }
 
-let LinkBuilder = new LinkBuilderReducer({
-  slug: 'linkbuilder',
-  children: LinkBuilderReducer.initialState(),
-})
+let LinkBuilder = new LinkBuilderReducer({ slug: 'linkbuilder' })
 
 export default LinkBuilder

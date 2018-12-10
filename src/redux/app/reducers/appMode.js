@@ -1,11 +1,11 @@
-import { ReduxLeaf } from 'quo-redux/redux-wrapper';
+import { ReduxLeaf } from 'redux-shrub';
 
 class AppModeReducer extends ReduxLeaf {
-  static initialState = () => 'EDIT'
-  __setEdit = () => 'EDIT'
-  __setPreview = () => 'PREVIEW'
+  _newState = () => 'EDIT'
+  setEdit = state => payload => 'EDIT'
+  setPreview = state => payload => 'PREVIEW'
 }
 
-let appMode = new AppModeReducer({ slug: 'appmode', children: AppModeReducer.initialState()})
+let appMode = new AppModeReducer({ slug: 'appmode' })
 
 export default appMode

@@ -54,7 +54,7 @@ class Viewer extends Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.activeTabObject){
       const { dispatch } = this.props;
-      dispatch(actions.SELECTABLES_UPDATE(nextProps.activeTabObject.children))
+      // dispatch(actions.SELECTABLES_UPDATE(nextProps.activeTabObject.children))
     }
   }
 

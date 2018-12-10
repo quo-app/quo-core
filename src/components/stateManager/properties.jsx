@@ -33,7 +33,8 @@ class Properties extends Component {
 
 
 const mapStateToProps = (state) => {
-  const selectedComponents = selectors.selectedComponents(state);
+  // change this!!!
+  const selectedComponents = selectors.selectedComponents(state).toJS();
   // case where there is no selection
   if(selectedComponents.length === 0){
     return { cards: []}

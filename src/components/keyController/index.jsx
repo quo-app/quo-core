@@ -15,7 +15,19 @@ class KeyController extends Component {
 
   componentDidMount(){
     this.props.dispatch(actions.COMPONENTS_ADD({id: uuid1, title: 'deniz'}))
-    this.props.dispatch(actions.COMPONENT_TITLE_UPDATE({id: uuid1, title: 'deniz2'}))
+    this.props.dispatch(actions.COMPONENT_STATES_ADD({id: uuid1, stateID: uuid1, title: 'asdasdasd', class:'shape', props:{
+      x: 20,
+      y: 20
+    }}))
+    this.props.dispatch(actions.COMPONENT_STATES_ADD({id: uuid1, stateID: uuid1+'s', title: 'asdasdasd', class:'shape', props:{
+      x: 20,
+      y: 20
+    }}))
+    // this.props.dispatch(actions.COMPONENT_STATE_TITLE_UPDATE({id: uuid1, stateID: uuid1, title: 'state2'}))
+    // this.props.dispatch(actions.COMPONENT_STATE_PROPS_ADD({id: uuid1, stateID: uuid1, prop: {
+    //   key: 'x',
+    //   value: 10
+    // }}))
     this.props.dispatch(actions.TABS_ADD({id: uuid1, rootComponent: uuid1}));
     this.props.dispatch(actions.TABS_REMOVE({id: uuid1}));
     this.props.dispatch(actions.MESSAGES_ADD({
@@ -28,7 +40,6 @@ class KeyController extends Component {
   keyUp = (e) => this.props.dispatch(actions.KEY_UP(e.keyCode));
 
   keyDown = (e) => {
-    console.log(this.props.tabs)
     if(this.props.keys.has(e.keyCode)) return;
     this.props.dispatch(actions.KEY_DOWN(e.keyCode))
   }
@@ -90,7 +101,7 @@ class KeyController extends Component {
 const mapStateToProps = state => {
   return {
     tabs: selectors.tabs(state),
-    keys: selectors.key(state)
+    keys: selectors.keys(state)
   }
 }
 

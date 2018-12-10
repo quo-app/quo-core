@@ -1,35 +1,25 @@
 // @flow
 
-import { ReduxLeaf, ReduxBranch } from 'quo-redux/redux-wrapper';
+import { ReduxLeaf, createReduxBranch } from 'redux-shrub';
+import { OrderedSet } from 'immutable';
 
 type componentID = string;
 
 class SelectedComponentsReducer extends ReduxLeaf {
-  __update = (payload: componentID[]) : componentID[] => payload
-  __clear = () => []
+  _newState = () => OrderedSet()
+  update = state => (payload: componentID[]) => state.union(payload)
+  clear = state => payload => this._newState()
 }
-
-let selectedComponents = new SelectedComponentsReducer({
-  slug: 'selectedComponents',
-  children: []
-})
 
 class SelectablesReducer extends ReduxLeaf {
-  __update = (payload: componentID[]) : componentID[] => payload
-  __clear = () => []
+  _newState = () => OrderedSet()
+  update = state => (payload: componentID[]) : componentID[] => state.union(payload)
+  clear = state => payload => this._newState()
 }
 
-let selectables = new SelectablesReducer({
-  slug: 'selectables',
-  children: []
-})
+let selectedComponents = new SelectedComponentsReducer({ slug: 'selectedComponents' })
+let selectables = new SelectablesReducer({ slug: 'selectables' })
 
-let selection = new ReduxBranch({
-  slug: 'selection',
-  children: {
-    selectedComponents,
-    selectables
-  }
-})
+let selection = createReduxBranch('selection', { selectedComponents, selectables })
 
 export default selection

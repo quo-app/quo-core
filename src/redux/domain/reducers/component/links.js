@@ -1,4 +1,35 @@
-import _ from 'lodash';
+import { ReduxLeaf } from 'redux-shrub';
+import { Map } from 'immutable';
+
+// this.links = {
+//   add: {
+//       onMouseEnter: [{id, states: { stateID: state, stateID2: state}],
+//       onMouseDown: [],
+//       onFocus: [],
+//   },
+//   remove: {
+//       onMouseLeave: [],
+//       onMouseUp: [],
+//       onBlur: [],
+//   }
+// }
+
+// this.links = {
+//   linkId: {
+//     state1,
+//     state2,
+//     state3
+//   }
+// }
+
+class LinksReducer extends ReduxLeaf {
+  _newState = ({ links = {} }) => Map({})
+  set = state => ({ targetID, componentState }) => state.setIn([targetID, componentState.id], componentState)
+}
+
+const links = new LinksReducer({ slug: 'links' })
+
+export default links
 
 // INIT
 // set current link id in link builder
@@ -20,37 +51,37 @@ import _ from 'lodash';
 // { triggers { onHover: [linkid1,linkid2] }, targets {linkid :component}
 // }
 
-export const setLinkSource = (components, action) => {
+// export const setLinkSource = (components, action) => {
 
-  if(!action.payload) return components
+//   if(!action.payload) return components
 
-  let { linkId, source, target, enables, disables } = action.payload
+//   let { linkId, source, target, enables, disables } = action.payload
 
-  let sourceComponent = components[source]
+//   let sourceComponent = components[source]
 
-  enables.forEach((event)=>{
-    sourceComponent.links.triggers[event].push(target);
-  })
+//   enables.forEach((event)=>{
+//     sourceComponent.links.triggers[event].push(target);
+//   })
 
-  disables.forEach((event)=>{
-    sourceComponent.links.disables[event].push(target);
-  })
+//   disables.forEach((event)=>{
+//     sourceComponent.links.disables[event].push(target);
+//   })
 
-  sourceComponent.links.targetStateIds[target] = linkId;
+//   sourceComponent.links.targetStateIds[target] = linkId;
 
-  return {...components, [source]:_.cloneDeep(sourceComponent)};
+//   return {...components, [source]:_.cloneDeep(sourceComponent)};
 
-}
+// }
 
-export const setLinkTarget = (components, action) => {
+// export const setLinkTarget = (components, action) => {
 
-  if(!action.payload) return components
+//   if(!action.payload) return components
 
-  let { target, linkState } = action.payload
+//   let { target, linkState } = action.payload
 
-  let targetComponent = components[target];
+//   let targetComponent = components[target];
 
-  targetComponent.state.states[linkState.id] = linkState;
+//   targetComponent.state.states[linkState.id] = linkState;
 
-  return {...components, [target]:_.cloneDeep(targetComponent)};
-}
+//   return {...components, [target]:_.cloneDeep(targetComponent)};
+// }

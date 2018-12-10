@@ -2,23 +2,19 @@
 //   return { ...stateManager, ...action.payload }
 // }
 
-import { ReduxLeaf, ReduxBranch } from 'quo-redux/redux-wrapper';
+import { ReduxLeaf, createReduxBranch } from 'redux-shrub';
 
 class CurrentStateReducer extends ReduxLeaf {
-  static initialState = () => ''
-  __update = payload => payload
+  _newState = () => ''
+  update = state => payload => payload
 }
 
 let currentState = new CurrentStateReducer({
   slug: 'currentState',
-  children: CurrentStateReducer.initialState()
 })
 
-let stateManager = new ReduxBranch({
-  slug: 'statemanager',
-  children: {
-    currentState
-  }
+let stateManager = createReduxBranch('statemanager', {
+  currentState
 })
 
 export default stateManager

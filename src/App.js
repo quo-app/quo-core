@@ -20,7 +20,7 @@ function App() {
 
         <DropzoneContainer>
 
-          <Viewer />
+          {/* <Viewer /> */}
           <TopBar />
          <SideBarLeft />
           <SideBarRight />

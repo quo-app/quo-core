@@ -1,27 +1,21 @@
-import { ReduxBranch, ReduxLeaf } from 'quo-redux/redux-wrapper'
-import { Map } from 'immutable'
+import { createReduxBranch, ReduxLeaf } from 'redux-shrub'
+import { Set } from 'immutable'
 
-class KeyReducer extends ReduxLeaf {
+class KeysReducer extends ReduxLeaf {
   //Example state
   // {
   //  'cmd': true,
   //  'enter': true,
   // }
-  static initialState = () => Map({})
-  __down = keyCode => this.state.set(keyCode, true)
-  __up = keyCode => this.state.delete(keyCode)
+  _newState = () => Set()
+  down = state => keyCode => state.set(keyCode)
+  up = state => keyCode => state.delete(keyCode)
 }
 
-let key = new KeyReducer({
-  slug: 'key',
-  children: KeyReducer.initialState()
+let keys = new KeysReducer({
+  slug: 'keys',
 })
 
-let keyManager = new ReduxBranch({
-  slug: 'keymanager',
-  children: {
-    key
-  }
-})
+let keyManager = createReduxBranch('keymanager', { keys })
 
 export default keyManager

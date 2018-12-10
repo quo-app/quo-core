@@ -1,4 +1,4 @@
-import { ReduxLeaf } from 'quo-redux/redux-wrapper'
+import { ReduxLeaf } from 'redux-shrub'
 import uuid from 'uuid/v1';
 import { Map } from 'immutable';
 
@@ -6,11 +6,6 @@ import { Map } from 'immutable';
 //     type: type,
 //     text: text,
 //     duration: duration,
-
-// const messages = combineReducersLoop({
-//   'ADD_MESSAGE': addMessage,
-//   'REMOVE_MESSAGE': removeMessage,
-// })
 
 class Message {
   constructor({ id, type, text, duration }){
@@ -23,25 +18,21 @@ class Message {
 
 class MessagesReducer extends ReduxLeaf {
 
-  static initialState = () => Map()
+  _newState = () => Map()
 
-  __clear = MessagesReducer.initialState
+  clear = state => payload => this._newState()
 
-  __add = messageData => {
+  add = state => messageData => {
     let id = uuid()
     let newMessage = new Message({ ...messageData, id})
-    this.state = this.state.set(id, newMessage)
-    return this.state
+    state = state.set(id, newMessage)
+    return state
   }
-  __remove = message => {
-    this.state = this.state.delete(message.id)
-    return this.state
-  }
+  remove = state => message => state.delete(message.id)
 }
 
 let messages = new MessagesReducer({
-  slug: 'messages',
-  children: MessagesReducer.initialState()
+  slug: 'messages'
 })
 
 export default messages

@@ -1,8 +1,5 @@
-import { ReduxBranch } from 'quo-redux/redux-wrapper';
+import { createReduxBranch } from 'redux-shrub';
 
-let projects = new ReduxBranch({
-  slug: 'projects',
-  children: {}
-})
+let projects = createReduxBranch('projects')
 
 export default projects

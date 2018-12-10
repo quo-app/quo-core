@@ -12,21 +12,18 @@
 //   'STATE_MANAGER_UPDATE': updateStateManager,
 // })
 
-import { ReduxBranch } from 'quo-redux/redux-wrapper';
+import { createReduxBranch } from 'redux-shrub';
 
 import keyManager from './reducers/keyManager';
 import stateManager from './reducers/stateManager';
 import messages from './reducers/messages';
 import sidebars from './reducers/sidebars';
 
-let ui = new ReduxBranch({
-  slug: 'ui',
-  children: {
-    keyManager,
-    stateManager,
-    messages,
-    sidebars
-  }
+let ui = createReduxBranch('ui', {
+  keyManager,
+  stateManager,
+  messages,
+  sidebars
 })
 
 export default ui

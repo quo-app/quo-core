@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 // these actions only trigger a change
 // in one point of the tree.
-let actions = State.createActions();
+let actions = State._composeActions();
 
 // extending the actions with
 console.log(actions)

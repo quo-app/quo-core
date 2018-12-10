@@ -1,22 +1,4 @@
-// const domain = {
-//   // Uploads
-//   assets:{
-//     sketch:{},
-//     image: {}
-//   },
-//   // Preview containers
-//   previewInstances: {},
-//   // Edited Components
-//   components:{},
-//   projects:{},
-//   tabs:{
-//     activeTab:'',
-//     allTabs:{},
-//     tabCount:0
-//   }
-// }
-
-import { ReduxBranch } from 'quo-redux/redux-wrapper';
+import { createReduxRoot } from 'redux-shrub';
 
 import domain from './domain';
 import app from './app';
@@ -29,14 +11,7 @@ const getState = (state: State, target: 'domain' | 'ui' | 'app') => {
   return state[target]
 }
 
-let State = new ReduxBranch({
-  slug: 'root',
-  children: {
-    domain,
-    app,
-    ui
-  }
-})
+let State = createReduxRoot('root', { domain, app, ui })
 
 const constants = {
   appModes: ['EDIT','PREVIEW'],
