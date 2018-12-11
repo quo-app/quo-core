@@ -1,7 +1,7 @@
 import React from 'react';
 
 function ImageComponent({ component }) {
-  return <img src={component.data} alt={component.name} />;
+  return <img src={component.imageData} alt={component.title} />;
 }
 
 export default ImageComponent;

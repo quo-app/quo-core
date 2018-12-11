@@ -6,13 +6,13 @@ import TextComponent from './components/TextComponent';
 
 class ComponentRenderCore extends PureComponent {
   render = () => {
-    switch (this.props.component.class) {
+    switch (this.props.component.type) {
       case 'shape':
-        return (<ShapeComponent component={ this.props.component }></ShapeComponent>)
+        return (<ShapeComponent component={ this.props.component } propsSelector={this.props.propsSelector}></ShapeComponent>)
       case 'text':
-        return (<TextComponent component={ this.props.component }></TextComponent>)
+        return (<TextComponent component={ this.props.component } propsSelector={this.props.propsSelector}></TextComponent>)
       case 'image':
-        return <ImageComponent component={this.props.component} />
+        return <ImageComponent component={this.props.component} propsSelector={this.props.propsSelector}/>
       default:
         const Wrapper = this.props.wrapper
         return (
@@ -23,7 +23,8 @@ class ComponentRenderCore extends PureComponent {
                   <Wrapper
                     id={id}
                     key={id}
-                    source={this.props.source}
+                    selector={this.props.selector}
+                    propsSelector={this.props.propsSelector}
                   />
                 )
               })

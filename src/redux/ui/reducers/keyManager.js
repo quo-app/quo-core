@@ -8,7 +8,7 @@ class KeysReducer extends ReduxLeaf {
   //  'enter': true,
   // }
   _newState = () => Set()
-  down = state => keyCode => state.set(keyCode)
+  down = state => keyCode => state.add(keyCode)
   up = state => keyCode => state.delete(keyCode)
 }
 

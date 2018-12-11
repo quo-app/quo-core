@@ -1,4 +1,5 @@
 import { SketchParser } from 'quo-parser';
+import { SketchToAssetComponent } from 'quo-parser/assetComponent';
 import { createReduxBranch, ReduxLeaf } from 'redux-shrub';
 import { Map } from 'immutable';
 
@@ -9,8 +10,7 @@ class AssetContainer extends ReduxLeaf {
 
 class SketchAssetContainer extends AssetContainer {
   add = state => payload => {
-    // do something with the payload here
-    let newPage = new SketchParser.AbstractPage(payload);
+    let newPage = SketchToAssetComponent(payload);
     return state.set(newPage.id, newPage);
   }
 }

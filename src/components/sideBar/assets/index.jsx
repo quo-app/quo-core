@@ -49,7 +49,60 @@ class AssetsTab extends Component {
           :
           null
         } */}
+        <AssetPageViewer assets={this.props.assets}/>
       </div>
+    )
+  }
+}
+
+class AssetPageViewer extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      selected: ''
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({selected: nextProps.assets.first()})
+  }
+
+  onPageChange = () => {
+
+  }
+  getViewports(){
+    if(!this.props.assets.first()) return []
+    return _.values(_.pickBy(this.props.assets.first().components, component => component.type === 'viewport'))
+  }
+  render(){
+
+    let viewports = this.getViewports();
+    let pages = this.props.assets.size === 0 ? [] : this.props.assets.valueSeq()
+    console.log(this.state.selected)
+    return (
+      <div className='assets-library-wrapper'>
+      <div className='card-header'>
+        Sketch Pages
+      </div>
+      <div className='card-body'>
+        {
+          pages.map((page, i)=>{
+            return(
+              <div className={`page ${page.id === this.state.selected.id ? 'selected' : ''}`} key={i} onClick={()=>{this.onPageChange(page)}}> {page.title} </div>
+            )
+          })
+        }
+      </div>
+      <div className='assets-preview-wrapper'>
+        <div className='asset-preview-table'>
+        {
+          viewports.map( (viewport, i) => <AssetPreview key={i} component={viewport} title={viewport.title}/>)
+        }
+        </div>
+      </div>
+    </div>
+
     )
   }
 }
@@ -183,11 +236,11 @@ class AssetPreview extends Component {
     }
   }
   addAssetToEditor = () => {
-    const { dispatch } = this.props;
-    dispatch(actions.ADD_COMPONENT({source:this.props.source,
-                            filetype:this.props.filetype,
-                            page:this.props.page,
-                            component:this.props.component}));
+    // const { dispatch } = this.props;
+    // dispatch(actions.ADD_COMPONENT({source:this.props.source,
+    //                         filetype:this.props.filetype,
+    //                         page:this.props.page,
+    //                         component:this.props.component}));
   }
 
   onRender = (image) => {
@@ -199,7 +252,7 @@ class AssetPreview extends Component {
     let img = new Image();
 
     this.setState({
-      draggable:true,
+      draggable: true,
       dragImageNode: img,
     });
 
@@ -216,11 +269,9 @@ class AssetPreview extends Component {
   }
 
   render = () => {
-    let source = {
-      location: this.props.source,
-      filetype: this.props.filetype,
-      page: this.props.page,
-    }
+
+    let selector = state => selectors.assetsSketch(state).first().components
+    let propsSelector = component => component.props
 
     return (
 
@@ -234,7 +285,10 @@ class AssetPreview extends Component {
           onDragStart={this.onDragStart}
           onDragEnd={this.onDragEnd}
         >
-          <SnapshotContainer source={source} component={this.props.component} onRender={this.onRender}/>
+          <SnapshotContainer
+            selector={selector}
+            propsSelector={propsSelector}
+            component={this.props.component} onRender={this.onRender}/>
         </div>
       </div>
     )
@@ -245,9 +299,7 @@ AssetPreview = connect()(AssetPreview)
 
 const mapStateToProps = (state) => {
   return {
-    assets: selectors.assets(state),
-    // components: selectors.components(state),
-    components: []
+    assets: selectors.assetsSketch(state)
   }
 }
 

@@ -8,11 +8,11 @@ import CoreComponent from './CoreComponent';
 class ShapeComponent extends CoreComponent {
 
   getCurrentProps(obj){
-    return obj.state.states[obj.state.current].props
+    return this.props.propsSelector(obj)
   }
 
   getDimensionsCSS(props){
-    return translatePropData('abstract','css',pick(props,['width','height']));
+    return translatePropData('abstract','css', pick(props,['width','height']));
   }
 
   getStyleCSS(props){
@@ -27,7 +27,7 @@ class ShapeComponent extends CoreComponent {
 
     return(
       <svg style={{...dimensions, ...style }}>
-        { this.props.component.svgComponent }
+        <path d={this.props.component.path}/>
       </svg>
     )
   }
