@@ -72,7 +72,7 @@ import { ReduxBranch, ReduxLeaf } from 'redux-shrub'
 import title from './title'
 import states from './states/index.js'
 // import stateGraph from './stateGraph'
-import links from './links'
+// import links from './links'
 
 class ID extends ReduxLeaf {
   _newState = ({ id }) => id
@@ -87,8 +87,6 @@ let ComponentReducer = new ReduxBranch({
   children: {
     id: new ID({ slug: 'id'}),
     title,
-    // stateGraph,
-    links,
     states,
     _coreProps: new CoreProps({ slug: 'coreProps'}),
   },

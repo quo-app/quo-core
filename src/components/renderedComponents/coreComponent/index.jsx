@@ -6,7 +6,7 @@ import TextComponent from './components/TextComponent';
 
 class ComponentRenderCore extends PureComponent {
   render = () => {
-    switch (this.props.component.type) {
+    switch (this.props.component.get('type')) {
       case 'shape':
         return (<ShapeComponent component={ this.props.component } propsSelector={this.props.propsSelector}></ShapeComponent>)
       case 'text':
@@ -18,7 +18,7 @@ class ComponentRenderCore extends PureComponent {
         return (
           <React.Fragment>
             {
-              this.props.component.children.map(id => {
+              this.props.component.get('children').map(id => {
                 return (
                   <Wrapper
                     id={id}

@@ -88,6 +88,7 @@ class Component {
     this.title = data.name;
     this.type = convertType(data._class)
     this.props = translatePropData('sketch','abstract', data);
+    this.parent = data.parent ? data.parent : null
   }
 }
 
@@ -97,7 +98,7 @@ class BranchComponent extends Component {
     this.children = []
     data.layers.forEach( component => {
       const ObjectConstructor = typeToObject(convertType(component._class))
-      let componentObject = new ObjectConstructor(component)
+      let componentObject = new ObjectConstructor({...component, parent: this.id})
       this.children.push(componentObject)
     })
   }

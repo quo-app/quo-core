@@ -6,14 +6,15 @@ import { OrderedSet } from 'immutable';
 type componentID = string;
 
 class SelectedComponentsReducer extends ReduxLeaf {
-  _newState = () => OrderedSet()
-  update = state => (payload: componentID[]) => state.union(payload)
+  _newState = () => []
+  update = state => (payload: componentID[]) => payload
+  add = state => (payload: componentID[]) => state.concat(payload);
   clear = state => payload => this._newState()
 }
 
 class SelectablesReducer extends ReduxLeaf {
-  _newState = () => OrderedSet()
-  update = state => (payload: componentID[]) : componentID[] => state.union(payload)
+  _newState = () => []
+  update = state => (payload: componentID[]) : componentID[] => payload
   clear = state => payload => this._newState()
 }
 

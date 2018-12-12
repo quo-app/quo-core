@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
+import { Map } from  'immutable'
+
 import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
 
@@ -54,14 +56,14 @@ class Viewer extends Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.activeTabObject){
       const { dispatch } = this.props;
-      // dispatch(actions.SELECTABLES_UPDATE(nextProps.activeTabObject.children))
+      dispatch(actions.SELECTABLES_UPDATE(nextProps.activeTabObject.rootComponent.children))
     }
   }
 
   mouseDown = () => {
     const { dispatch } = this.props;
     dispatch(actions.SELECTED_COMPONENTS_UPDATE([]));
-    dispatch(actions.SELECTABLES_UPDATE(this.props.activeTabObject.children))
+    dispatch(actions.SELECTABLES_UPDATE(this.props.activeTabObject.rootComponent.children))
   }
 
   onWheel(e){
@@ -185,7 +187,12 @@ class Viewer extends Component {
   }
 
   renderComponents(){
-    const ComponentRenderClass = this.props.appMode === 'EDIT' ? EditComponents.Branch : PreviewComponent
+    const ComponentRenderClass = EditComponents.Branch
+    const parentComponent = Map({
+      type: 'parent',
+      children: this.props.activeTabObject.rootComponent.children,
+      _coreProps: this.props.activeTabObject.rootComponent.props
+    })
     return (
       <ComponentRenderClass
         style={{
@@ -193,7 +200,9 @@ class Viewer extends Component {
             top:'525px',
         }}
         isParent
-        tab={this.props.activeTab}
+        component={parentComponent}
+        selector={(state, id) => selectors.components(state).get(id) }
+        propsSelector= {component => component.get('_coreProps')}
       />
     )
   }

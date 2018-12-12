@@ -1,11 +1,16 @@
 import { Map } from 'immutable';
 import { ReduxLeaf } from 'redux-shrub';
+import { stat } from 'fs';
 
 class Tab {
-  constructor({id, tabCount, rootComponent}){
+  constructor({ id, tabCount }){
     this.id = id
     this.title = `Tab ` + tabCount
-    this.rootComponent = rootComponent
+    this.rootComponent = {
+      id: id,
+      children: [],
+      props: { x: 0, y: 0 }
+    }
   }
 }
 
@@ -20,9 +25,9 @@ class TabsReducer extends ReduxLeaf {
   __updateCurrentTab = (state, id) => state.set('currentTab', id)
 
   // reducers
-  add = state => payload => {
-    state = state.setIn(['tabs', payload.id], new Tab({...payload, tabCount: state.get('tabCount')}))
-    state = this.__updateCurrentTab(state, payload.id)
+  add = state => ({ id }) => {
+    state = state.setIn(['tabs', id], new Tab({ id, tabCount: state.get('tabCount')}))
+    state = this.__updateCurrentTab(state, id)
     state = state.set('tabCount', state.get('tabCount') + 1)
     return state
   }
@@ -35,10 +40,18 @@ class TabsReducer extends ReduxLeaf {
     return state.setIn(['tabs', id], newTab);
   }
 
-  editRoot = state => ({ id, root }) => {
+  addRootComponentToCurrent = state => ({ id, rootID }) => {
+    if(!state.get('tabs').has(state.get('currentTab'))){
+      state = this.add(state)({ id })
+    }
+    else {
+      id = state.get('currentTab')
+    }
     let tab = state.getIn(['tabs', id]);
-    let newTab = { ...tab, rootComponent: root };
-    return state.setIn(['tabs', id], newTab);
+    tab.rootComponent.children.push(rootID)
+    let newTab = { ...tab, rootComponent: { ...tab.rootComponent } };
+    state = state.setIn(['tabs', id], newTab);
+    return state
   }
 
   remove = state => ({ id })=> {

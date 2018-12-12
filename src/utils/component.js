@@ -22,25 +22,33 @@ export const traverseAndAdd = (component, components, collector = {}) => {
 // the rootID component must be in the array as well.
 // creates copys of the components as well as adding new ids to them.
 
-export const createNewIds = ({ rootId, components}) => {
+export const createNewIds = ({ rootID, components }) => {
+
   let newRootId;
   let oldIDMappings = {};
 
-  _.forEach(components, o => {
+  components = _.mapValues(components, o => {
     let newID = uuid().toUpperCase();
-    let oldID = o.id.slice();
+    let oldID = o.id;
     oldIDMappings[oldID] = newID;
+
     //if it is the root comp, save the id.
-    if(o.id === rootId) newRootId = newID;
+    if(o.id === rootID) {
+      newRootId = newID
+    };
     o.id = newID;
     //replace the key
-    delete Object.assign(components, {[newID]: components[oldID] })[oldID]
+    return o
   })
+
+  components = _.mapKeys(components, (o, id) => oldIDMappings[id])
 
   //Add the new mappings into newComps
-  _.forEach(components,(o)=>{
+  components = _.mapValues(components, o => {
       o.children = o.children.map(child => oldIDMappings[child])
+      o.parent = oldIDMappings[o.parent]
+      return o
   })
 
-  return { components, rootId:newRootId }
+  return { components, rootID: newRootId }
 }

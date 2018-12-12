@@ -78,8 +78,9 @@ class AssetPageViewer extends Component {
   render(){
 
     let viewports = this.getViewports();
+    let components = viewports.length > 0 ? this.props.assets.first().components : {}
     let pages = this.props.assets.size === 0 ? [] : this.props.assets.valueSeq()
-    console.log(this.state.selected)
+
     return (
       <div className='assets-library-wrapper'>
       <div className='card-header'>
@@ -97,131 +98,12 @@ class AssetPageViewer extends Component {
       <div className='assets-preview-wrapper'>
         <div className='asset-preview-table'>
         {
-          viewports.map( (viewport, i) => <AssetPreview key={i} component={viewport} title={viewport.title}/>)
+          viewports.map( (viewport, i) => <AssetPreview key={i} component={viewport} components={components} title={viewport.title}/>)
         }
         </div>
       </div>
     </div>
 
-    )
-  }
-}
-
-class AssetsViewer extends Component {
-  constructor(props){
-    super(props);
-    let pages = this.assignPages(props.assets.sketch);
-    let selected = undefined;
-    if(pages.length > 0){
-      selected = pages[0];
-    }
-    this.state = {
-      pages:pages,
-      images: this.props.assets.image,
-      selected: selected,
-    }
-    this.onPageChange = this.onPageChange.bind(this);
-  }
-
-  assignPages(pages){
-    return Object.keys(pages).map( page =>{
-      return { id:pages[page].id, name:pages[page].name }
-    })
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(!_.isEmpty(nextProps.assets)){
-      let pages = this.assignPages(nextProps.assets.sketch);
-      if(!this.state.selected) this.setState({ selected:pages[0] })
-      this.setState({pages:pages})
-    }
-  }
-
-  onPageChange(page){
-    this.setState({selected:page});
-  }
-
-  renderFirstDepthComponents(){
-
-    if(!this.state.selected){
-      return(
-        <div className='no-assets'>
-          No assets found
-        </div>
-      )
-    }
-
-    //find all the artboards
-    let allArtboards = [];
-
-    _.mapValues(this.props.assets.sketch,(pages) => {
-     allArtboards =  _.union(allArtboards, pages.children);
-    })
-
-    let artboardIDs = this.props.assets.sketch[this.state.selected.id].children;
-
-
-    //search all the first depth components
-
-    let firstDepthComponents = artboardIDs.map( artboardID =>{
-      //get the children of the artboard;
-      let components = this.props.assets.sketch[this.state.selected.id].components
-      let artboard = components[artboardID];
-      return artboard.children.map( childID => {
-        return components[childID]
-      })
-    })
-
-    let flattenedfirstDepthComponents = [];
-
-    firstDepthComponents.forEach( components => {
-      components.forEach( component => {
-        flattenedfirstDepthComponents.push(component);
-      })
-    })
-
-    firstDepthComponents = flattenedfirstDepthComponents;
-
-    return (
-      <div className='asset-preview-table'>
-        {
-          Object.keys(firstDepthComponents).map((o,i)=>{
-            let component = firstDepthComponents[o]
-            return <AssetPreview key={i} component={component} page={this.state.selected.id} filetype='sketch' source='assets' title={`${component.name}`}/>
-          })
-        }
-      </div>
-    )
-  }
-
-  render(){
-    return (
-      <div className='assets-library-wrapper'>
-        <div className='card-header'>
-          Sketch Pages
-        </div>
-        <div className='card-body'>
-          {/* {
-            this.state.pages.map((page,i)=>{
-              return(
-                <div className={`page ${page.id === this.state.selected.id ? 'selected' : ''}`} key={i} onClick={()=>{this.onPageChange(page)}}>{page.name}</div>
-              )
-            })
-          } */}
-        </div>
-        <div className='assets-preview-wrapper'>
-          {/* <React.Fragment>
-          {
-            this.renderFirstDepthComponents()
-          }
-          {
-            Object.values(this.state.images).map(image => (
-              <img src={image.data} alt=''/>
-            ))
-          }
-          </React.Fragment> */}
-        </div>
-      </div>
     )
   }
 }
@@ -236,11 +118,10 @@ class AssetPreview extends Component {
     }
   }
   addAssetToEditor = () => {
-    // const { dispatch } = this.props;
-    // dispatch(actions.ADD_COMPONENT({source:this.props.source,
-    //                         filetype:this.props.filetype,
-    //                         page:this.props.page,
-    //                         component:this.props.component}));
+    const { dispatch } = this.props;
+    dispatch(actions.ADD_ASSET_TO_EDITOR_AND_TAB({
+      component: this.props.component,
+      components: this.props.components }))
   }
 
   onRender = (image) => {

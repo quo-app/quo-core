@@ -65,7 +65,6 @@ import { ReduxLeaf, ReduxPolyBranch, ReduxBranch } from 'redux-shrub';
 import title from './title';
 import type from './type';
 import order from './order';
-import componentClass from './class';
 import children from './children';
 import props from './props';
 import events from './events';
@@ -78,7 +77,6 @@ const StateReducer = new ReduxBranch({
   slug: 'state',
   children: {
     id: new Id({ slug: 'id'}),
-    class: componentClass,
     title,
     type,
     order,

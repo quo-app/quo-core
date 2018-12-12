@@ -27,7 +27,7 @@ class ShapeComponent extends CoreComponent {
 
     return(
       <svg style={{...dimensions, ...style }}>
-        <path d={this.props.component.path}/>
+        <path d={this.props.component.get('path')}/>
       </svg>
     )
   }

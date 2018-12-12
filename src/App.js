@@ -16,16 +16,14 @@ function App() {
   return (
     <Provider store={store}>
       <main className="quo-content">
-         <KeyController>
-
-        <DropzoneContainer>
-
-          {/* <Viewer /> */}
-          <TopBar />
-         <SideBarLeft />
-          <SideBarRight />
-        </DropzoneContainer>
-        <MessageStack />
+        <KeyController>
+          <DropzoneContainer>
+            <Viewer />
+            <TopBar />
+            <SideBarLeft />
+            <SideBarRight />
+          </DropzoneContainer>
+          <MessageStack />
         </KeyController>
       </main>
     </Provider>
