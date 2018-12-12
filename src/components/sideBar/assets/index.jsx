@@ -152,7 +152,10 @@ class AssetPreview extends Component {
   render = () => {
 
     let selector = state => selectors.assetsSketch(state).first().components
-    let propsSelector = component => component.props
+    let propsSelector = component => {
+      console.log(component)
+      return component.props
+     }
 
     return (
 

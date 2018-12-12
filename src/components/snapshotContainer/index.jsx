@@ -66,7 +66,7 @@ export default class SnapshotContainer extends Component {
   }
 
   render = () => {
-    let alt = `Snapshot of the component ${this.props.component.title}.`
+    let alt = `Snapshot of an ${this.props.component.title}.`
     return (
       <React.Fragment>
         {

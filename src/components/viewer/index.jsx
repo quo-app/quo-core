@@ -7,7 +7,7 @@ import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
 
 import SelectionFrame from 'quo-components/selectionFrame';
-import { EditComponents, PreviewComponent } from 'quo-components/renderedComponents';
+import { EditComponent, PreviewComponent } from 'quo-components/renderedComponents';
 
 import { dimensions } from './constants';
 
@@ -187,7 +187,7 @@ class Viewer extends Component {
   }
 
   renderComponents(){
-    const ComponentRenderClass = EditComponents.Branch
+    const ComponentRenderClass = EditComponent
     const parentComponent = Map({
       type: 'parent',
       children: this.props.activeTabObject.rootComponent.children,

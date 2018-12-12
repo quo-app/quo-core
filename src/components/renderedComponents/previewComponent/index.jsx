@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -9,9 +9,11 @@ import { translatePropData } from 'quo-parser/propTranslator';
 
 import ComponentRender from '../coreComponent';
 
+import componentWrapper from '../componentWrapper';
+
 
 const makePreviewComponent = (WrappedComponent, options) => {
-    return class extends Component {
+    return class extends React.PureComponent {
       stopPropagation = f => e => {
         e.stopPropagation();
         return f(e)
@@ -98,22 +100,22 @@ const makePreviewComponent = (WrappedComponent, options) => {
       }
 
       createWrapperProps = () => {
-  
+
         const componentClass = this.props.isParent ? 'parent' : this.props.component.class
         const className = `preview-component ${componentClass}-component`
         const id = `component-${this.props.component.id}`
         const style = this.getStyleProps();
         const mouseEventListeners = this.createMouseEventListeners();
-  
-        return { 
+
+        return {
                   className,
-                  id, 
+                  id,
                   style,
                   ...mouseEventListeners,
                 }
-  
+
       }
-      
+
       render(){
         const wrapperProps = this.createWrapperProps();
         return(
@@ -136,7 +138,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
         component:tabRoot,
       }
     }
-  
+
     //return the component
     else{
       let component = domain.components[ownProps.id];
@@ -144,9 +146,9 @@ const makePreviewComponent = (WrappedComponent, options) => {
         component:component,
       }
     }
-  
+
   }
 
-  const PreviewComponent = connect(mapStateToProps)(makePreviewComponent(ComponentRender))
+  const PreviewComponent = connect(mapStateToProps)(componentWrapper(makePreviewComponent(ComponentRender)))
 
   export default PreviewComponent

@@ -6,11 +6,6 @@ import { translatePropData } from 'quo-parser/propTranslator';
 import CoreComponent from './CoreComponent';
 
 class ShapeComponent extends CoreComponent {
-
-  getCurrentProps(obj){
-    return this.props.propsSelector(obj)
-  }
-
   getDimensionsCSS(props){
     return translatePropData('abstract','css', pick(props,['width','height']));
   }
@@ -21,10 +16,10 @@ class ShapeComponent extends CoreComponent {
 
   render(){
 
-    const props = this.getCurrentProps(this.props.component);
+    const props = this.props.props
     const style = this.getStyleCSS(props);
     const dimensions = this.getDimensionsCSS(props);
-
+    console.log(this.props.component)
     return(
       <svg style={{...dimensions, ...style }}>
         <path d={this.props.component.get('path')}/>

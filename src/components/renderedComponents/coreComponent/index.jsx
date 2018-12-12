@@ -8,11 +8,11 @@ class ComponentRenderCore extends PureComponent {
   render = () => {
     switch (this.props.component.get('type')) {
       case 'shape':
-        return (<ShapeComponent component={ this.props.component } propsSelector={this.props.propsSelector}></ShapeComponent>)
+        return (<ShapeComponent component={ this.props.component } props={this.props.props}></ShapeComponent>)
       case 'text':
-        return (<TextComponent component={ this.props.component } propsSelector={this.props.propsSelector}></TextComponent>)
+        return (<TextComponent component={ this.props.component } props={this.props.props}></TextComponent>)
       case 'image':
-        return <ImageComponent component={this.props.component} propsSelector={this.props.propsSelector}/>
+        return <ImageComponent component={this.props.component} props={this.props.props}/>
       default:
         const Wrapper = this.props.wrapper
         return (

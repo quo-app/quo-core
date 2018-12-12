@@ -1,18 +1,17 @@
 
-import React, { Component} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash'
 import { Map } from 'immutable'
 
-import selectors from 'quo-redux/selectors';
-
 import { translatePropData } from 'quo-parser/propTranslator';
-import { AbstractComponent } from 'quo-parser/abstract';
 
 import ComponentRender from '../coreComponent';
 
+import componentWrapper from '../componentWrapper';
+
 const makeSnapshotComponent = (WrappedComponent, options) => {
-  return class extends Component {
+  return class extends React.PureComponent {
     createWrapperProps = () => {
       let className = 'snapshot-component'
       className += ` ${this.props.component.get('type')}-component`
@@ -49,9 +48,10 @@ const mapStateToProps = (state, ownProps) => {
   let component = ownProps.selector(state)[ownProps.id]
   let props = ownProps.propsSelector(component)
   component = Map(component)
+
   return { component, props }
 }
 
-const SnapshotComponent = connect(mapStateToProps)(makeSnapshotComponent(ComponentRender));
+const SnapshotComponent = connect(mapStateToProps)(componentWrapper(makeSnapshotComponent(ComponentRender)));
 
 export default SnapshotComponent

@@ -23,6 +23,11 @@ const assetToEditComponent = (assetComponent, allComponents) => {
   // give everything new ids
   let targetComponents = traverseAndAdd(assetComponent, allComponents);
   let { components, rootID } = createNewIds({ rootID: assetComponent.id, components: targetComponents })
+
+  let rootComponent = components[rootID];
+
+  rootComponent.props = {...rootComponent.props, x:0, y:0}
+
   components = _.mapValues(components, createStates)
   return { components, rootID }
 

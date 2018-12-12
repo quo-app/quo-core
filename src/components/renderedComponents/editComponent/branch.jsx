@@ -14,8 +14,10 @@ import { DragInterface, DoubleClickInterface, SelectionInterface } from './featu
 
 import ComponentRender from '../coreComponent';
 
+import componentWrapper from '../componentWrapper';
+
 const makeBranch = (WrappedComponent, options) => {
-  return class extends React.Component {
+  return class extends React.PureComponent {
 
     constructor(props){
       super(props);
@@ -94,6 +96,7 @@ const makeBranch = (WrappedComponent, options) => {
     render = () => {
       const staticProps = this.createStaticProps()
       const dynamicProps = this.createDynamicProps()
+      console.log(dynamicProps)
       return(
         <div {...dynamicProps} {...staticProps} onMouseDownCapture={ !this.props.isParent ? this.clickHandler : () => {}}>
           <WrappedComponent {...this.props} wrapper={BranchComponent} type={'edit'}/>
@@ -127,6 +130,6 @@ const mapStateToProps = (state, ownProps) => {
 
   }
 
-const BranchComponent = connect(mapStateToProps)(makeBranch(ComponentRender));
+const BranchComponent = connect(mapStateToProps)(componentWrapper(makeBranch(ComponentRender)))
 
 export default BranchComponent
