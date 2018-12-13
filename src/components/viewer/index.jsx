@@ -56,14 +56,35 @@ class Viewer extends Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.activeTabObject){
       const { dispatch } = this.props;
-      dispatch(actions.SELECTABLES_UPDATE(nextProps.activeTabObject.rootComponent.children))
+      dispatch(actions.SELECTABLES_UPDATE(nextProps.childrenComponents))
     }
   }
 
-  mouseDown = () => {
+  mouseDown = (e) => {
     const { dispatch } = this.props;
-    dispatch(actions.SELECTED_COMPONENTS_UPDATE([]));
-    dispatch(actions.SELECTABLES_UPDATE(this.props.activeTabObject.rootComponent.children))
+    const selection = this.childUnderTheMouse(e)
+    dispatch(actions.SELECTED_COMPONENTS_UPDATE(selection));
+    dispatch(actions.SELECTABLES_UPDATE(this.props.childrenComponents))
+  }
+
+  childUnderTheMouse = (e) => {
+    const pos = { x: e.clientX, y: e.clientY }
+    let selection = []
+    let components = this.props.childrenComponents.map(id => [id, document.getElementById(`component-${id}`).getBoundingClientRect()])
+    components.some(components => {
+      if(this.isWithinBoundaries(components[1], pos)){
+        selection.push(components[0])
+        return true
+       }
+    })
+    return selection
+  }
+
+  isWithinBoundaries = (box, pos) => {
+    return box.left <= pos.x &&
+           box.right >= pos.x &&
+           box.top <= pos.y &&
+           box.bottom >= pos.y
   }
 
   onWheel(e){
@@ -296,7 +317,8 @@ function mapStateToProps(state) {
   return {
     activeTab: activeTab,
     activeTabObject: activeTabObject,
-    appMode: selectors.appMode(state)
+    childrenComponents: activeTabObject.rootComponent.children,
+    appMode: selectors.appMode(state),
   }
 }
 

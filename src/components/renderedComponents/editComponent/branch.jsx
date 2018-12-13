@@ -37,6 +37,7 @@ const makeBranch = (WrappedComponent, options) => {
       return {
         className,
         id: `component-${this.props.component.get('id')}`,
+        'data-id': this.props.component.get('id'),
       }
 
     }
@@ -48,7 +49,7 @@ const makeBranch = (WrappedComponent, options) => {
     }
 
     componentWillReceiveProps(nextProps){
-      if(!this.props.isParent && !nextProps.selectables.includes(this.props.component.get('id'))){
+      if(!this.props.isParent && !nextProps.selectables.includes(this.props.id)){
         this.selectionManager.makeChildrenUnselectable();
       }
     }
@@ -62,8 +63,7 @@ const makeBranch = (WrappedComponent, options) => {
 
       // only left mouse click
       if(e.button !== 0) return;
-
-      if(!this.props.selectables.includes(this.props.component.get('id'))) return;
+      if(!this.props.selectables.includes(this.props.component.get('id'))) return
 
       // Start Drag
       this.dragManager.startDrag(e);
@@ -96,7 +96,6 @@ const makeBranch = (WrappedComponent, options) => {
     render = () => {
       const staticProps = this.createStaticProps()
       const dynamicProps = this.createDynamicProps()
-      console.log(dynamicProps)
       return(
         <div {...dynamicProps} {...staticProps} onMouseDownCapture={ !this.props.isParent ? this.clickHandler : () => {}}>
           <WrappedComponent {...this.props} wrapper={BranchComponent} type={'edit'}/>
