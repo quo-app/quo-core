@@ -120,7 +120,6 @@ export class SelectionInterface extends ComponentInterface {
   }
 
   decideSelection = e => {
-    console.log("HAHAHAHA")
     if(!this.areChildrenInFocus){
       // selecting itself
       this.selectComponent(this.id);

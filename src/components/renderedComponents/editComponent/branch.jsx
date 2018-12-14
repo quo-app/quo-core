@@ -17,13 +17,10 @@ import ComponentRender from '../coreComponent';
 import componentWrapper from '../componentWrapper';
 
 const makeBranch = (WrappedComponent, options) => {
-  return class extends React.PureComponent {
+  return class extends React.Component {
 
     constructor(props){
       super(props);
-
-      // this.staticProps = this.createStaticProps();
-
       // Distribute feature across interfaces for
       this.dragManager = new DragInterface(this);
       this.doubleClickManager = new DoubleClickInterface(this);

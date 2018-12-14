@@ -5,9 +5,13 @@ import { assetToEditComponent } from 'quo-parser/editComponent'
 
 import { State } from '../state';
 
+
+
 // these actions only trigger a change
 // in one point of the tree.
 let actions = State._composeActions();
+
+console.log(actions)
 
 // extending the actions with
 
