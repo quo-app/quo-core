@@ -64,6 +64,7 @@ class Viewer extends React.PureComponent {
     const selection = this.childUnderTheMouse(e)
     dispatch(actions.SELECTED_COMPONENTS_UPDATE(selection));
     dispatch(actions.SELECTABLES_UPDATE(this.props.childrenComponents))
+    e.stopPropagation()
   }
 
   onMouseDownBg = () => {
