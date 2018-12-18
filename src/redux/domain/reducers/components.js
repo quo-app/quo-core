@@ -7,9 +7,13 @@ import accessors from 'quo-redux/accessors';
 import ComponentReducer from './component';
 
 class ComponentsReducer extends ReduxPolyBranch {
-  addAssetComponents = state => ({ components }) => {
-    components = _.mapValues(components, Map);
-    return state.merge(components)
+  addMultiple = state => ({ components }) => {
+    _.mapValues(components, component => {
+      state = this.add(state)(component)
+      console.log(state);
+    })
+    console.log(state.toJS())
+    return state
   }
 }
 

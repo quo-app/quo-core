@@ -71,15 +71,13 @@ import { ReduxBranch, ReduxLeaf } from 'redux-shrub'
 
 import title from './title'
 import states from './states/index.js'
-// import stateGraph from './stateGraph'
-// import links from './links'
 
 class ID extends ReduxLeaf {
   _newState = ({ id }) => id
 }
 
 class CoreProps extends ReduxLeaf {
-  _newState = ( payload ) => ['these will be the core props']
+  _newState = ({ _coreProps }) => _coreProps
 }
 
 let ComponentReducer = new ReduxBranch({

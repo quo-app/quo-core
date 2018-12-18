@@ -25,8 +25,6 @@ const viewerSize = {
   h: viewerHeight,
 }
 
-const mainArtboardSize = { w:1200, h:1050 }
-
 class Viewer extends React.PureComponent {
   constructor(props) {
     super(props);

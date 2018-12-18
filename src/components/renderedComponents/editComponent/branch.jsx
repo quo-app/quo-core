@@ -1,20 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import _ from 'lodash';
 
 import selectors from 'quo-redux/selectors';
-
 import { translatePropData } from 'quo-parser/propTranslator';
-import { AbstractComponent } from 'quo-parser/abstract';
-// import { StateGraph, StateNode } from 'quo-parser/ComponentState';
 
 import { DragInterface, DoubleClickInterface, SelectionInterface } from './features';
-
-
 import ComponentRender from '../coreComponent';
-
 import componentWrapper from '../componentWrapper';
+
+const composePropsWithStateProps = (component) => {
+  let states = component.get('state');
+  // console.log(states);
+}
 
 const makeBranch = (WrappedComponent, options) => {
   return class extends React.Component {
@@ -30,7 +28,7 @@ const makeBranch = (WrappedComponent, options) => {
     createStaticProps = () => {
       const componentClass = this.props.component.get('type');
       const className = `edit-component ${componentClass}-component`;
-
+      composePropsWithStateProps(this.props.component);
       return {
         className,
         id: `component-${this.props.component.get('id')}`,

@@ -1,22 +1,8 @@
-import uuid from 'uuid/v1'
 import _ from 'lodash'
-
+import { Map } from 'immutable'
 import { traverseAndAdd, createNewIds } from 'quo-utils/component'
 
 const assetToEditComponent = (assetComponent, allComponents) => {
-
-  // children ( artboard ids)
-  // components
-  // component should have
-  // brand new id
-  // type
-  // state
-  //   stateID:
-  //    type
-  //    props
-  //    children
-  //
-  // props(abstract)
 
   if(!assetComponent) return {}
 
@@ -35,20 +21,21 @@ const assetToEditComponent = (assetComponent, allComponents) => {
 }
 
 const createStates = component => {
-  let states = {}
+  let states = []
 
   const defaultStates = [
-    { title: 'default', isDefault: true, ...getMainAttributes(component)},
-    { title: 'hover', add:['onMouseEnter'], remove:['onMouseLeave'], ...getMainAttributes(component) },
-    { title: 'press', add:['onMouseDown'], remove:['onMouseUp'], ...getMainAttributes(component) },
-    { title: 'click', add:['onFocus'], remove:['onBlur'], ...getMainAttributes(component)}
+    { title: 'default', active: true},
+    { title: 'hover', add:['onMouseEnter'], remove:['onMouseLeave'] },
+    { title: 'press', add:['onMouseDown'], remove:['onMouseUp']},
+    { title: 'click', add:['onFocus'], remove:['onBlur']}
   ]
 
   defaultStates.forEach( state => {
-    let id = uuid().toUpperCase()
-    let newState = createState({...state, id})
-    states[id] = newState
+    let id = state.title
+    let newState = createState({id, ...state, ...getMainAttributes(component)})
+    states.push(newState)
   })
+
   component.state = states
 
   component._coreProps = component.props
@@ -64,16 +51,16 @@ const createStates = component => {
 
 const getMainAttributes = component => ({ children: component.children, parent: component.parent, type: component.type })
 
-const createState = ({ id, title, add = [], remove = [], isDefault = false, props = {}, children, parent, type}) => {
+const createState = ({ id, title, active= false, add = [], remove = [], props = {}, children, parent, type}) => {
   return {
-    id,
+    stateID: id,
     title,
     props,
+    active,
     children,
     parent,
     add,
     remove,
-    isDefault
   }
 }
 

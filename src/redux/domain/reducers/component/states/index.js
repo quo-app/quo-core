@@ -60,6 +60,9 @@
 //   _coreProps: Property[]
 // }
 
+import { Map } from 'immutable'
+import _ from 'lodash'
+
 import { ReduxLeaf, ReduxPolyBranch, ReduxBranch } from 'redux-shrub';
 
 import title from './title';
@@ -71,6 +74,20 @@ import events from './events';
 
 class Id extends ReduxLeaf {
   _newState = ({ stateID }) => stateID
+}
+
+class StatesReducer extends ReduxPolyBranch {
+  _newState = ({ state }) => {
+    let reducerState = Map()
+    if(state){
+      _.mapValues(state, stateData => {
+        console.log(state);
+        reducerState = this.add(reducerState)(stateData)
+      })
+    }
+    return reducerState
+  }
+  addMultiple = state => payload => state.merge(payload)
 }
 
 const StateReducer = new ReduxBranch({
@@ -88,20 +105,7 @@ const StateReducer = new ReduxBranch({
   includeSlugInChildSelectors: true,
 })
 
-// Translate Sketch Components
-
-// the flow type system will declare the data structure of the
-// redux store
-
-// data comes => create components(this should be a function that returns pure data)
-
-// creating the class abstractions are not necessary.
-
-// parser
-// AbstractComponent
-   // Contains a type declaration
-
-let states = new ReduxPolyBranch({
+let states = new StatesReducer({
   slug: 'states',
   accessor: 'stateID',
   childReducer: StateReducer,
