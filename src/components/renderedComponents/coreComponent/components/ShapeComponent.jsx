@@ -21,7 +21,7 @@ class ShapeComponent extends CoreComponent {
     const dimensions = this.getDimensionsCSS(props);
     return(
       <svg style={{...dimensions, ...style }}>
-        <path d={this.props.component.get('path')}/>
+        <path d={this.props.props.path}/>
       </svg>
     )
   }

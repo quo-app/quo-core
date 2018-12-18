@@ -11,11 +11,10 @@ class ComponentInterface {
   get props () { return this.target.props }
   // props
   get dispatch () { return this.props.dispatch }
-  get component () { return this.props.component }
   // component related
-  get children () { return this.component.get('children') }
-  get id () { return this.component.get('id') }
-
+  get children () { return this.props.children }
+  get id () { return this.props.id }
+  get componentProps () { return this.props.props}
 }
 
 export class DragInterface extends ComponentInterface {
@@ -41,9 +40,7 @@ export class DragInterface extends ComponentInterface {
     const componentDOM = document.getElementById(`component-${this.id}`);
     const box = componentDOM.getBoundingClientRect();
 
-    const props = this.component.get('props')
-
-    const { width, x, y } = _.pick(props, ['width','x','y']);
+    const { width, x, y } = _.pick(this.componentProps, ['width','x','y']);
 
     //including the scale of the viewer zoom
 

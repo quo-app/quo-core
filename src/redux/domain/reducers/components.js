@@ -10,9 +10,7 @@ class ComponentsReducer extends ReduxPolyBranch {
   addMultiple = state => ({ components }) => {
     _.mapValues(components, component => {
       state = this.add(state)(component)
-      console.log(state);
     })
-    console.log(state.toJS())
     return state
   }
 }

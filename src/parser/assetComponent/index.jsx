@@ -121,10 +121,10 @@ class ShapeComponent extends LeafComponent {
       case 'rectangle':
       case 'oval':
       case 'shapePath':
-        this.path = this.calculateSVGforSingleShape(data);
+        this.props.path = this.calculateSVGforSingleShape(data);
       break;
       default:
-        this.path = this.calculateSVGforShapeGroup(data);
+        this.props.path = this.calculateSVGforShapeGroup(data);
         break;
     }
 

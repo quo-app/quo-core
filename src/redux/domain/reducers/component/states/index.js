@@ -80,14 +80,12 @@ class StatesReducer extends ReduxPolyBranch {
   _newState = ({ state }) => {
     let reducerState = Map()
     if(state){
-      _.mapValues(state, stateData => {
-        console.log(state);
+      state.map(stateData => {
         reducerState = this.add(reducerState)(stateData)
       })
     }
     return reducerState
   }
-  addMultiple = state => payload => state.merge(payload)
 }
 
 const StateReducer = new ReduxBranch({

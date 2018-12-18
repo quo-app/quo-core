@@ -24,7 +24,7 @@ const createStates = component => {
   let states = []
 
   const defaultStates = [
-    { title: 'default', active: true},
+    { title: 'default', active: true, props: component.props},
     { title: 'hover', add:['onMouseEnter'], remove:['onMouseLeave'] },
     { title: 'press', add:['onMouseDown'], remove:['onMouseUp']},
     { title: 'click', add:['onFocus'], remove:['onBlur']}
@@ -38,14 +38,6 @@ const createStates = component => {
 
   component.state = states
 
-  component._coreProps = component.props
-
-  // remove unneeded properties
-  // component.type = undefined
-  // component.children = undefined
-  // component.parent = undefined
-  component.props = undefined
-
   return component
 }
 
@@ -55,6 +47,7 @@ const createState = ({ id, title, active= false, add = [], remove = [], props = 
   return {
     stateID: id,
     title,
+    type,
     props,
     active,
     children,

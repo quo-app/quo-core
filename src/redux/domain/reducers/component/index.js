@@ -70,14 +70,14 @@
 import { ReduxBranch, ReduxLeaf } from 'redux-shrub'
 
 import title from './title'
-import states from './states/index.js'
+import states from './states'
+import type from './type';
+import children from './children';
+import props from './props';
+import parent from './parent';
 
 class ID extends ReduxLeaf {
   _newState = ({ id }) => id
-}
-
-class CoreProps extends ReduxLeaf {
-  _newState = ({ _coreProps }) => _coreProps
 }
 
 let ComponentReducer = new ReduxBranch({
@@ -85,8 +85,11 @@ let ComponentReducer = new ReduxBranch({
   children: {
     id: new ID({ slug: 'id'}),
     title,
-    states,
-    _coreProps: new CoreProps({ slug: 'coreProps'}),
+    type,
+    children,
+    props,
+    parent,
+    states
   },
   includeSlugInChildReducers: true,
   includeSlugInChildSelectors: true,

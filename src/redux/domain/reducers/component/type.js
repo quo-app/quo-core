@@ -1,19 +1,16 @@
 // @flow
-
-import { Map } from 'immutable'
-
 import { ReduxLeaf } from 'redux-shrub';
 
-class CompositePropsReducer extends ReduxLeaf {
+class CompositeReducer extends ReduxLeaf {
   _newState = ({ state }) => {
-    let props = Map();
+    let type = ''
     if(state){
       let activeStates = state.filter(eachState => eachState.active)
       activeStates.map( activeState => {
-        props = Map(activeState.props).merge(props);
+        type = activeState.type
       })
     }
-    return props
+    return type
   }
   _createComposite = states => {
     console.log(states);
@@ -24,8 +21,8 @@ class CompositePropsReducer extends ReduxLeaf {
   }
 }
 
-const props = new CompositePropsReducer({
-  slug: 'props'
+const compositeType = new CompositeReducer({
+  slug: 'compositeType'
 })
 
-export default props
+export default compositeType

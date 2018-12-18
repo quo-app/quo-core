@@ -15,16 +15,10 @@ export default class AbstractShape extends AbstractComponent {
       case 'rectangle':
       case 'oval':
       case 'shapePath':
-        this.path = this.calculateSVGforSingleShape(data);
-        this.svgComponent = (
-          <path d={this.path}/>
-        )
+        this.props.path = this.calculateSVGforSingleShape(data);
       break;
       default:
-    this.path = this.calculateSVGforShapeGroup(data);
-        this.svgComponent = (
-          <path d={this.path}/>
-        )
+        this.props.path = this.calculateSVGforShapeGroup(data);
       break;
     }
 
@@ -129,7 +123,7 @@ export default class AbstractShape extends AbstractComponent {
   isCurve(edge){
       return edge.p1.hasCurveFrom || edge.p2.hasCurveTo
   }
-  
+
   isSmoothCurve(edge){
       return edge.p2.curveMode === 2
   }

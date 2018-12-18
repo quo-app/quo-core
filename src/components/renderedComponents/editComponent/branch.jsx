@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { pick } from 'lodash';
 
 import selectors from 'quo-redux/selectors';
 import { translatePropData } from 'quo-parser/propTranslator';
@@ -8,11 +8,6 @@ import { translatePropData } from 'quo-parser/propTranslator';
 import { DragInterface, DoubleClickInterface, SelectionInterface } from './features';
 import ComponentRender from '../coreComponent';
 import componentWrapper from '../componentWrapper';
-
-const composePropsWithStateProps = (component) => {
-  let states = component.get('state');
-  // console.log(states);
-}
 
 const makeBranch = (WrappedComponent, options) => {
   return class extends React.Component {
@@ -26,15 +21,11 @@ const makeBranch = (WrappedComponent, options) => {
     }
 
     createStaticProps = () => {
-      const componentClass = this.props.component.get('type');
-      const className = `edit-component ${componentClass}-component`;
-      composePropsWithStateProps(this.props.component);
+      const className = `edit-component ${this.props.type}-component`
       return {
         className,
-        id: `component-${this.props.component.get('id')}`,
-        'data-id': this.props.component.get('id'),
+        id: `component-${this.props.id}`
       }
-
     }
 
     createDynamicProps = () => {
@@ -51,14 +42,14 @@ const makeBranch = (WrappedComponent, options) => {
 
     getStyleProps = () => {
       if(this.props.isParent) return { ...this.props.props }
-      return translatePropData('abstract', 'css', _.pick(this.props.props, ['width','height','x','y']));
+      return translatePropData('abstract', 'css', pick(this.props.props, ['width','height','x','y']));
     }
 
     clickHandler = e => {
 
       // only left mouse click
-      if(e.button !== 0) return;
-      if(!this.props.selectables.includes(this.props.component.get('id'))) return
+      if(e.button !== 0) return true;
+      if(!this.props.selectables.includes(this.props.id)) return
 
       // Start Drag
       this.dragManager.startDrag(e);
@@ -93,7 +84,7 @@ const makeBranch = (WrappedComponent, options) => {
       const dynamicProps = this.createDynamicProps()
       return(
         <div {...dynamicProps} {...staticProps} onMouseDownCapture={ !this.props.isParent ? this.clickHandler : () => {}}>
-          <WrappedComponent {...this.props} wrapper={BranchComponent} type={'edit'}/>
+          <WrappedComponent {...this.props} wrapper={BranchComponent}/>
         </div>
       )
     }
@@ -102,23 +93,15 @@ const makeBranch = (WrappedComponent, options) => {
 
 const mapStateToProps = (state, ownProps) => {
 
-    if(!ownProps.selector || !ownProps.propsSelector ) return {}
+    if(!ownProps.selector) return {}
 
-    let component
-
-    if(ownProps.isParent){
-      component = ownProps.component
-    }
-
-    else {
-      component = ownProps.selector(state, ownProps.id)
-    }
-
-    let props = ownProps.propsSelector(component)
+    let component = ownProps.isParent ? ownProps.component : ownProps.selector(state, ownProps.id)
 
     return {
-      component: component,
-      props: props,
+      id: component.get('id'),
+      props: component.get('props').toJS(),
+      type: component.get('type'),
+      children: component.get('children'),
       selectables: selectors.selectables(state),
     }
 

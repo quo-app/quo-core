@@ -8,6 +8,7 @@ class Tab {
     this.title = `Tab ` + tabCount
     this.rootComponent = {
       id: id,
+      type: 'parent',
       children: [],
       props: { x: 0, y: 0 }
     }

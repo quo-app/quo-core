@@ -93,6 +93,8 @@ class Viewer extends React.PureComponent {
 
   onWheel= e => {
 
+    console.log('doing this')
+
     e.preventDefault();
 
     let posOfViewer = this.viewer.getBoundingClientRect();
@@ -184,9 +186,10 @@ class Viewer extends React.PureComponent {
   renderComponents(){
     const ComponentRenderClass = EditComponent
     const parentComponent = Map({
+      id: this.props.activeTabObject.rootComponent.id,
       type: 'parent',
       children: this.props.activeTabObject.rootComponent.children,
-      _coreProps: this.props.activeTabObject.rootComponent.props
+      props: Map(this.props.activeTabObject.rootComponent.props)
     })
     return (
       <ComponentRenderClass
@@ -196,8 +199,7 @@ class Viewer extends React.PureComponent {
         }}
         isParent
         component={parentComponent}
-        selector={(state, id) => selectors.components(state).get(id) }
-        propsSelector= {component => component.get('_coreProps')}
+        selector={(state, id) => selectors.components(state).get(id)}
       />
     )
   }
