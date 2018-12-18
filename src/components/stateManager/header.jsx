@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import actions from 'quo-redux/actions';
+import selectors from 'quo-redux/selectors';
+
+import _ from 'lodash';
 
 import { VerticalListCard } from 'quo-ui/cards';
 import Icons from 'quo-ui/icons';
@@ -12,13 +14,7 @@ class StatesHeader extends Component {
     super(props);
     this.state = {
       dropdownVisible: false,
-      selected: '0',
-      states: {
-        0: {text: 'Default', icon: true},
-        1: {text: 'Hover', id:'2'},
-        2: {text: 'Pressed', id:'3'},
-        3: {text: 'Click', id:'4'}
-      }
+      selected: 'default',
     }
   }
 
@@ -34,35 +30,45 @@ class StatesHeader extends Component {
     return this.state.dropdownVisible ? <Icons.KeyboardArrowUp/> : <Icons.KeyboardArrowDown/>
   }
 
-  renderDropdown = () => { 
+  renderDropdown = () => {
     return (
       <VerticalListCard
         title='States'
         optionIcon={ <Icons.Check/> }
         collapsed={ !this.state.dropdownVisible }
         headerIcon={ this.decideMinimizeIcon() }
-        headerMiddleText={ this.state.dropdownVisible ? null : this.state.states[this.state.selected].text }
+        headerMiddleText={ this.state.dropdownVisible ? null : this.props.states[this.state.selected].text }
         onHeaderIconClick= { this.onHeaderIconClick }
         optionIconOrientation='left'
         selected={ this.state.selected }
-        values={ this.state.states }
+        values={ this.props.states }
         onOptionClick={ this.onOptionClick }
       />
     )
   }
 
   render(){
-    return ( 
+    return (
       <React.Fragment>
         { this.renderDropdown() }
-        { this.state.dropdownVisible ? <Button>Create a new link</Button> : null}
+        { this.state.dropdownVisible ? <Button>Create a new state</Button> : null}
       </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return { }
+  let selections = selectors.selectedComponents(state)
+  let states = selectors.componentStates(state, { id: selections[0]}).toJS()
+  let convertedStates = _.mapValues(states, eachState => {
+    return { text: eachState.title, icon: eachState.active }
+  })
+
+  console.log(convertedStates)
+
+  return {
+    states: convertedStates
+  }
 }
 
 export default connect(mapStateToProps)(StatesHeader);

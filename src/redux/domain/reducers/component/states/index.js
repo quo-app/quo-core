@@ -65,12 +65,13 @@ import _ from 'lodash'
 
 import { ReduxLeaf, ReduxPolyBranch, ReduxBranch } from 'redux-shrub';
 
-import title from './title';
-import type from './type';
-import order from './order';
-import children from './children';
-import props from './props';
-import events from './events';
+import active from './active'
+import title from './title'
+import type from './type'
+import order from './order'
+import children from './children'
+import props from './props'
+import events from './events'
 
 class Id extends ReduxLeaf {
   _newState = ({ stateID }) => stateID
@@ -91,6 +92,7 @@ class StatesReducer extends ReduxPolyBranch {
 const StateReducer = new ReduxBranch({
   slug: 'state',
   children: {
+    active,
     id: new Id({ slug: 'id'}),
     title,
     type,
