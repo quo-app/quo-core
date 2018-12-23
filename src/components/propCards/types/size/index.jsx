@@ -5,28 +5,28 @@ import TextInput from 'quo-ui/textInput';
 import PropCardWrapper from '../PropCardWrapper';
 
 class Size extends Component{
-  constructor(props){
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       w: this.props.width,
       h: this.props.height
     }
   }
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps (nextProps) {
     this.setState({
       w: this.props.width,
       h: this.props.height
     })
   }
 
-  updateW(val,title,isFinal){
+  updateW (val, title, isFinal) {
     //set the state and update
     this.setState({w:parseInt(val)},()=>{
       if (isFinal) this.props.update({width:this.state.w})
     });
   }
 
-  updateH(val,title,isFinal){
+  updateH (val, title, isFinal) {
     this.setState({h:parseInt(val)},()=>{
       if (isFinal) this.props.update({height:this.state.h})
     });

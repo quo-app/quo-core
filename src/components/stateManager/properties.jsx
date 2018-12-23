@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
+import { pick } from 'lodash'
 
 import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
 
-// import { getCards, getPropsOfCard } from 'quo-parser/componentProps';
+import { getCards, getPropsOfCard } from 'quo-parser/componentProps';
 
-// import PropCards from 'quo-components/propCards';
+import PropCards from 'quo-components/propCards';
 
 
 class Properties extends Component {
@@ -19,8 +20,9 @@ class Properties extends Component {
     return (
       <Fragment>
       {
-        this.props.cards.map( (PropCard,i) => {
-          if(!PropCard) return null
+        this.props.cards.map((PropCard, i) => {
+          console.log(PropCard)
+          if(!PropCard.card) return null
           return (
             <PropCard.card key={i} update={this.dispatchAction()} {...PropCard.props}/>
           )
@@ -32,8 +34,21 @@ class Properties extends Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
+  // let selections = selectors.selectedComponents(state)
+  // let states = selectors.componentStates(state, { id: selections[0]}).toJS()
+  // let convertedStates = _.mapValues(states, eachState => {
+  //   return { text: eachState.title, icon: eachState.active }
+  // })
+
+  // console.log(convertedStates)
+
+  // return {
+  //   states: convertedStates
+  // }
+
   // change this!!!
+  const currentState = selectors.currentState(state);
   const selectedComponents = selectors.selectedComponents(state);
   // case where there is no selection
   if(selectedComponents.length === 0){
@@ -42,13 +57,14 @@ const mapStateToProps = (state) => {
   // case where there is a single selection
   if(selectedComponents.length === 1){
     let id = selectedComponents[0];
-    // fix this as well
-    // let cards = getCards(component).map( c => ({
-    //     card: PropCards[c],
-    //     props: getPropsOfSelection(state, getPropsOfCard(c,component))
-    //   }));
-    // let component = selectors.component(state, { id: selectedComponents[0] });
-    return { id, cards: []}
+    let props = selectors.componentStateProps(state, { id, stateID: currentState !== '' ? currentState : 'default'}).toJS()
+    let type = selectors.componentStateType(state, { id, stateID: currentState !== '' ? currentState : 'default'})
+    let cards = getCards(type).map( c => ({
+        card: PropCards[c],
+        props: pick(props, getPropsOfCard(c, type))
+      }));
+    console.log(cards)
+    return { cards, id}
   }
   // case where there is a multiple selection
   if(selectedComponents.length > 1){

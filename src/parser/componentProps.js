@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
-const allComponents = ['shape', 'group', 'text']
+const allComponents = ['viewport', 'shape', 'group', 'text']
 
 const componentProps = {
-    width: allComponents,
-    height: allComponents,
     x: allComponents,
     y: allComponents,
+    width: allComponents,
+    height: allComponents,
     border: allComponents,
     strokeWidth: ['shape'],
     strokeColor: ['shape'],
@@ -44,14 +44,14 @@ const propCardProps = {
     backgroundColor: 'Fill'
 }
 
-const getPropsOf = (component) => _.keys(_.pickBy(componentProps, prop => prop.includes(component)))
-const getCardsOf = (props) => _.chain(propCardProps).pick(props).values().uniq().value()
-export const getCards = (component) => getCardsOf(getPropsOf(component.class))
-export const getPropsOfCard = (card,component) => {
+const getPropsOf = type => _.keys(_.pickBy(componentProps, prop => prop.includes(type)))
+const getCardsOf = props => _.chain(propCardProps).pick(props).values().uniq().value()
+export const getCards = type => getCardsOf(getPropsOf(type))
+export const getPropsOfCard = (card, type) => {
     let requires = propsOfCards[card].requires;
     // if the component has a unique prop
     // that is used in the card, return that.
     // Otherwise return the common properties
     // that are used.
-    return requires[component.class] ? requires[component.class] : requires.all
+    return requires[type] || requires.all
 }

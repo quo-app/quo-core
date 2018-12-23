@@ -34,7 +34,7 @@ class Position extends Component {
 
   render () {
     return (
-      this.props.x && this.props.y ?
+      typeof(this.props.x) === 'number' && typeof(this.props.y) === 'number' ?
       <PropCardWrapper title='Position'>
         <TextInput title='X' text={this.state.x} type='number' after="" onChange={this.updateX.bind(this)}/>
         <TextInput title='Y' text={this.state.y} type='number' after="" onChange={this.updateY.bind(this)}/>

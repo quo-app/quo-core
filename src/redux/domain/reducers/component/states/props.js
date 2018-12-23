@@ -1,8 +1,8 @@
 import { ReduxLeaf } from 'redux-shrub';
-import { OrderedMap } from 'immutable';
+import { Map } from 'immutable';
 
 class StatePropsReducer extends ReduxLeaf {
-  _newState = ({ props }) => OrderedMap(props ? props : {});
+  _newState = ({ props }) => Map(props ? props : {});
   add = state => ({ prop }) => state.set(prop.key, prop.value)
   remove = state => ({ prop }) => state.delete(prop.key)
 }

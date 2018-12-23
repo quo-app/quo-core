@@ -1,7 +1,3 @@
-// export const updateStateManager = (stateManager, action) => {
-//   return { ...stateManager, ...action.payload }
-// }
-
 import { ReduxLeaf, createReduxBranch } from 'redux-shrub';
 
 class CurrentStateReducer extends ReduxLeaf {

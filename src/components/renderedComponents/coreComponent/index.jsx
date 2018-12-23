@@ -6,7 +6,6 @@ import TextComponent from './components/TextComponent';
 
 class ComponentRenderCore extends PureComponent {
   render = () => {
-    console.log(this.props.type)
     switch (this.props.type) {
       case 'shape':
         return (<ShapeComponent props={ this.props.props }></ShapeComponent>)

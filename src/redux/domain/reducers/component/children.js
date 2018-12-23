@@ -4,9 +4,6 @@ import _ from 'lodash'
 
 import { ReduxLeaf } from 'redux-shrub';
 
-// import children from './states/children';
-// import props from './states/props';
-
 class CompositeChildrenReducer extends ReduxLeaf {
   _newState = ({ state }) => {
     let children = [];
@@ -30,8 +27,8 @@ class CompositeChildrenReducer extends ReduxLeaf {
 
 }
 
-const compositeChildren = new CompositeChildrenReducer({
-  slug: 'compositeChildren'
+const children = new CompositeChildrenReducer({
+  slug: 'children'
 })
 
-export default compositeChildren
+export default children

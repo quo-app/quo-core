@@ -7,6 +7,8 @@ import selectors from 'quo-redux/selectors';
 import Header from './header';
 import Properties from './properties';
 
+import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup'
+
 class StateManager extends Component {
   constructor(props){
     super(props);
@@ -20,18 +22,17 @@ class StateManager extends Component {
   }
   render = () => {
     if(!this.props.selectionExists) return null
-    console.log('did this')
     return (
       <React.Fragment>
         <div className='state-manager-wrapper'>
           <Header/>
         </div>
         <div className='content-wrapper'>
-          {/* <HorizontalOptionGroup
+          <HorizontalOptionGroup
             selected={ this.state.selected }
             options={ this.state.options }
             onChange={ id => this.setState({selected: id})}
-          /> */}
+          />
           {
             this.state.options[this.state.selected].obj
           }
