@@ -1,40 +1,38 @@
 import React, { Component} from 'react';
 
+import { isNumber } from 'lodash';
+
 import TextInput from 'quo-ui/textInput';
 
 import PropCardWrapper from '../PropCardWrapper';
 
 class Size extends Component{
-  constructor (props) {
-    super(props)
-    this.state = {
-      w: this.props.width,
-      h: this.props.height
-    }
+
+  state = {
+    w: this.props.width,
+    h: this.props.height
   }
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      w: this.props.width,
-      h: this.props.height
-    })
-  }
+
+  componentWillReceiveProps = ({ width, height}) => this.setState({ w: width, h: height })
 
   updateW (val, title, isFinal) {
     //set the state and update
-    this.setState({w:parseInt(val)},()=>{
-      if (isFinal) this.props.update({width:this.state.w})
+    this.setState({w: parseInt(val)},()=>{
+      if (isFinal) this.props.update({ width:this.state.w })
     });
   }
 
   updateH (val, title, isFinal) {
-    this.setState({h:parseInt(val)},()=>{
-      if (isFinal) this.props.update({height:this.state.h})
+    this.setState({h: parseInt(val)},()=>{
+      if (isFinal) this.props.update({ height: this.state.h })
     });
   }
 
+  valuesExist = () => isNumber(this.props.width) && isNumber(this.props.height)
+
   render(){
     return(
-      this.props.width && this.props.height ?
+      this.valuesExist() ?
       <PropCardWrapper title='Size'>
         <TextInput title='W' text={this.state.w} type='number' after="" onChange={this.updateW.bind(this)}/>
         <TextInput title='H' text={this.state.h} type='number' after="" onChange={this.updateH.bind(this)}/>
