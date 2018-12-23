@@ -12,9 +12,12 @@ import PropCards from 'quo-components/propCards';
 
 
 class Properties extends Component {
-  dispatchAction(){
-    const { dispatch } = this.props;
-    return ( payload => dispatch(actions.UPDATE_COMPONENT_PROPS({id:this.props.id, props:payload})) )
+  // an update requires the component id, state id and the props
+  // both of the component id and the state id will be provided from the
+  // mapStateToProps function
+  dispatchAction () {
+    const { dispatch, id, currentState } = this.props;
+    return props => dispatch(actions.EDIT_COMPONENT_PROPS_UPDATE({id, stateID: currentState, props}))
   }
   render = () => {
     return (
@@ -52,7 +55,7 @@ const mapStateToProps = state => {
         card: PropCards[c],
         props: pick(props, getPropsOfCard(c, type))
       }));
-    return { cards, id}
+    return { cards, id, currentState: determineCurrentState() }
   }
   // case where there is a multiple selection
   if(selectedComponents.length > 1){

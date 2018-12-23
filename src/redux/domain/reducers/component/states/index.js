@@ -60,7 +60,7 @@
 //   _coreProps: Property[]
 // }
 
-import { Map } from 'immutable'
+import { OrderedMap } from 'immutable'
 import _ from 'lodash'
 
 import { ReduxLeaf, ReduxPolyBranch, ReduxBranch } from 'redux-shrub';
@@ -79,7 +79,7 @@ class Id extends ReduxLeaf {
 
 class StatesReducer extends ReduxPolyBranch {
   _newState = ({ state }) => {
-    let reducerState = Map()
+    let reducerState = OrderedMap()
     if(state){
       state.map(stateData => {
         reducerState = this.add(reducerState)(stateData)
