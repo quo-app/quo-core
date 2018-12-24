@@ -15,13 +15,7 @@ class CompositePropsReducer extends ReduxLeaf {
     }
     return props
   }
-  _createComposite = states => {
-    console.log(states);
-  }
-  update = state => payload => {
-    this._createComposite(payload);
-    return state
-  }
+  update = state => ({ props }) => props
 }
 
 const props = new CompositePropsReducer({

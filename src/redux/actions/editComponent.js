@@ -1,9 +1,11 @@
-import uuid from 'uuid/v1';
+import uuid from 'uuid/v1'
+import { Map } from 'immutable'
 
 import { assetToEditComponent } from 'quo-parser/editComponent'
+import selectors from 'quo-redux/selectors'
 
-import actions from './rootActions';
-import selectors from 'quo-redux/selectors';
+import actions from './rootActions'
+
 
 export const ADD_ASSET_TO_EDITOR_AND_TAB = payload => (dispatch, getState) => {
   let id = uuid().toUpperCase()
@@ -38,10 +40,9 @@ export const EDIT_COMPONENT_PROPS_UPDATE = payload => (dispatch, getState) => {
   */
   const { id } = payload
   dispatch(actions.COMPONENT_STATE_PROPS_UPDATE(payload))
-  let state = getState()
-  let props = selectors.componentProps(state, { id });
-  let states = selectors.componentStates(state, { id});
-  console.log(states);
+  let states = selectors.componentStates(getState(), { id});
+  let props = combineStateProps(states);
+  dispatch(actions.COMPONENT_PROPS_UPDATE({ id, props}));
 }
 
 /*
@@ -55,5 +56,9 @@ the ordered states.
 */
 
 const combineStateProps = states => {
-
+  let newProps = Map();
+  states.map(state => {
+    newProps = newProps.merge(state.get('props'));
+  })
+  return newProps
 }
