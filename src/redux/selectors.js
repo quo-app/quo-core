@@ -1,6 +1,6 @@
 import { State } from './state';
 
-let selectors = State._composeSelectors();
+const selectors = State._composeSelectors();
 
 console.log(selectors);
 

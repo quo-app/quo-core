@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
-import { getState } from 'quo-redux/state';
 
 import { translatePropData } from 'quo-parser/propTranslator';
 
@@ -128,24 +127,24 @@ const makePreviewComponent = (WrappedComponent, options) => {
   }
 
   const mapStateToProps = (state,ownProps) => {
+    return {}
+    // let domain = getState(state, 'domain');
+    // //tab root is the parent component
+    // let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
+    // //return the tabRoot
+    // if(ownProps.isParent){
+    //   return {
+    //     component:tabRoot,
+    //   }
+    // }
 
-    let domain = getState(state, 'domain');
-    //tab root is the parent component
-    let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
-    //return the tabRoot
-    if(ownProps.isParent){
-      return {
-        component:tabRoot,
-      }
-    }
-
-    //return the component
-    else{
-      let component = domain.components[ownProps.id];
-      return {
-        component:component,
-      }
-    }
+    // //return the component
+    // else{
+    //   let component = domain.components[ownProps.id];
+    //   return {
+    //     component:component,
+    //   }
+    // }
 
   }
 

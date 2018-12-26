@@ -6,6 +6,19 @@ import selectors from 'quo-redux/selectors'
 
 import actions from './rootActions'
 
+/*
+action: ADD_ASSET_TO_EDITOR_AND_TAB
+
+payload: {
+  components: obj of asset components
+  rootID: the component id that will
+  be at the root of the addition,
+}
+
+Gets a tree from the assets and adds it to
+components as well as adding those components
+to the current editor tab.
+*/
 
 export const ADD_ASSET_TO_EDITOR_AND_TAB = payload => (dispatch, getState) => {
   let id = uuid().toUpperCase()

@@ -1,4 +1,3 @@
-import { SketchParser } from 'quo-parser';
 import { SketchToAssetComponent } from 'quo-parser/assetComponent';
 import { createReduxBranch, ReduxLeaf } from 'redux-shrub';
 import { Map } from 'immutable';

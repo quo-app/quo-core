@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import actions from 'quo-redux/actions';
-import { AbstractComponent } from 'quo-parser/abstract';
 import { fSafe } from 'quo-utils';
 
 class ComponentInterface {
