@@ -27,9 +27,11 @@ import stateReducer from './shared/stateReducer';
 // }
 
 const linkTarget = new ReduxPolyBranch({
-  slug: 'linktarget',
+  slug: 'link',
   accessor: accessors.linkTarget,
-  childReducer: stateReducer
+  childReducer: stateReducer,
+  includeSlugInChildReducers: true,
+  includeSlugInChildSelectors: true,
 })
 
 const links = new ReduxPolyBranch({
