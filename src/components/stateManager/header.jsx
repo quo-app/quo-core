@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import selectors from 'quo-redux/selectors';
-
-import _ from 'lodash';
 
 import { VerticalListCard } from 'quo-ui/cards';
 import Icons from 'quo-ui/icons';
@@ -63,12 +62,28 @@ const mapStateToProps = state => {
   let convertedStates = _.mapValues(states, eachState => {
     return { text: eachState.title, icon: eachState.active }
   })
-
-  console.log(convertedStates)
-
   return {
     states: convertedStates
   }
 }
 
-export default connect(mapStateToProps)(StatesHeader);
+const areStatesEqual = (next, prev) => {
+  // this will only update if the selection has changed, or the
+  // states of the selections have changed.
+
+  /*  selections : string[] */
+
+  const prevSelections = selectors.selectedComponents(prev)
+  const nextSelections = selectors.selectedComponents(next)
+
+  if(!_.isEqual(prevSelections, nextSelections)) return false;
+
+  /*  selections : map */
+
+  const prevStates = selectors.componentStates(prev, { id: prevSelections[0]})
+  const nextStates = selectors.componentStates(next, { id: nextSelections[0]})
+
+  return prevStates.equals(nextStates)
+}
+
+export default connect(mapStateToProps, null, null, { areStatesEqual })(StatesHeader);

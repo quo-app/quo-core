@@ -3,41 +3,20 @@ import React, { Component } from 'react';
 import TextInput from 'quo-ui/textInput';
 
 import PropCardWrapper from '../PropCardWrapper';
+import TwoValueCard from '../twoValue';
 
-class Position extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      x: this.props.x,
-      y: this.props.y
-    }
-  }
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      x:nextProps.x,
-      y:nextProps.y
-    })
-  }
+class Position extends TwoValueCard {
 
-  updateX (val,title,isFinal) {
-    //set the state and update
-    this.setState({x:parseInt(val)},()=>{
-      if (isFinal) this.props.update({x:this.state.x})
-    });
-  }
+  updateX = (val, title, isFinal) => this.updateValues(val, 'x', isFinal)
 
-  updateY (val,title,isFinal) {
-    this.setState({y:parseInt(val)},()=>{
-      if (isFinal) this.props.update({y:this.state.y})
-    });
-  }
+  updateY = (val, title, isFinal) => this.updateValues(val, 'y', isFinal)
 
   render () {
     return (
       typeof(this.props.x) === 'number' && typeof(this.props.y) === 'number' ?
-      <PropCardWrapper title='Position'>
-        <TextInput title='X' text={this.state.x} type='number' after="" onChange={this.updateX.bind(this)}/>
-        <TextInput title='Y' text={this.state.y} type='number' after="" onChange={this.updateY.bind(this)}/>
+      <PropCardWrapper title='Position' key={this.props.id}>
+        <TextInput title='X' text={this.props.x} type='number' after="" onChange={this.updateX}/>
+        <TextInput title='Y' text={this.props.y} type='number' after="" onChange={this.updateY}/>
       </PropCardWrapper>
       :
       null

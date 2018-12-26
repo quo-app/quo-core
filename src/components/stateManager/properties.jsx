@@ -26,7 +26,7 @@ class Properties extends Component {
         this.props.cards.map((PropCard, i) => {
           if(!PropCard.card) return null
           return (
-            <PropCard.card key={i} update={this.dispatchAction()} {...PropCard.props}/>
+            <PropCard.card key={i} update={this.dispatchAction()} id={this.props.id} {...PropCard.props}/>
           )
         })
       }

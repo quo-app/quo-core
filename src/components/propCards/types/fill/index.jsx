@@ -20,23 +20,25 @@ class Fill extends Component {
 
   getProp = () => this.props.fill ? 'fill' : 'backgroundColor'
 
+  updateStore = () => {
+    let props = {[this.getProp()]:this.state.color}
+    if(this.getProp() === 'fill') {
+      props.fillOpacity =  this.state.color.a
+    }
+    this.props.update(props)
+  }
+
   handleChange = color => {
-    this.setState({ color: color.rgb }, ()=>{
-      this.props.update({[this.getProp()]:this.state.color})
-    });
-  };
+    this.setState({ color: color.rgb }, this.updateStore)
+  }
 
   handleSliderChange = alpha => {
     let color = {...this.state.color}
     color.a = alpha / 100;
-    this.setState({ color }, () => {
-      this.props.update({[this.getProp()]:this.state.color})
-    });
+    this.setState({ color }, this.updateStore);
   };
 
-  handleClick = () => {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker })
-  };
+  handleClick = () => this.setState({ displayColorPicker: !this.state.displayColorPicker })
 
   render () {
     return(
@@ -50,7 +52,7 @@ class Fill extends Component {
         {
           this.state.displayColorPicker
             ?
-              <SketchPicker color={ this.state.color } onChange={ this.handleChange.bind(this) }/>
+              <SketchPicker color={ this.state.color } onChange={ this.handleChange }/>
             :
           null
         }

@@ -1,5 +1,9 @@
-import { ReduxLeaf } from 'redux-shrub';
+import { ReduxPolyBranch } from 'redux-shrub';
 import { Map } from 'immutable';
+
+import accessors from 'quo-redux/accessors';
+import stateReducer from './shared/stateReducer';
+
 
 // this.links = {
 //   add: {
@@ -22,12 +26,17 @@ import { Map } from 'immutable';
 //   }
 // }
 
-class LinksReducer extends ReduxLeaf {
-  _newState = ({ links = {} }) => Map({})
-  set = state => ({ targetID, componentState }) => state.setIn([targetID, componentState.id], componentState)
-}
+const linkTarget = new ReduxPolyBranch({
+  slug: 'linktarget',
+  accessor: accessors.linkTarget,
+  childReducer: stateReducer
+})
 
-const links = new LinksReducer({ slug: 'links' })
+const links = new ReduxPolyBranch({
+  slug: 'links',
+  accessor: accessors.linkSource,
+  childReducer: linkTarget
+})
 
 export default links
 

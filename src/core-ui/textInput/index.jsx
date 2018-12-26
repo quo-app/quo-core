@@ -3,48 +3,29 @@ import React, { Component } from 'react';
 import { fSafe } from 'quo-utils';
 
 export default class TextInput extends Component{
-  constructor(props) {
-      super(props);
-      this.state = {value: this.props.text};
+  handleChange = event => {
+    fSafe(this.props.onChange, event.target.value, this.props.title, false);
+  }
 
-      this.suffix = '';
-      if(props.type === 'percentage'){
-        this.suffix = '%';
-      }
+  handleBlur = event => {
+    fSafe(this.props.onChange, event.target.value, this.props.title, true);
+  }
 
-      this.handleChange = this.handleChange.bind(this);
-      this.keyPress = this.keyPress.bind(this);
-    }
+  keyPress = e => {
+    if(e.key === 'Enter') e.currentTarget.blur(e);
+  }
 
-    componentWillReceiveProps(nextProps){
-      this.setState({value:nextProps.text});
-    }
-
-    handleChange(event) {
-      fSafe(this.props.onChange, event.target.value, this.props.title, false);
-    }
-
-    handleBlur(event){
-      fSafe(this.props.onChange, event.target.value, this.props.title, true);
-    }
-
-    keyPress(e){
-      if(e.key === 'Enter'){
-        e.currentTarget.blur(e);
-      }
-    }
-
-    render() {
-      return (
-        <div className='text-input' >
-          <input type={this.props.type} 
-                 onBlur={this.handleBlur.bind(this)} 
-                 value={this.state.value} 
-                 onChange={this.handleChange} 
-                 tabIndex='0' 
-                 onKeyPress={this.keyPress}/>
-          {this.props.noTitle ? null :   <div className='text-input-title'>{this.props.title}</div>}
-        </div>
-      );
-    }
+  render() {
+    return (
+      <div className='text-input' >
+        <input type={this.props.type}
+                onBlur={this.handleBlur}
+                defaultValue={this.props.text}
+                onChange={this.handleChange}
+                tabIndex='0'
+                onKeyPress={this.keyPress}/>
+        {this.props.noTitle ? null :   <div className='text-input-title'>{this.props.title}</div>}
+      </div>
+    );
+  }
 }
