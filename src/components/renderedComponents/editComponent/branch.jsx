@@ -95,14 +95,31 @@ const mapStateToProps = (state, ownProps) => {
 
     if(!ownProps.selector) return {}
 
-    let component = ownProps.isParent ? ownProps.component : ownProps.selector(state, ownProps.id)
+    const component = ownProps.isParent ? ownProps.component : ownProps.selector(state, ownProps.id)
+
+    const currentState = selectors.currentState(state);
+
+    let props;
+
+    if(ownProps.isParent) {
+      props = component.get('props')
+    }
+    else {
+      const states = component.get('states')
+      const defaultStateProps = states.getIn(['default', 'props'])
+      const currentStateProps = states.getIn([currentState, 'props'])
+
+      props = defaultStateProps.merge(currentStateProps)
+    }
+
 
     return {
       id: component.get('id'),
-      props: component.get('props').toJS(),
+      props: props.toJS(),
       type: component.get('type'),
       children: component.get('children'),
       selectables: selectors.selectables(state),
+      currentState,
     }
 
   }

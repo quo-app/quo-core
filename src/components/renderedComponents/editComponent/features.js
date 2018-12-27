@@ -57,7 +57,7 @@ export class DragInterface extends ComponentInterface {
     // run the onDrag of the component if exists
     fSafe(this.target.onDrag)
     // update the store
-    // this.dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x, y}, id: this.id }));
+    this.dispatch(actions.EDIT_COMPONENT_PROPS_UPDATE({ props: {x, y}, id: this.id, stateID: this.props.currentState }));
   }
 
   dragEnd =  e => {

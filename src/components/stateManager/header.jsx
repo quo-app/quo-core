@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import selectors from 'quo-redux/selectors';
+import actions from 'quo-redux/actions';
 
 import { VerticalListCard } from 'quo-ui/cards';
 import Icons from 'quo-ui/icons';
@@ -13,12 +14,15 @@ class StatesHeader extends Component {
     super(props);
     this.state = {
       dropdownVisible: false,
-      selected: 'default',
+      selected: this.props.currentState,
     }
   }
 
   onOptionClick = id => {
-    this.setState({ selected: id})
+    this.props.dispatch(actions.CURRENT_STATE_UPDATE(id))
+    this.setState({
+      dropdownVisible: !this.state.dropdownVisible
+    })
   }
 
   onHeaderIconClick = () => {
@@ -36,10 +40,10 @@ class StatesHeader extends Component {
         optionIcon={ <Icons.Check/> }
         collapsed={ !this.state.dropdownVisible }
         headerIcon={ this.decideMinimizeIcon() }
-        headerMiddleText={ this.state.dropdownVisible ? null : this.props.states[this.state.selected].text }
+        headerMiddleText={ this.state.dropdownVisible ? null : this.props.states[this.props.currentState].text }
         onHeaderIconClick= { this.onHeaderIconClick }
         optionIconOrientation='left'
-        selected={ this.state.selected }
+        selected={ this.props.currentState }
         values={ this.props.states }
         onOptionClick={ this.onOptionClick }
       />
@@ -59,11 +63,16 @@ class StatesHeader extends Component {
 const mapStateToProps = state => {
   let selections = selectors.selectedComponents(state)
   let states = selectors.componentStates(state, { id: selections[0]}).toJS()
+  const currentState = selectors.currentState(state)
   let convertedStates = _.mapValues(states, eachState => {
-    return { text: eachState.title, icon: eachState.active }
+    return {
+      text: eachState.title,
+      icon: Object.keys(eachState.props).length > 0
+    }
   })
   return {
-    states: convertedStates
+    states: convertedStates,
+    currentState
   }
 }
 
@@ -71,14 +80,21 @@ const areStatesEqual = (next, prev) => {
   // this will only update if the selection has changed, or the
   // states of the selections have changed.
 
-  /*  selections : string[] */
+  /* currentState: string  */
+
+  const prevCurrentState = selectors.currentState(prev)
+  const nextCurrentState = selectors.currentState(next)
+
+  if(prevCurrentState !== nextCurrentState) return false
+
+  /*  selections: string[] */
 
   const prevSelections = selectors.selectedComponents(prev)
   const nextSelections = selectors.selectedComponents(next)
 
   if(!_.isEqual(prevSelections, nextSelections)) return false;
 
-  /*  selections : map */
+  /*  selections: map */
 
   const prevStates = selectors.componentStates(prev, { id: prevSelections[0]})
   const nextStates = selectors.componentStates(next, { id: nextSelections[0]})

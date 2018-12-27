@@ -14,7 +14,7 @@ class Position extends TwoValueCard {
   render () {
     return (
       typeof(this.props.x) === 'number' && typeof(this.props.y) === 'number' ?
-      <PropCardWrapper title='Position' key={this.props.id}>
+      <PropCardWrapper title='Position' key={this.props.id + this.props.currentState}>
         <TextInput title='X' text={this.props.x} type='number' after="" onChange={this.updateX}/>
         <TextInput title='Y' text={this.props.y} type='number' after="" onChange={this.updateY}/>
       </PropCardWrapper>

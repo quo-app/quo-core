@@ -52,26 +52,27 @@ export const EDIT_COMPONENT_PROPS_UPDATE = payload => (dispatch, getState) => {
     - set the props obj to be this
   */
   const { id } = payload
-  dispatch(actions.COMPONENT_STATE_PROPS_UPDATE(payload))
-  let states = selectors.componentStates(getState(), { id});
-  let props = combineStateProps(states);
+  dispatch(actions.COMPONENT_STATE_PROPS_UPDATE(payload));
+
+  //
+
+  let currentState = selectors.currentState(getState(), { id })
+  let states = selectors.componentStates(getState(), { id });
+  let props = combineStateWithDefault(states, currentState);
   dispatch(actions.COMPONENT_PROPS_UPDATE({ id, props}));
 }
 
 /*
-function: combineStateProps
+function: combineStateWithDefault
 
 states: Map of state objects
 
-Ignoring the order property of the states,
-returns a merged property Map by looping through
-the ordered states.
+Combine the current state props with default
+props
 */
 
-const combineStateProps = states => {
-  let newProps = Map();
-  states.map(state => {
-    newProps = newProps.merge(state.get('props'));
-  })
-  return newProps
+const combineStateWithDefault = (states, currentState) => {
+  const defaultStateProps = states.getIn(['default', 'props'])
+  const currentStateProps = states.getIn([currentState, 'props'])
+  return defaultStateProps.merge(currentStateProps);
 }

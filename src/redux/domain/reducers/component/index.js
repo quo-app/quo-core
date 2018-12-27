@@ -6,6 +6,7 @@ import type from './type';
 import children from './children';
 import props from './props';
 import parent from './parent';
+import ui from './ui';
 
 class ID extends ReduxLeaf {
   _newState = ({ id }) => id
@@ -20,7 +21,8 @@ let ComponentReducer = new ReduxBranch({
     children,
     props,
     parent,
-    states
+    states,
+    ui
   },
   includeSlugInChildReducers: true,
   includeSlugInChildSelectors: true,
