@@ -1,38 +1,36 @@
 
-import React, { Component} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
-import { getState } from 'quo-redux/state';
+import { pick } from 'lodash'
 
 import { translatePropData } from 'quo-parser/propTranslator';
-import { AbstractComponent } from 'quo-parser/abstract';
 
 import ComponentRender from '../coreComponent';
 
+import componentWrapper from '../componentWrapper';
+
 const makeSnapshotComponent = (WrappedComponent, options) => {
-  return class extends Component {
+  return class extends React.PureComponent {
     createWrapperProps = () => {
       let className = 'snapshot-component'
-      className += ` ${this.props.component.class}-component` 
-      const id = `snapshot-${this.props.component.id}`
+      className += ` ${this.props.type}-component`
+      const id = `snapshot-${this.props.id}`
       const style = this.getStyleProps();
       style.position = 'absolute';
-      return { 
+      return {
                className,
-               id, 
+               id,
                style,
              }
-
     }
 
     getStyleProps = () => {
-      const props = AbstractComponent.props(this.props.component);
       let picks = ['width','height','x','y'];
+      if(this.props.isParent) picks = ['width','height']
       // ignore the positioning of the parent since it becomes the root
-      if(this.props.isParent) picks = ['width','height'];
-      return translatePropData('abstract', 'css', props(picks));
+      return translatePropData('abstract', 'css', pick(this.props.props, picks));
     }
-    
+
     render = () => {
       const wrapperProps = this.createWrapperProps();
       return(
@@ -45,32 +43,17 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let domain = getState(state,'domain');
-  if(ownProps.source){
-    let { source } = ownProps
-    let components = domain[source.location][source.filetype][source.page].components
-    return { component: components[ownProps.id] }
-  }
-  else{
-    //tab root is the parent component
-    let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
-    //return the tabRoot
-    if(ownProps.isParent){
-      return {
-        component:tabRoot,
-      }
-    }
-  
-    //return the component
-    else{
-      let component = domain.components[ownProps.id];
-      return {
-        component:component,
-      }
-    }
-  }
+  if(!ownProps.selector || !ownProps.propsSelector ) return {}
+  let component = ownProps.selector(state)[ownProps.id]
+
+  return {
+    id: component.id,
+    type: component.type,
+    children: component.children,
+    props: component.props,
+   }
 }
 
-const SnapshotComponent = connect(mapStateToProps)(makeSnapshotComponent(ComponentRender));
+const SnapshotComponent = connect(mapStateToProps)(componentWrapper(makeSnapshotComponent(ComponentRender)));
 
-export default SnapshotComponent 
+export default SnapshotComponent

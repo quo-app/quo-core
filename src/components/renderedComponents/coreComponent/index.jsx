@@ -6,24 +6,25 @@ import TextComponent from './components/TextComponent';
 
 class ComponentRenderCore extends PureComponent {
   render = () => {
-    switch (this.props.component.class) {
+    switch (this.props.type) {
       case 'shape':
-        return (<ShapeComponent component={ this.props.component }></ShapeComponent>)
+        return (<ShapeComponent props={ this.props.props }></ShapeComponent>)
       case 'text':
-        return (<TextComponent component={ this.props.component }></TextComponent>)
+        return (<TextComponent props={ this.props.props }></TextComponent>)
       case 'image':
-        return <ImageComponent component={this.props.component} />
+        return <ImageComponent props={ this.props.props }/>
       default:
         const Wrapper = this.props.wrapper
         return (
           <React.Fragment>
             {
-              this.props.component.children.map(id => {
+              this.props.children.map(id => {
                 return (
                   <Wrapper
                     id={id}
                     key={id}
-                    source={this.props.source}
+                    selector={this.props.selector}
+                    propsSelector={this.props.propsSelector}
                   />
                 )
               })

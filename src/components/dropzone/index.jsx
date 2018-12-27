@@ -50,7 +50,7 @@ class DropzoneContainer extends Component {
           reader.onload = () => {
             dispatch(actions.UPLOAD_IMAGE({ filetype: 'image', data: {
               name: curFile.name,
-              image: reader.result 
+              image: reader.result
             }}));
           };
           reader.readAsDataURL(curFile);

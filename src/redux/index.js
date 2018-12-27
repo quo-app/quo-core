@@ -1,17 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-// import undoable, { excludeAction } from 'redux-undo';
 import thunk from 'redux-thunk';
-// import { routerReducer, routerMiddleware } from 'react-router-redux';
+import Immutable from 'immutable';
+import reducer from './reducer';
 
-import { storeInitial } from './state';
-import rootReducer from './reducers';
+const composeEnhancer = compose;
 
 export default createStore(
-  rootReducer,
-  storeInitial,
-  compose(
-    applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f,
-  ),
-
+  reducer,
+  composeEnhancer(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__({ serialize: { Immutable }})),
 );

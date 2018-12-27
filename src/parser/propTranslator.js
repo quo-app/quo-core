@@ -88,7 +88,7 @@ class Translator {
 
           addProp('height',f.height + eProp.thickness / 2);
           addProp('width',f.width + eProp.thickness / 2);
-    
+
           addProp('x',f.x - eProp.thickness / 2);
           addProp('y',f.y - eProp.thickness / 2);
 
@@ -102,7 +102,7 @@ class Translator {
       if(s.fills){
         let eProp = pickEnabledProp(s.fills);
         if(eProp){
-          addProp('fill',eProp.color)
+          addProp('fill', eProp.color)
           addProp('fillOpacity', eProp.color.alpha)
         }
         // no enabled fill

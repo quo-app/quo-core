@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
-import { getState } from 'quo-redux/state';
 
 import { translatePropData } from 'quo-parser/propTranslator';
 
 import ComponentRender from '../coreComponent';
 
+import componentWrapper from '../componentWrapper';
+
 
 const makePreviewComponent = (WrappedComponent, options) => {
-    return class extends Component {
+    return class extends React.PureComponent {
       stopPropagation = f => e => {
         e.stopPropagation();
         return f(e)
@@ -51,8 +52,10 @@ const makePreviewComponent = (WrappedComponent, options) => {
         })
       }
       handleStates(event){
+        // states of the component
         this.addStates(this.props.component.id, this.findStates(event,'ins'));
         this.removeStates(this.props.component.id, this.findStates(event,'outs'));
+        // states for other components
         this.addLinkStates(event);
         this.removeLinkStates(event);
       }
@@ -96,22 +99,22 @@ const makePreviewComponent = (WrappedComponent, options) => {
       }
 
       createWrapperProps = () => {
-  
+
         const componentClass = this.props.isParent ? 'parent' : this.props.component.class
         const className = `preview-component ${componentClass}-component`
         const id = `component-${this.props.component.id}`
         const style = this.getStyleProps();
         const mouseEventListeners = this.createMouseEventListeners();
-  
-        return { 
+
+        return {
                   className,
-                  id, 
+                  id,
                   style,
                   ...mouseEventListeners,
                 }
-  
+
       }
-      
+
       render(){
         const wrapperProps = this.createWrapperProps();
         return(
@@ -124,27 +127,27 @@ const makePreviewComponent = (WrappedComponent, options) => {
   }
 
   const mapStateToProps = (state,ownProps) => {
+    return {}
+    // let domain = getState(state, 'domain');
+    // //tab root is the parent component
+    // let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
+    // //return the tabRoot
+    // if(ownProps.isParent){
+    //   return {
+    //     component:tabRoot,
+    //   }
+    // }
 
-    let domain = getState(state, 'domain');
-    //tab root is the parent component
-    let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
-    //return the tabRoot
-    if(ownProps.isParent){
-      return {
-        component:tabRoot,
-      }
-    }
-  
-    //return the component
-    else{
-      let component = domain.components[ownProps.id];
-      return {
-        component:component,
-      }
-    }
-  
+    // //return the component
+    // else{
+    //   let component = domain.components[ownProps.id];
+    //   return {
+    //     component:component,
+    //   }
+    // }
+
   }
 
-  const PreviewComponent = connect(mapStateToProps)(makePreviewComponent(ComponentRender))
+  const PreviewComponent = connect(mapStateToProps)(componentWrapper(makePreviewComponent(ComponentRender)))
 
   export default PreviewComponent

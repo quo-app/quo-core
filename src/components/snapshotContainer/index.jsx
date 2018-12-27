@@ -9,11 +9,8 @@ import { convertSnapshotToImage } from './utils';
 export default class SnapshotContainer extends Component {
 
   static propTypes = {
-    source: PropTypes.shape({
-      location: PropTypes.string,
-      filetype: PropTypes.string,
-      page: PropTypes.string,
-    }).isRequired,
+    selector: PropTypes.func.isRequired,
+    propsSelector: PropTypes.func.isRequired,
     component: PropTypes.object.isRequired,
     padding: PropTypes.shape({
       top: PropTypes.number,
@@ -21,7 +18,7 @@ export default class SnapshotContainer extends Component {
       bottom: PropTypes.number,
       left: PropTypes.number,
     })
-  } 
+  }
 
   static defaultProps = {
     padding: {
@@ -32,10 +29,7 @@ export default class SnapshotContainer extends Component {
     }
   }
 
-  constructor(props){ 
-    super(props);
-    this.state = {}
-  }
+  state = {}
 
   getContainerDimensions = () => {
     let dims =  ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect();
@@ -49,9 +43,9 @@ export default class SnapshotContainer extends Component {
 
   getComponentDimensions = () => {
     return {
-      w: this.props.component.state.states.composite.props.width,
-      h: this.props.component.state.states.composite.props.height
-    } 
+      w: this.props.propsSelector(this.props.component).width,
+      h: this.props.propsSelector(this.props.component).height
+    }
   }
 
   componentDidMount = () => {
@@ -61,7 +55,7 @@ export default class SnapshotContainer extends Component {
       cDimensions : this.getContainerDimensions(),
       eDimensions : this.getComponentDimensions(),
     }
-    
+
     let { image, scale } = convertSnapshotToImage(data);
     let fullImage = convertSnapshotToImage({...data, full:true});
 
@@ -72,7 +66,7 @@ export default class SnapshotContainer extends Component {
   }
 
   render = () => {
-    let alt = `Snapshot of the component ${this.props.component.name}.`
+    let alt = `Snapshot of an ${this.props.component.title}.`
     return (
       <React.Fragment>
         {
@@ -82,7 +76,8 @@ export default class SnapshotContainer extends Component {
           :
             <div style={{display:'none'}}>
               <SnapshotComponent
-                source = {this.props.source}
+                selector = {this.props.selector}
+                propsSelector = {this.props.propsSelector}
                 id = {this.props.component.id}
                 isParent
               />

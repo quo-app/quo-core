@@ -45,12 +45,12 @@ class TextComponent extends CoreComponent{
     // }
 
     getText(){
-        return this.props.component.state.states.composite.props.textString
+        return this.props.propsSelector(this.props.component).textString
     }
 
     getStyle(){
-        const props = this.props.component.state.states.composite.props;
-        return translatePropData('abstract', 'css', _.pick(props,['font-size','font-color','font-family']));
+        const props = this.props.propsSelector(this.props.component)
+        return translatePropData('abstract', 'css', _.pick(props, ['font-size','font-color','font-family']));
     }
 
     textUpdate(str){

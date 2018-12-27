@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 
 class Button extends Component {
-  
+
   static propTypes = {
     onClick:PropTypes.func,
     selected:PropTypes.bool,

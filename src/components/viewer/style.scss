@@ -3,9 +3,9 @@
   width:calc(100vw - calc(#{$sidebar-width} + #{$sidebar-width-left}));
   height:calc(100vh - #{$top-bar-height});
 
-  left:$sidebar-width-left;
-  top:$top-bar-height;
-  transition:.05s ease-in-out transform;
+  left: $sidebar-width-left;
+  top: $top-bar-height;
+  transition: transform 1s ease-in-out;
   will-change: transform;
   overflow:auto;
   box-sizing:border-box;

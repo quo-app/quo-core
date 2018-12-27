@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import actions from 'quo-redux/actions';
-import { getState } from 'quo-redux/state';
-
+import selectors from 'quo-redux/selectors';
 
 class MessageStack extends Component{
   render(){
     return(
       <div className='message-stack-wrapper'>
         {
-          this.props.messages.map( (messageData,i) => {
-            return <Message message={messageData} key={messageData.id}/>
+          this.props.messages.entrySeq().map(([id, message]) => {
+            return <Message message={message} key={id}/>
           })
         }
       </div>
@@ -32,11 +31,11 @@ class Message extends Component {
       this.setState({fade:'fade-out'});
       setTimeout(()=>{
         const { dispatch } = this.props
-        dispatch(actions.REMOVE_MESSAGE({id:this.props.message.id}))
+        dispatch(actions.MESSAGES_REMOVE(this.props.message));
       },400)
     }, this.props.message.duration)
   }
-  
+
   componentWillMount(){
     this.setSelfDestructTimer();
   }
@@ -52,7 +51,7 @@ class Message extends Component {
 }
 
 const mapState = (state) =>{
-  return { messages: getState(state,'ui').messages };
+  return { messages: selectors.messages(state) };
 }
 
 Message = connect()(Message)

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import actions from 'quo-redux/actions';
+import selectors from 'quo-redux/selectors';
 
 import SnapshotContainer from 'quo-components/snapshotContainer';
 
@@ -27,147 +28,82 @@ class AssetsTab extends Component {
   componentDidMount(){
     if(!data) return;
     const { dispatch } = this.props;
-    dispatch(actions.UPLOAD_SKETCH({ data: data, filetype: 'sketch' }));
+    dispatch(actions.SKETCH_ASSETS_ADD(data));
   }
 
   render(){
     return (
       <div className='assets-tab-wrapper'>
-        <HorizontalOptionGroup
+        {/* <HorizontalOptionGroup
           options={
             [
               {text:'Static',callback:()=>{this.updateTab('static')}},
               {text:'Reactive',callback:()=>{this.updateTab('reactive')}}
             ]
           }
-        />
-        {
+        /> */}
+        {/* {
           this.state.currentTab === 'static'
           ?
           <AssetsViewer assets={this.props.assets} components={this.props.components}/>
           :
           null
-        }
+        } */}
+        <AssetPageViewer assets={this.props.assets}/>
       </div>
     )
   }
 }
 
-class AssetsViewer extends Component {
+class AssetPageViewer extends Component {
+
   constructor(props){
     super(props);
-    let pages = this.assignPages(props.assets.sketch);
-    let selected = undefined;
-    if(pages.length > 0){
-      selected = pages[0];
-    }
     this.state = {
-      pages:pages,
-      images: this.props.assets.image,
-      selected: selected,
+      selected: ''
     }
-    this.onPageChange = this.onPageChange.bind(this);
-  }
-
-  assignPages(pages){
-    return Object.keys(pages).map( page =>{
-      return { id:pages[page].id, name:pages[page].name }
-    })
   }
 
   componentWillReceiveProps(nextProps){
-    if(!_.isEmpty(nextProps.assets)){
-      let pages = this.assignPages(nextProps.assets.sketch);
-      if(!this.state.selected) this.setState({ selected:pages[0] })
-      this.setState({pages:pages})
-    }
+    this.setState({selected: nextProps.assets.first()})
   }
 
-  onPageChange(page){
-    this.setState({selected:page});
+  onPageChange = () => {
+
   }
+  getViewports(){
+    if(!this.props.assets.first()) return []
+    return _.values(_.pickBy(this.props.assets.first().components, component => component.type === 'viewport'))
+  }
+  render(){
 
-  renderFirstDepthComponents(){
-
-    if(!this.state.selected){
-      return(
-        <div className='no-assets'>
-          No assets found
-        </div>
-      )
-    }
-
-    //find all the artboards
-    let allArtboards = [];
-
-    _.mapValues(this.props.assets.sketch,(pages) => {
-     allArtboards =  _.union(allArtboards, pages.children);
-    })
-
-    let artboardIDs = this.props.assets.sketch[this.state.selected.id].children;
-
-    
-    //search all the first depth components
-
-    let firstDepthComponents = artboardIDs.map( artboardID =>{
-      //get the children of the artboard;
-      let components = this.props.assets.sketch[this.state.selected.id].components
-      let artboard = components[artboardID];
-      return artboard.children.map( childID => {
-        return components[childID]
-      })
-    })
-
-    let flattenedfirstDepthComponents = [];
-
-    firstDepthComponents.forEach( components => {
-      components.forEach( component => {
-        flattenedfirstDepthComponents.push(component);
-      })
-    })
-
-    firstDepthComponents = flattenedfirstDepthComponents;
+    let viewports = this.getViewports();
+    let components = viewports.length > 0 ? this.props.assets.first().components : {}
+    let pages = this.props.assets.size === 0 ? [] : this.props.assets.valueSeq()
 
     return (
-      <div className='asset-preview-table'>
+      <div className='assets-library-wrapper'>
+      <div className='card-header'>
+        Sketch Pages
+      </div>
+      <div className='card-body'>
         {
-          Object.keys(firstDepthComponents).map((o,i)=>{
-            let component = firstDepthComponents[o]
-            return <AssetPreview key={i} component={component} page={this.state.selected.id} filetype='sketch' source='assets' title={`${component.name}`}/>
+          pages.map((page, i)=>{
+            return(
+              <div className={`page ${page.id === this.state.selected.id ? 'selected' : ''}`} key={i} onClick={()=>{this.onPageChange(page)}}> {page.title} </div>
+            )
           })
         }
       </div>
-    )
-  }
-
-  render(){
-    return (
-      <div className='assets-library-wrapper'>
-        <div className='card-header'>
-          Sketch Pages
-        </div>
-        <div className='card-body'>
-          {
-            this.state.pages.map((page,i)=>{
-              return(
-                <div className={`page ${page.id === this.state.selected.id ? 'selected' : ''}`} key={i} onClick={()=>{this.onPageChange(page)}}>{page.name}</div>
-              )
-            })
-          }
-        </div>
-        <div className='assets-preview-wrapper'>
-          <React.Fragment>
-          {
-            this.renderFirstDepthComponents()
-          }
-          {
-            Object.values(this.state.images).map(image => (
-              <img src={image.data} alt=''/>
-            ))
-          }
-          </React.Fragment>
+      <div className='assets-preview-wrapper'>
+        <div className='asset-preview-table'>
+        {
+          viewports.map( (viewport, i) => <AssetPreview key={i} component={viewport} components={components} title={viewport.title}/>)
+        }
         </div>
       </div>
+    </div>
+
     )
   }
 }
@@ -183,10 +119,9 @@ class AssetPreview extends Component {
   }
   addAssetToEditor = () => {
     const { dispatch } = this.props;
-    dispatch(actions.ADD_COMPONENT({source:this.props.source,
-                            filetype:this.props.filetype,
-                            page:this.props.page,
-                            component:this.props.component}));
+    dispatch(actions.ADD_ASSET_TO_EDITOR_AND_TAB({
+      component: this.props.component,
+      components: this.props.components }))
   }
 
   onRender = (image) => {
@@ -198,7 +133,7 @@ class AssetPreview extends Component {
     let img = new Image();
 
     this.setState({
-      draggable:true,
+      draggable: true,
       dragImageNode: img,
     });
 
@@ -215,11 +150,11 @@ class AssetPreview extends Component {
   }
 
   render = () => {
-    let source = {
-      location: this.props.source,
-      filetype: this.props.filetype,
-      page: this.props.page,
-    }
+
+    let selector = state => selectors.assetsSketch(state).first().components
+    let propsSelector = component => {
+      return component.props
+     }
 
     return (
 
@@ -227,13 +162,16 @@ class AssetPreview extends Component {
         <div className='asset-preview-title'>
           {this.props.title}
         </div>
-        <div 
+        <div
           className={`asset-preview-image ${this.state.draggable ? 'draggable' : ''}`}
           draggable
           onDragStart={this.onDragStart}
           onDragEnd={this.onDragEnd}
         >
-          <SnapshotContainer source={source} component={this.props.component} onRender={this.onRender}/>
+          <SnapshotContainer
+            selector={selector}
+            propsSelector={propsSelector}
+            component={this.props.component} onRender={this.onRender}/>
         </div>
       </div>
     )
@@ -244,8 +182,7 @@ AssetPreview = connect()(AssetPreview)
 
 const mapStateToProps = (state) => {
   return {
-    assets:state.domain.assets,
-    components:state.domain.components
+    assets: selectors.assetsSketch(state)
   }
 }
 

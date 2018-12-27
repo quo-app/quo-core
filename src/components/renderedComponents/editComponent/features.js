@@ -1,5 +1,5 @@
+import _ from 'lodash';
 import actions from 'quo-redux/actions';
-import { AbstractComponent } from 'quo-parser/abstract';
 import { fSafe } from 'quo-utils';
 
 class ComponentInterface {
@@ -10,11 +10,10 @@ class ComponentInterface {
   get props () { return this.target.props }
   // props
   get dispatch () { return this.props.dispatch }
-  get component () { return this.props.component }
   // component related
-  get children () { return this.component.children }
-  get id () { return this.component.id }
-
+  get children () { return this.props.children }
+  get id () { return this.props.id }
+  get componentProps () { return this.props.props}
 }
 
 export class DragInterface extends ComponentInterface {
@@ -38,11 +37,9 @@ export class DragInterface extends ComponentInterface {
   dragInstance = e => {
     e.stopPropagation();
     const componentDOM = document.getElementById(`component-${this.id}`);
-    const box = componentDOM.getBoundingClientRect(); 
+    const box = componentDOM.getBoundingClientRect();
 
-    const props = AbstractComponent.props(this.component);
-
-    const { width, x, y } = props(['width','x','y']);
+    const { width, x, y } = _.pick(this.componentProps, ['width','x','y']);
 
     //including the scale of the viewer zoom
 
@@ -60,7 +57,7 @@ export class DragInterface extends ComponentInterface {
     // run the onDrag of the component if exists
     fSafe(this.target.onDrag)
     // update the store
-    this.dispatch(actions.UPDATE_COMPONENT_PROPS({ props: {x, y}, id: this.id }));
+    this.dispatch(actions.EDIT_COMPONENT_PROPS_UPDATE({ props: {x, y}, id: this.id, stateID: this.props.currentState }));
   }
 
   dragEnd =  e => {
@@ -135,7 +132,7 @@ export class SelectionInterface extends ComponentInterface {
   makeChildrenSelectable = () => {
     this.areChildrenInFocus = true;
     // update selectables to be the children
-    this.dispatch(actions.VIEWER_SELECTABLES(this.children));
+    this.dispatch(actions.SELECTABLES_UPDATE(this.children));
   }
 
   makeChildrenUnselectable = () => {
@@ -152,7 +149,7 @@ export class SelectionInterface extends ComponentInterface {
   pickTheChildUnderTheMousePosition = e => {
     let mouse = {x: e.clientX, y: e.clientY}
 
-    this.component.children.some( id => {
+    this.children.some( id => {
       // this loop determines which inner child is selected.
       // the criteria is that is it the first
       // child that for which the mouse falls within its
@@ -176,6 +173,6 @@ export class SelectionInterface extends ComponentInterface {
            box.bottom >= pos.y
   }
 
-  selectComponent = id => this.dispatch(actions.COMPONENT_SELECT(id));
+  selectComponent = id => this.dispatch(actions.SELECTED_COMPONENTS_UPDATE([id]));
 
 }

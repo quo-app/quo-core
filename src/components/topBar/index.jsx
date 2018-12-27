@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 
-import { getState } from 'quo-redux/state';
 import actions from 'quo-redux/actions';
+import selectors from 'quo-redux/selectors';
 
 import { Button } from 'quo-ui/buttons';
+
+import uuid from 'uuid/v1'
 
 class TopBar extends Component {
   setAppMode = (mode) => {
@@ -18,14 +20,14 @@ class TopBar extends Component {
     let previewSelected = this.props.appMode === 'PREVIEW'
     return (
       <div className='top-bar'>
-        <Button selected={editSelected} onClick={() => this.setAppMode('EDIT')}>App Mode: EDIT</Button>
-        <Button selected={previewSelected} onClick={() => this.setAppMode('PREVIEW')}>App Mode: PREVIEW</Button>
+        <Button onClick={()=> {this.props.dispatch(actions.PREVIEWINSTANCES_ADD({selectedComponents:[], previewID: uuid()}))}}>preview instance</Button>
+        <Button selected={editSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_EDIT())}>App Mode: EDIT</Button>
+        <Button selected={previewSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_PREVIEW())}>App Mode: PREVIEW</Button>
       </div>
     )
   }
 }
 const mapStateToProps = (state) => {
-  let { appMode } = getState(state, 'app');
-  return { appMode };
+  return { appMode: selectors.appMode(state) };
 }
 export default connect(mapStateToProps)(TopBar);

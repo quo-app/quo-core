@@ -1,38 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { pick } from 'lodash';
 
-import { getState } from 'quo-redux/state';
+import selectors from 'quo-redux/selectors';
 import { translatePropData } from 'quo-parser/propTranslator';
-import { AbstractComponent } from 'quo-parser/abstract';
 
 import { DragInterface, DoubleClickInterface, SelectionInterface } from './features';
-
 import ComponentRender from '../coreComponent';
+import componentWrapper from '../componentWrapper';
 
 const makeBranch = (WrappedComponent, options) => {
   return class extends React.Component {
 
     constructor(props){
       super(props);
-
-      this.staticProps = this.createStaticProps();
-
-      // Distribute feature across interfaces for 
+      // Distribute feature across interfaces for
       this.dragManager = new DragInterface(this);
       this.doubleClickManager = new DoubleClickInterface(this);
       this.selectionManager = new SelectionInterface(this);
     }
 
     createStaticProps = () => {
-      const componentClass = this.props.isParent ? 'parent' : this.props.component.class;
-      const className = `edit-component ${componentClass}-component`;
-
-      return { 
+      const className = `edit-component ${this.props.type}-component`
+      return {
         className,
-        id: `component-${this.props.component.id}`,
-        onMouseDownCapture: !this.props.isParent ? this.clickHandler : () => {},
+        id: `component-${this.props.id}`
       }
-
     }
 
     createDynamicProps = () => {
@@ -42,28 +35,27 @@ const makeBranch = (WrappedComponent, options) => {
     }
 
     componentWillReceiveProps(nextProps){
-      if(!this.props.isParent && !nextProps.selectables.includes(this.props.component.id)){
+      if(!this.props.isParent && !nextProps.selectables.includes(this.props.id)){
         this.selectionManager.makeChildrenUnselectable();
       }
     }
 
     getStyleProps = () => {
-      if(this.props.isParent) return { ...this.props.style }
-      const props = AbstractComponent.props(this.props.component);
-      return translatePropData('abstract', 'css', props(['width','height','x','y']));
+      if(this.props.isParent) return { ...this.props.props }
+      return translatePropData('abstract', 'css', pick(this.props.props, ['width','height','x','y']));
     }
 
     clickHandler = e => {
 
       // only left mouse click
-      if(e.button !== 0) return;
-      if(!this.props.selectables.includes(this.props.component.id)) return;
+      if(e.button !== 0) return true;
+      if(!this.props.selectables.includes(this.props.id)) return
 
-      // Start Drag 
+      // Start Drag
       this.dragManager.startDrag(e);
 
       // Double Click Handler
-      // this handler calls the 
+      // this handler calls the
       // onMouseDown and onDoubleClickMouseDown
       // if they exist
       this.doubleClickManager.handle(e);
@@ -86,43 +78,52 @@ const makeBranch = (WrappedComponent, options) => {
     onDoubleClickMouseUp = e => {
       this.selectionManager.selectAChild(e);
     }
-    
+
     render = () => {
-      const dynamicProps = this.createDynamicProps();
+      const staticProps = this.createStaticProps()
+      const dynamicProps = this.createDynamicProps()
       return(
-        <div {...dynamicProps} {...this.staticProps}>
-          <WrappedComponent {...this.props} wrapper={BranchComponent} type={'edit'}/>
+        <div {...dynamicProps} {...staticProps} onMouseDownCapture={ !this.props.isParent ? this.clickHandler : () => {}}>
+          <WrappedComponent {...this.props} wrapper={BranchComponent}/>
         </div>
       )
     }
   }
 }
-  
+
 const mapStateToProps = (state, ownProps) => {
 
-    let domain = getState(state, 'domain');
-    let app = getState(state, 'app');
+    if(!ownProps.selector) return {}
 
-    //tab root is the parent component
-    let tabRoot = domain.tabs.allTabs[domain.tabs.activeTab]
-    //return the tabRoot
-    if(ownProps.isParent){
-      return {
-        component: tabRoot,
-      }
+    const component = ownProps.isParent ? ownProps.component : ownProps.selector(state, ownProps.id)
+
+    const currentState = selectors.currentState(state);
+
+    let props;
+
+    if(ownProps.isParent) {
+      props = component.get('props')
     }
-  
-    //return the component
-    else{
-      let component = domain.components[ownProps.id];
-      return {
-        component: component,
-        selectables: app.selection.selectables,
-      }
+    else {
+      const states = component.get('states')
+      const defaultStateProps = states.getIn(['default', 'props'])
+      const currentStateProps = states.getIn([currentState, 'props'])
+
+      props = defaultStateProps.merge(currentStateProps)
     }
-  
+
+
+    return {
+      id: component.get('id'),
+      props: props.toJS(),
+      type: component.get('type'),
+      children: component.get('children'),
+      selectables: selectors.selectables(state),
+      currentState,
+    }
+
   }
 
-const BranchComponent = connect(mapStateToProps)(makeBranch(ComponentRender));
+const BranchComponent = connect(mapStateToProps)(componentWrapper(makeBranch(ComponentRender)))
 
 export default BranchComponent

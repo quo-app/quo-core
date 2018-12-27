@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import _ from 'lodash';
+
+import { Map } from  'immutable'
 
 import actions from 'quo-redux/actions';
-import { getState } from 'quo-redux/state';
+import selectors from 'quo-redux/selectors';
 
 import SelectionFrame from 'quo-components/selectionFrame';
-import { EditComponents, PreviewComponent } from 'quo-components/renderedComponents';
+import { EditComponent } from 'quo-components/renderedComponents';
 
 import { dimensions } from './constants';
 
@@ -24,48 +25,75 @@ const viewerSize = {
   h: viewerHeight,
 }
 
-const mainArtboardSize = { w:1500, h:1050 }
-
-const zoomBorderThreshold = 100;
-
-class Viewer extends Component {
+class Viewer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       keyDown: false,
       draggableClick: false,
       selection: this.props.selection,
-      viewerPos:{x:-(viewerSize.w/2),y:-(viewerSize.h/2)},
-      origin:{x:0,y:0},
-      viewerSize:viewerSize,
-      scale:1.0,
-      threshold:{
-        x:{
-          min:0,
-          max:0
-        },
-        y:{
-          min:0,
-          max:0
-        }
-      }
-    };
-  }
+      viewerPos:{ x: (viewerDimensions.w - viewerSize.w) / 2, y: (viewerDimensions.h - viewerSize.h) / 2 },
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.currentTab){
-      const { dispatch } = this.props;
-      dispatch(actions.VIEWER_SELECTABLES(nextProps.currentTab.children))
+      // Zoom and Pan
+      offsetX: (viewerDimensions.w - viewerSize.w) / 2,
+      offsetY: (viewerDimensions.h - viewerSize.h) / 2,
+      scale: 1.0,
+      threshold:{
+        x: { min: 0, max: 0 },
+        y: { min: 0, max: 0 }
+      },
+      viewerSize: viewerSize,
+      viewerDOMDimensions: {
+        w:1200,
+        h:1400
+      }
     }
   }
 
-  mouseDown = () => {
-    const { dispatch } = this.props;
-    dispatch(actions.COMPONENT_SELECT(""));
-    dispatch(actions.VIEWER_SELECTABLES(this.props.currentTab.children))
+  componentWillReceiveProps(nextProps){
+    if(nextProps.activeTabObject){
+      const { dispatch } = this.props;
+      dispatch(actions.SELECTABLES_UPDATE(nextProps.childrenComponents))
+    }
   }
 
-  onWheel(e){
+  onMouseDown = (e) => {
+    const { dispatch } = this.props;
+    const selection = this.childUnderTheMouse(e)
+    dispatch(actions.SELECTED_COMPONENTS_UPDATE(selection));
+    dispatch(actions.SELECTABLES_UPDATE(this.props.childrenComponents))
+    e.stopPropagation()
+  }
+
+  onMouseDownBg = () => {
+    const { dispatch } = this.props;
+    dispatch(actions.SELECTED_COMPONENTS_UPDATE([]));
+    dispatch(actions.SELECTABLES_UPDATE(this.props.childrenComponents))
+  }
+
+  childUnderTheMouse = e => {
+    const pos = { x: e.clientX, y: e.clientY }
+    let selection = []
+    let components = this.props.childrenComponents.map(id => [id, document.getElementById(`component-${id}`).getBoundingClientRect()])
+    components.some(components => {
+      if(this.isWithinBoundaries(components[1], pos)){
+        selection.push(components[0])
+        return true
+       }
+    })
+    return selection
+  }
+
+  isWithinBoundaries = (box, pos) => {
+    return box.left <= pos.x &&
+           box.right >= pos.x &&
+           box.top <= pos.y &&
+           box.bottom >= pos.y
+  }
+
+  onWheel= e => {
+
+    console.log('doing this')
 
     e.preventDefault();
 
@@ -73,120 +101,96 @@ class Viewer extends Component {
 
     let posOfViewerBg = this.viewerBg.getBoundingClientRect();
 
-    let boundingRect = {
-      left:posOfViewerBg.x - posOfViewer.x,
-      right:(posOfViewerBg.width - this.viewer.offsetWidth) + this.state.viewerPos.x,
-      bottom:(posOfViewerBg.height - this.viewer.offsetHeight) + this.state.viewerPos.y,
-      top:posOfViewerBg.y - posOfViewer.y,
-    }
-
-
     if (e.ctrlKey) {
 
-      let newScale = this.state.scale - e.deltaY * 0.01;
+      let dScale = - e.deltaY * 0.01
+      let scale = this.state.scale + dScale;
 
-      let newSize = {
-        w: parseInt(viewerSize.w * newScale,10),
-        h: parseInt(viewerSize.h * newScale,10),
-      }
-
-      //Check if box is getting smaller than the viewing window
-      if(newSize.w + this.state.viewerPos.x <= this.viewer.offsetWidth ||
-         newSize.h + this.state.viewerPos.y <= this.viewer.offsetHeight){
-        return;
+      let size = {
+        w: (posOfViewerBg.width / this.state.scale) * scale,
+        h: (posOfViewerBg.height / this.state.scale) * scale,
       }
 
-      let originX, originY;
-
-      if(boundingRect.left >= -zoomBorderThreshold && e.deltaY > 0){
-        originX = 0
-        return;
-      }
-      else if(boundingRect.right <= zoomBorderThreshold && e.deltaY > 0){
-        originX = posOfViewerBg.width
-        return;
-      }
-      else if(boundingRect.left >= -zoomBorderThreshold && boundingRect.right <= zoomBorderThreshold && e.deltaY > 0){
-        return;
-      }
-      else{
-        originX = e.clientX - posOfViewer.x  - this.state.viewerPos.x
+      if(size.w < posOfViewer.width || size.h < posOfViewer.height){
+        return
       }
 
-      if(boundingRect.top >= -zoomBorderThreshold && e.deltaY > 0){
-        originY = 0;
-        return;
-      }
-      else if(boundingRect.bottom <= zoomBorderThreshold && e.deltaY > 0){
-        originY = posOfViewerBg.height
-        return;
-      }
-      else if(boundingRect.bottom <= zoomBorderThreshold && boundingRect.top >= -zoomBorderThreshold && e.deltaY > 0){
-        return;
-      }
-      else{
-        originY = e.clientY - posOfViewer.y - this.state.viewerPos.y
+      let offsetX = this.state.offsetX - ((e.clientX - posOfViewer.left - this.state.offsetX) / ( this.state.scale)) * dScale
+      let offsetY = this.state.offsetY - ((e.clientY - posOfViewer.top - this.state.offsetY) / ( this.state.scale)) * dScale
+
+      if(posOfViewerBg.left >= posOfViewer.left){
+        offsetX = this.state.offsetX
       }
 
+      if(posOfViewerBg.right <= posOfViewer.right){
+        offsetX = this.state.offsetX - ((posOfViewer.width - this.state.offsetX) / ( this.state.scale)) * dScale
+      }
 
-      this.setState({origin:{
-        x:originX,
-        y:originY}
-      })
+      if(posOfViewerBg.top >= posOfViewer.top){
+        offsetY = this.state.offsetY
+      }
+
+      if(posOfViewerBg.bottom <= posOfViewer.bottom){
+        offsetY = this.state.offsetY - ((posOfViewer.height - this.state.offsetY) / ( this.state.scale)) * dScale
+      }
 
       //Check if it's zooming in too much
-      if(newScale > 5){
+      if(scale > 10){
         return;
       }
 
-      this.setState({ viewerSize:newSize,scale:newScale });
-
+      this.setState({ offsetX, offsetY, scale });
     }
 
     else{
 
       let threshold = this.getThresholdForPanning();
 
-      let newPos = this.calcPanningOffsets(threshold,e)
+      let pos = this.calcPanningOffsets(threshold, e)
 
-      this.setState({viewerPos:newPos});
+      this.setState({ offsetX: pos.x, offsetY: pos.y });
 
     }
 
   }
 
-  getThresholdForPanning(){
+  getThresholdForPanning = () => {
 
-    let threshold = {
-      x:{},
-      y:{}
-    }
+    let threshold = this.state.threshold
 
-    threshold.x.min = (this.state.origin.x * this.state.scale) - this.state.origin.x
-    threshold.y.min = (this.state.origin.y * this.state.scale) - this.state.origin.y
+    let posOfViewer = this.viewer.getBoundingClientRect();
 
-    threshold.x.max = threshold.x.min - this.state.viewerSize.w + this.viewer.offsetWidth
+    let posOfViewerBg = this.viewerBg.getBoundingClientRect();
 
-    threshold.y.max = threshold.y.min -this.state.viewerSize.h + this.viewer.offsetHeight
+    threshold.x = { min: -posOfViewerBg.width + posOfViewer.width, max: 0}
+    threshold.y = { min: -posOfViewerBg.height + posOfViewer.height, max: 0}
 
-    this.setState({threshold:threshold})
+    this.setState({ threshold })
 
     return threshold;
   }
 
-  calcPanningOffsets(threshold,e){
+  calcPanningOffsets = (threshold, e) => (
+    {
+      x: Math.min(threshold.x.max ,Math.max(threshold.x.min, this.state.offsetX - e.deltaX)),
+      y: Math.min(threshold.y.max ,Math.max(threshold.y.min, this.state.offsetY - e.deltaY))
+    }
+  )
 
-    let newPos = {}
-
-    newPos.x = Math.max(threshold.x.max ,Math.min(threshold.x.min,this.state.viewerPos.x - e.deltaX));
-
-    newPos.y = Math.max(threshold.y.max ,Math.min(threshold.y.min,this.state.viewerPos.y - e.deltaY));
-
-    return newPos
+  createMatrix = () => {
+    const { scale, offsetX, offsetY } = this.state
+    const matrixValues = [scale, 0, 0, scale, offsetX, offsetY]
+    return `matrix(${matrixValues.join(', ')})`
   }
 
   renderComponents(){
-    const ComponentRenderClass = this.props.appMode === 'EDIT' ? EditComponents.Branch : PreviewComponent
+    const ComponentRenderClass = EditComponent
+    const parentComponent = Map({
+      id: this.props.activeTabObject.rootComponent.id,
+      type: 'parent',
+      children: this.props.activeTabObject.rootComponent.children,
+      props: Map(this.props.activeTabObject.rootComponent.props)
+    })
     return (
       <ComponentRenderClass
         style={{
@@ -194,59 +198,47 @@ class Viewer extends Component {
             top:'525px',
         }}
         isParent
-        tab={this.props.activeTab}
+        component={parentComponent}
+        selector={(state, id) => selectors.components(state).get(id)}
       />
-    )
-  }
-
-  renderViewerWrapper(){
-    return (
-      <div
-        className='viewer-wrapper scroll-disabled'
-        onWheel={this.onWheel.bind(this)}
-        ref={ c => this.viewer = c}>
-        {
-          this.props.activeTab !== '' ? this.renderViewer() : null
-        }
-      </div>
     )
   }
 
   renderViewer(){
     let draggableClass = this.state.draggable ? 'draggable' : ''
     let bgClass = this.props.appMode === 'EDIT' ? 'edit-mode' : 'preview-mode'
-    const pos = this.state.viewerPos
+    const { threshold, viewerDOMDimensions, offsetX, offsetY } = this.state
     return (
       <React.Fragment>
         {/* Scrollbars */}
         <div className='viewer-scrollbar x-axis' style={{
-          left:`${this.state.viewerPos.x / (this.state.threshold.x.max - this.state.threshold.x.min) * (viewerDimensions.w - 40)}px`
+          left:`${offsetX / (threshold.x.max - threshold.x.min) * (viewerDimensions.w - 40)}px`
         }}></div>
         <div className='viewer-scrollbar y-axis' style={{
-          top:`${this.state.viewerPos.y / (this.state.threshold.y.max - this.state.threshold.y.min) * (viewerDimensions.h - 40)}px`
+          top:`${offsetY / (threshold.y.max - threshold.y.min) * (viewerDimensions.h - 40)}px`
         }}></div>
 
         {/* Background of the Viewer */}
         <div
           className={`component-viewer-bg ${bgClass}`}
           ref={ c => this.viewerBg = c}
+          onMouseDown={this.onMouseDownBg}
           style={{
-            left:`${pos.x}px`,
-            top:`${pos.y}px`,
-            width:`${viewerSize.w}px`,
-            height:`${viewerSize.h}px`,
-            transform:`scale(${this.state.scale}) translate3d(0,0,0)`, transformOrigin:`${this.state.origin.x}px ${this.state.origin.y}px`
+            width: `${viewerSize.w}px`,
+            height: `${viewerSize.h}px`,
+            transformOrigin: '0 0 0',
+            transform: this.createMatrix()
           }}>
           {/* Main  */}
           <div
             className={`component-viewer ${draggableClass}`}
             tabIndex='0'
-            onMouseDown={this.mouseDown}
+            onMouseDown={this.onMouseDown}
             style={{
-              left:`${(viewerSize.w/2) - (mainArtboardSize.w/2)}px`,
-              top:`${(viewerSize.h/2) - (mainArtboardSize.h/2)}px`,
-              width:`${mainArtboardSize.w}px`,
-              height:`${mainArtboardSize.h}px`,
+              left:`${(viewerSize.w / 2) - (viewerDOMDimensions.w / 2)}px`,
+              top:`${(viewerSize.h / 2) - (viewerDOMDimensions.h / 2)}px`,
+              width:`${viewerDOMDimensions.w}px`,
+              height:`${viewerDOMDimensions.h}px`,
             }}>
             {
               this.renderComponents()
@@ -257,13 +249,26 @@ class Viewer extends Component {
     )
   }
 
+  renderViewerWrapper(){
+    return (
+      <div
+        className='viewer-wrapper scroll-disabled'
+        onWheel={this.props.activeTab !== '' ? this.onWheel : () => {}}
+        ref={ c => this.viewer = c}>
+        {
+          this.props.activeTab !== '' ? this.renderViewer() : null
+        }
+      </div>
+    )
+  }
+
   render() {
     return (
       <React.Fragment>
-      <SelectionFrame scale={this.state.scale}/>
-      {
-        this.renderViewerWrapper()
-      }
+        <SelectionFrame scale={this.state.scale}/>
+        {
+          this.renderViewerWrapper()
+        }
       </React.Fragment>
 
       )
@@ -273,24 +278,23 @@ class Viewer extends Component {
 //The viewer views the current window
 
 function mapStateToProps(state) {
-
-  let domain = getState(state,'domain');
-  let app = getState(state,'app');
-
   //if there are no tabs created, don't display anything
-  let activeTab = domain.tabs.activeTab
-  if(_.isEmpty(domain.tabs.allTabs)) {
+  let activeTab = selectors.tabs(state).get('currentTab');
+
+
+  if(activeTab === '') {
     return {
       activeTab: activeTab,
     }
   }
 
+  let activeTabObject = selectors.tabs(state).getIn(['tabs', activeTab]);
   //if there is an active tab, collect the data from the tab
-
   return {
-    activeTab:activeTab,
-    currentTab: domain.tabs.allTabs[activeTab],
-    appMode: app.appMode,
+    activeTab: activeTab,
+    activeTabObject: activeTabObject,
+    childrenComponents: activeTabObject.rootComponent.children,
+    appMode: selectors.appMode(state),
   }
 }
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { getState } from 'quo-redux/state';
 import actions from 'quo-redux/actions';
 
 import { VerticalListCard } from 'quo-ui/cards';
@@ -147,11 +146,8 @@ class PagesViewer extends Component {
 
 
 
-const mapStateToProps = (state) => {
-  let domain = {...getState(state,'domain')}
-  return {
-    tabs:domain.tabs,
-  }
+const mapStateToProps = state => {
+  return { }
 }
 
 PagesViewer = connect()(PagesViewer)

@@ -1,4 +1,4 @@
-import { PropCompositor } from 'quo-redux/helpers';
+// import { PropCompositor } from 'quo-redux/helpers';
 
 export default class AbstractImage {
     constructor(data) {
@@ -41,8 +41,8 @@ export default class AbstractImage {
             'focused':{},
         }
 
-        states.composite.props = PropCompositor.bakeProps(states.composite.modifiers.map(v => states[v]));
-
+        // states.composite.props = PropCompositor.bakeProps(states.composite.modifiers.map(v => states[v]));
+        states.composite.props = {}
         this.state = {
             current:'composite',
             states

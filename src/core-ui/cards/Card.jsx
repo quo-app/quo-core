@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { bool2s, fSafe } from 'quo-utils'; 
+import { bool2s, fSafe } from 'quo-utils';
 
 
 export default class Card extends Component {
@@ -16,7 +16,7 @@ export default class Card extends Component {
       onHeaderIconClick: PropTypes.func,
       headerMiddleText: PropTypes.string,
     }
-  
+
     static defaultProps = {
       disabled: false,
       collapsed: false,
@@ -24,23 +24,23 @@ export default class Card extends Component {
       id: '',
       headerMiddleText: null
     }
-  
+
     render(){
-  
+
       let disabled = bool2s(this.props,'disabled');
       let collapsed = bool2s(this.props,'collapsed');
-  
+
       return(
         <div className={`card ${this.props.className} ${disabled} ${collapsed}`} id={`${this.props.id}`}>
           <div className='card-header'>
             <div>{this.props.title}</div>
-            <div class='middle-text'>{ this.props.headerMiddleText }</div>
+            <div className='middle-text'>{ this.props.headerMiddleText }</div>
             {this.props.headerIcon
               ?
                 <div className='header-icon' onClick={ () => fSafe(this.props.onHeaderIconClick.bind(this)) }>
                   { this.props.headerIcon }
                 </div>
-              : 
+              :
                 null }
           </div>
           <div className='card-body'>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
+import selectors from 'quo-redux/selectors';
 import actions from 'quo-redux/actions';
 
 import { VerticalListCard } from 'quo-ui/cards';
@@ -12,18 +14,15 @@ class StatesHeader extends Component {
     super(props);
     this.state = {
       dropdownVisible: false,
-      selected: '0',
-      states: {
-        0: {text: 'Default', icon: true},
-        1: {text: 'Hover', id:'2'},
-        2: {text: 'Pressed', id:'3'},
-        3: {text: 'Click', id:'4'}
-      }
+      selected: this.props.currentState,
     }
   }
 
   onOptionClick = id => {
-    this.setState({ selected: id})
+    this.props.dispatch(actions.CURRENT_STATE_UPDATE(id))
+    this.setState({
+      dropdownVisible: !this.state.dropdownVisible
+    })
   }
 
   onHeaderIconClick = () => {
@@ -34,35 +33,73 @@ class StatesHeader extends Component {
     return this.state.dropdownVisible ? <Icons.KeyboardArrowUp/> : <Icons.KeyboardArrowDown/>
   }
 
-  renderDropdown = () => { 
+  renderDropdown = () => {
     return (
       <VerticalListCard
         title='States'
         optionIcon={ <Icons.Check/> }
         collapsed={ !this.state.dropdownVisible }
         headerIcon={ this.decideMinimizeIcon() }
-        headerMiddleText={ this.state.dropdownVisible ? null : this.state.states[this.state.selected].text }
+        headerMiddleText={ this.state.dropdownVisible ? null : this.props.states[this.props.currentState].text }
         onHeaderIconClick= { this.onHeaderIconClick }
         optionIconOrientation='left'
-        selected={ this.state.selected }
-        values={ this.state.states }
+        selected={ this.props.currentState }
+        values={ this.props.states }
         onOptionClick={ this.onOptionClick }
       />
     )
   }
 
   render(){
-    return ( 
+    return (
       <React.Fragment>
         { this.renderDropdown() }
-        { this.state.dropdownVisible ? <Button>Create a new link</Button> : null}
+        { this.state.dropdownVisible ? <Button>Create a new state</Button> : null}
       </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return { }
+  let selections = selectors.selectedComponents(state)
+  let states = selectors.componentStates(state, { id: selections[0]}).toJS()
+  const currentState = selectors.currentState(state)
+  let convertedStates = _.mapValues(states, eachState => {
+    return {
+      text: eachState.title,
+      icon: Object.keys(eachState.props).length > 0
+    }
+  })
+  return {
+    states: convertedStates,
+    currentState
+  }
 }
 
-export default connect(mapStateToProps)(StatesHeader);
+const areStatesEqual = (next, prev) => {
+  // this will only update if the selection has changed, or the
+  // states of the selections have changed.
+
+  /* currentState: string  */
+
+  const prevCurrentState = selectors.currentState(prev)
+  const nextCurrentState = selectors.currentState(next)
+
+  if(prevCurrentState !== nextCurrentState) return false
+
+  /*  selections: string[] */
+
+  const prevSelections = selectors.selectedComponents(prev)
+  const nextSelections = selectors.selectedComponents(next)
+
+  if(!_.isEqual(prevSelections, nextSelections)) return false;
+
+  /*  selections: map */
+
+  const prevStates = selectors.componentStates(prev, { id: prevSelections[0]})
+  const nextStates = selectors.componentStates(next, { id: nextSelections[0]})
+
+  return prevStates.equals(nextStates)
+}
+
+export default connect(mapStateToProps, null, null, { areStatesEqual })(StatesHeader);
