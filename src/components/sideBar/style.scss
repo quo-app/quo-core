@@ -27,7 +27,7 @@
     height:calc(100vh - #{$top-bar-height});
 
     position:absolute;
-    top:$top-bar-height;
+    top: $top-bar-height;
     box-sizing:border-box;
     overflow-y:auto;
 
@@ -47,55 +47,62 @@
 
   &.sidebar-left {
 
-    position:static;
-    width:auto;
-    height:auto;
-    top:0;
-    position:relative;
-    z-index:99;
-    color:transparent;
-    height:calc(calc(100% - #{$top-bar-height}) - #{$margin-all});
-    box-sizing:content-box;
-    margin:.5rem;
-    border-radius:8px;
+    position: static;
+    width: auto;
+    height: auto;
+    top: 0;
+    position: relative;
+    z-index: 99;
+    color: transparent;
+    height: calc(calc(100% - #{$top-bar-height}) - #{$margin-all});
+    box-sizing: content-box;
+    margin: .5rem;
+    border-radius: 8px;
 
   }
 }
 
 .interaction-nav {
 
-  position:absolute;
-  bottom:0;
-  height:$interaction-nav-height;
-  margin:0;
-  background-color:$color-bg-7;
-  display:flex;
+  position: absolute;
+  bottom: 0;
+  height: $interaction-nav-height;
+  margin: 0;
+  background-color: $color-bg-7;
+  display: flex;
   align-items: center;
   justify-content:space-around;
 
   .nav-el {
 
-    height:24px;
+    height: 24px;
 
     &:hover {
 
-      cursor:pointer;
+      cursor: pointer;
 
       svg {
-        fill:$color-icon-hover;
+        fill: $color-icon-hover;
       }
 
     }
 
     &.selected-icon svg {
-      fill:$color-slider-fill;
+      fill: $color-slider-fill;
     }
 
     svg {
 
-      fill:white;
+      fill: white;
 
     }
+
+  }
+
+  &.right-nav {
+
+    right:0;
+    width:$sidebar-width;
 
   }
 

@@ -13,7 +13,8 @@ class Properties extends Component {
   // an update requires the component id, state id and the props
   // both of the component id and the state id will be provided from the
   // mapStateToProps function
-  dispatchAction () {
+
+  dispatchAction = () => {
     const { dispatch, id, currentState } = this.props;
     return props => dispatch(actions.EDIT_COMPONENT_PROPS_UPDATE({id, stateID: currentState, props}))
   }

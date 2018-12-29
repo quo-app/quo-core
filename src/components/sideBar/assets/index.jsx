@@ -57,29 +57,40 @@ class AssetsTab extends Component {
 
 class AssetPageViewer extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      selected: ''
-    }
+  state = {
+    selected: ''
   }
 
-  componentWillReceiveProps(nextProps){
-    this.setState({selected: nextProps.assets.first()})
+  componentWillReceiveProps (nextProps) {
+    this.updateSelected(nextProps.assets.first())
   }
 
-  onPageChange = () => {
+  updateSelected = page => this.setState({ selected: page })
 
-  }
+  /*
+    returns viewportComponent[]
+  */
+
   getViewports(){
-    if(!this.props.assets.first()) return []
-    return _.values(_.pickBy(this.props.assets.first().components, component => component.type === 'viewport'))
+    // if there are no assets
+    if(!this.props.assets.first()) {
+      return []
+    }
+    const currentComponents = this.state.selected.components
+    const pickViewports = component => component.type === 'viewport'
+    const onlyViewports = _.pickBy(currentComponents, pickViewports)
+    return _.values(onlyViewports)
   }
+
   render(){
 
-    let viewports = this.getViewports();
-    let components = viewports.length > 0 ? this.props.assets.first().components : {}
+    // Find the pages
     let pages = this.props.assets.size === 0 ? [] : this.props.assets.valueSeq()
+
+    // Find the components
+    let viewports = this.getViewports();
+    let components = viewports.length > 0 ? this.state.selected.components : {}
+
 
     return (
       <div className='assets-library-wrapper'>
@@ -90,7 +101,7 @@ class AssetPageViewer extends Component {
         {
           pages.map((page, i)=>{
             return(
-              <div className={`page ${page.id === this.state.selected.id ? 'selected' : ''}`} key={i} onClick={()=>{this.onPageChange(page)}}> {page.title} </div>
+              <div className={`page ${page.id === this.state.selected.id ? 'selected' : ''}`} key={i} onClick={()=>{this.updateSelected(page)}}> {page.title} </div>
             )
           })
         }

@@ -11,7 +11,13 @@ import Icons from 'quo-ui/icons';
 import AssetsTab from './assets';
 import LayersTab from './layers';
 
-import StateManager from '../stateManager';
+import StateManager from 'quo-components/stateManager';
+import LinksManager from 'quo-components/linksManager';
+
+const tabDimensions = {
+  width: 230,
+  height: '100%'
+}
 
 class SideBarLeft extends Component {
 
@@ -21,8 +27,7 @@ class SideBarLeft extends Component {
       options : props.tabs,
       components : {assets: AssetsTab, layers: LayersTab, globalLinks: AssetsTab},
       icons : {assets:Icons.WebAsset, layers: Icons.Layers, globalLinks: Icons.Link },
-      width:230,
-      height:'100%',
+      width: tabDimensions.width
     }
 
     this.onClickNav = this.onClickNav.bind(this);
@@ -46,7 +51,7 @@ class SideBarLeft extends Component {
   render(){
     const CurrentComponent = this.state.components[this.props.selected];
     return(
-      <Resizable height='100%' width={`${this.state.width}px`} minWidth='230' onResize={this.dispatchResize}>
+      <Resizable height={tabDimensions.height} width={`${this.state.width}px`} minWidth={tabDimensions.width} onResize={this.dispatchResize}>
           <div className={`sidebar-container sidebar-left`}>
             <CurrentComponent/>
           </div>
@@ -69,24 +74,60 @@ class SideBarLeft extends Component {
 }
 
 class SideBarRight extends Component {
-  render() {
+
+  tabData = {
+    components : {
+      state: StateManager,
+      links: LinksManager,
+      interactions: StateManager
+    },
+    icons : {
+      state: Icons.ColorLens,
+      links: Icons.Link,
+      interactions: Icons.Games
+    },
+  }
+
+  onClickNav = e => {
+    if(e.currentTarget.id !== this.props.selected){
+      this.props.dispatch(actions.RIGHT_SIDEBAR_SELECTED_UPDATE(e.currentTarget.id));
+    }
+  }
+
+  render () {
+    const CurrentTab = this.tabData.components[this.props.selected]
     return (
       <div className='sidebar-wrapper'>
         <div className={`sidebar-container sidebar-right`}>
-            <StateManager/>
+            <CurrentTab/>
         </div>
+        <div className='interaction-nav right-nav'>
+            {
+              this.props.tabs.map((icon, key) => {
+                let selected = this.props.selected === icon ? 'selected-icon' : '';
+                let CurrentIcon = this.tabData.icons[icon];
+                return (
+                  <div className={`nav-el ${selected}`} onClick={this.onClickNav} id={icon} key={key}>
+                    <CurrentIcon/>
+                  </div>
+                )
+              })
+            }
+          </div>
       </div>
     );
   }
 }
 
-function mapStateToPropsLeft(state) {
-  let leftSidebar = selectors.leftSidebar(state);
-  let tabs = leftSidebar.get('tabs');
-  let selected = leftSidebar.get('selected');
-  return { tabs, selected }
+const getSidebarProps = tab => state => {
+  let sidebar = selectors[`${tab}Sidebar`](state);
+  return {
+    tabs: sidebar.get('tabs'),
+    selected: sidebar.get('selected')
+  };
 }
 
-SideBarLeft = connect(mapStateToPropsLeft)(SideBarLeft)
+SideBarLeft = connect(getSidebarProps('left'))(SideBarLeft)
+SideBarRight = connect(getSidebarProps('right'))(SideBarRight)
 
 export { SideBarLeft, SideBarRight }

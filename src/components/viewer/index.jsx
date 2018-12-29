@@ -59,7 +59,8 @@ class Viewer extends React.PureComponent {
 
   onMouseDown = (e) => {
     const { dispatch } = this.props;
-    const selection = this.childUnderTheMouse(e)
+    const selection = this.childUnderTheMouse(e);
+    dispatch(actions.CURRENT_STATE_UPDATE('default'));
     dispatch(actions.SELECTED_COMPONENTS_UPDATE(selection));
     dispatch(actions.SELECTABLES_UPDATE(this.props.childrenComponents))
     e.stopPropagation()
@@ -92,8 +93,6 @@ class Viewer extends React.PureComponent {
   }
 
   onWheel= e => {
-
-    console.log('doing this')
 
     e.preventDefault();
 
