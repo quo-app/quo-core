@@ -32,6 +32,10 @@
 
   &.collapsed-style {
 
+    &:hover {
+      cursor: pointer;
+    }
+
     .card-header{
       border-radius: 6px;
     }

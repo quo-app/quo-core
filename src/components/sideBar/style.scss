@@ -23,25 +23,21 @@
 
   &.sidebar-right {
 
-    width:$sidebar-width;
-    height:calc(100vh - #{$top-bar-height});
-
-    position:absolute;
-    top: $top-bar-height;
-    box-sizing:border-box;
+    height: calc(100% - #{$interaction-nav-height});
     overflow-y:auto;
 
-    right:0;
     display:flex;
     flex-direction:column;
 
-    background: #000;
+    // background: #000;
 
     .add-to-arrangement {
 
       padding-top:0;
 
     }
+
+    background: #000;
 
   }
 
@@ -130,4 +126,17 @@
     }
 
   }
+}
+
+.sidebar-wrapper.sidebar-right {
+
+  width: $sidebar-width;
+
+  height: calc(100vh - #{$top-bar-height});
+
+  position:absolute;
+  top: $top-bar-height;
+
+  box-sizing:border-box;
+  right:0;
 }

@@ -23,7 +23,7 @@ let leftSidebar = new SidebarReducer({
 let rightSidebar = new SidebarReducer({
   slug: 'rightSidebar',
   initialState: Map({
-    selected: 'state',
+    selected: 'links',
     tabs: ['state','links','interactions'],
   })
 })

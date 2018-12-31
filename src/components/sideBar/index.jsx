@@ -97,7 +97,7 @@ class SideBarRight extends Component {
   render () {
     const CurrentTab = this.tabData.components[this.props.selected]
     return (
-      <div className='sidebar-wrapper'>
+      <div className='sidebar-wrapper sidebar-right'>
         <div className={`sidebar-container sidebar-right`}>
             <CurrentTab/>
         </div>

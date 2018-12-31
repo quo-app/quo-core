@@ -1,6 +1,6 @@
 .assets-tab-wrapper {
   & > div {
-    margin-bottom:8px!important;
+    margin-bottom: 8px!important;
   }
   .assets-library-wrapper {
     .card-header {
@@ -8,24 +8,24 @@
     }
     .card-body {
       .page {
-        background-color:$color-bg-3;
-        color:white;
-        font-size:$font-m;
-        padding:.5rem;
-        padding-left:.75rem;
-        user-select:none;
+        background-color: $color-bg-3;
+        color: white;
+        font-size: $font-m;
+        padding: .5rem;
+        padding-left: .75rem;
+        user-select: none;
         &:hover{
-          cursor:pointer;
-          background-color:$color-bg-5;
+          cursor: pointer;
+          background-color: $color-bg-5;
         }
         &.selected{
-          background-color:$color-blue;
+          background-color: $color-blue;
         }
         &:not(:last-child){
-          border-bottom:1px solid $card-body-bottom-border;
+          border-bottom: 1px solid $card-body-bottom-border;
         }
         &:last-child{
-          border-radius:0 0 8px 8px;
+          border-radius: 0 0 8px 8px;
         }
       }
     }

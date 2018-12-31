@@ -1,4 +1,53 @@
+@import './linksDropdown/style';
 @import './selectionBox/style';
+
+.links-wrapper {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+}
+
+
+.links-header, .links-content {
+  border: $sidebar-inner-border;
+  & > * {
+    margin-bottom: .5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.links-header {
+  background: #000;
+}
+
+.links-content {
+  height: 100%;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  background: $color-sidebar-bg
+}
+
+.no-link-description {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .text-primary {
+    font-size: $font-l;
+    color: $color-text-1;
+  }
+
+  .text-secondary {
+    font-size: $font-m;
+    color: $color-text-3;
+  }
+}
 
   // use this for the top curved black border
   // border: $sidebar-inner-border;
