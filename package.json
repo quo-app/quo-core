@@ -153,6 +153,7 @@
     "redux-shrub": "file:../redux-shrub",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "sillyname": "^0.1.0",
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "1.1.0",
     "url-loader": "1.1.1",

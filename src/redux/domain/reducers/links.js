@@ -1,8 +1,8 @@
 import { ReduxPolyBranch } from 'redux-shrub';
-import { Map } from 'immutable';
+import uuid from 'uuid/v1';
 
 import accessors from 'quo-redux/accessors';
-import stateReducer from './shared/stateReducer';
+import { LinkReducer } from './shared/stateReducer';
 
 
 // this.links = {
@@ -26,15 +26,15 @@ import stateReducer from './shared/stateReducer';
 //   }
 // }
 
-const linkTarget = new ReduxPolyBranch({
+const linkTarget = new ReduxPolyBranch ({
   slug: 'link',
-  accessor: accessors.linkTarget,
-  childReducer: stateReducer,
+  accessor: accessors.linkID,
+  childReducer: LinkReducer,
   includeSlugInChildReducers: true,
   includeSlugInChildSelectors: true,
 })
 
-const links = new ReduxPolyBranch({
+const links = new ReduxPolyBranch ({
   slug: 'links',
   accessor: accessors.linkSource,
   childReducer: linkTarget

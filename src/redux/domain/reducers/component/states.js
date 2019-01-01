@@ -63,7 +63,7 @@
 import { OrderedMap } from 'immutable'
 import { ReduxPolyBranch } from 'redux-shrub'
 
-import StateReducer from '../shared/stateReducer'
+import { StateReducer } from '../shared/stateReducer'
 
 class StatesReducer extends ReduxPolyBranch {
   _newState = ({ state }) => {

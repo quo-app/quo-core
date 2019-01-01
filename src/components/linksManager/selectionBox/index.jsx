@@ -35,11 +35,12 @@ class LinkedSelectionBox extends Component {
 }
 
 class PrimarySelectionBox extends Component {
+
   render() {
     return (
       <Card title='Primary Selection'>
         <div>
-          this is the primary selection ahaha
+          {this.props.link.title}
         </div>
       </Card>
 

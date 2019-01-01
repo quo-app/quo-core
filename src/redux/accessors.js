@@ -15,6 +15,6 @@ export default {
   component: 'id',
   preview: 'previewID',
   state: 'stateID',
-  linkTarget: 'linkTarget',
+  linkID: 'linkID',
   linkSource: 'linkSource',
 }
