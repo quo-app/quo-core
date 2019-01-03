@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-
+import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup'
 import { PrimarySelectionBox,
   LinkedSelectionBox } from '../selectionBox';
 
@@ -16,6 +16,14 @@ class LinksContent extends Component {
   static defaultProps = {
     displayEmpty: true,
     link: {}
+  }
+
+  state = {
+    selected: '0',
+    options: {
+      0: { text: 'Action In', obj: null},
+      1: { text: 'Action Out', obj: null}
+    }
   }
 
   renderEmpty = () => {
@@ -34,8 +42,16 @@ class LinksContent extends Component {
   renderLinkBuilder = () => {
     return (
       <Fragment>
-        <PrimarySelectionBox link={this.props.link}/>
-        <LinkedSelectionBox/>
+        <PrimarySelectionBox id={this.props.id}/>
+        <LinkedSelectionBox id={this.props.id} targets={this.props.link.targets}/>
+        <HorizontalOptionGroup
+          selected={ this.state.selected }
+          options={ this.state.options }
+          onChange={ id => this.setState({selected: id})}
+        />
+        {
+          this.state.options[this.state.selected].obj
+        }
       </Fragment>
     )
   }

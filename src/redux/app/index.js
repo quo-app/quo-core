@@ -1,6 +1,5 @@
 import { createReduxBranch } from 'redux-shrub';
 
-import linkBuilder from './reducers/linkBuilder';
 import appMode from './reducers/appMode';
 import selection from './reducers/selection';
 import user from './reducers/user';
@@ -22,7 +21,6 @@ let app = createReduxBranch('app', {
   appMode,
   user,
   selection,
-  linkBuilder
 }, { includeSelfSelector: false });
 
 export default app

@@ -16,12 +16,14 @@ import { createReduxBranch } from 'redux-shrub';
 
 import keyManager from './reducers/keyManager';
 import stateManager from './reducers/stateManager';
+import linkManager from './reducers/linkManager';
 import messages from './reducers/messages';
 import sidebars from './reducers/sidebars';
 
 let ui = createReduxBranch('ui', {
   keyManager,
   stateManager,
+  linkManager,
   messages,
   sidebars
 }, { includeSelfSelector: false })

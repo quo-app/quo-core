@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 
+import { fSafe } from 'quo-utils';
+
 import { SnapshotComponent } from 'quo-components/renderedComponents';
 
 import { convertSnapshotToImage } from './utils';
@@ -61,7 +63,7 @@ export default class SnapshotContainer extends Component {
 
     this.setState({snapshotImage: image, scale: scale});
 
-    this.props.onRender(fullImage.image);
+    fSafe(this.props.onRender, fullImage.image)
 
   }
 

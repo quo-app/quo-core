@@ -30,8 +30,6 @@ const linkTarget = new ReduxPolyBranch ({
   slug: 'link',
   accessor: accessors.linkID,
   childReducer: LinkReducer,
-  includeSlugInChildReducers: true,
-  includeSlugInChildSelectors: true,
 })
 
 const links = new ReduxPolyBranch ({

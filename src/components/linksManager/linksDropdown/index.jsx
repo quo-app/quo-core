@@ -39,7 +39,7 @@ class LinksDropdown extends Component {
   render = () => {
     const { links, linkID, onSelection } = this.props;
     const mappedLinks = this.transformLinksForDropdown(links);
-    const headerMiddleText = linkID ? links[linkID].title : 'no links'
+    const headerMiddleText = linkID && Object.keys(links).lenght > 0 ? links[linkID].title : 'no links'
     return (
       <div className='links-header'>
         <VerticalListCard

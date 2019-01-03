@@ -1,0 +1,66 @@
+.component-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+
+  .snapshot-wrapper {
+
+    margin-right: .5rem;
+    padding: 2px;
+
+    border-radius: 4px;
+
+    background-color: white;
+
+    .snapshot {
+      width: 24px;
+      height: 24px;
+
+      img {
+        transform-origin: 0 0;
+      }
+    }
+  }
+  .component-name {
+    font-size: $font-l;
+  }
+}
+
+.linked-selection-init,
+.linked-selection-selection {
+  width: 100%;
+  padding: .5rem .275rem;
+  border-radius: 6px;
+
+  font-size: $font-m;
+  text-align: center;
+  user-select: none;
+
+}
+
+.linked-selection-init {
+  background-color: $color-blue;
+  color: white;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.linked-selection-selection {
+  background-color: $color-bg-5;
+  padding: .5rem 2rem;
+}
+
+.target-selections {
+  display: flex;
+  flex-direction: column;
+
+  .component-container {
+    margin-bottom: .5rem;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+}

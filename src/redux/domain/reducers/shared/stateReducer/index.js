@@ -1,20 +1,24 @@
 import { ReduxLeaf, ReduxBranch } from 'redux-shrub'
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v1';
+import { OrderedSet } from 'immutable'
 
-import active from './active'
-import title from './title'
-import type from './type'
-import order from './order'
-import children from './children'
-import props from './props'
-import events from './events'
+import active from './active';
+import title from './title';
+import type from './type';
+import order from './order';
+import children from './children';
+import props from './props';
+import events from './events';
 
 class Id extends ReduxLeaf {
   _newState = ({ stateID, linkID }) => stateID || linkID
 }
 
-class TargetID extends ReduxLeaf {
-  _newState = ({ targetID }) => targetID || ''
+class Targets extends ReduxLeaf {
+  _newState = ({ targets }) => targets ? OrderedSet.of(targets) : OrderedSet()
+  add = state => ({ target }) => state.add(target)
+  addMultiple = state => ({ targets }) => state.union(targets)
+  remove = state => ({ target }) => state.delete(target)
 }
 
 const StateReducer = new ReduxBranch({
@@ -38,7 +42,7 @@ const LinkReducer = new ReduxBranch({
   children: {
     active,
     id: new Id({ slug: 'id'}),
-    target: new TargetID({ slug: 'target'}),
+    targets: new Targets({ slug: 'target'}),
     title,
     type,
     order,

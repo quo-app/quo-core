@@ -174,7 +174,7 @@ export class SelectionInterface extends ComponentInterface {
   }
 
   selectComponent = id => {
-    this.dispatch(actions.SELECTED_COMPONENTS_UPDATE([id]));
+    this.dispatch(actions.SELECTION_UPDATE([id]));
     if(this.props.currentState !== 'default') {
       this.dispatch(actions.CURRENT_STATE_UPDATE('default'));
     }

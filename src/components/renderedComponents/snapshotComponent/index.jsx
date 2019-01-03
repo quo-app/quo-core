@@ -44,7 +44,7 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
 
 const mapStateToProps = (state, ownProps) => {
   if(!ownProps.selector || !ownProps.propsSelector ) return {}
-  let component = ownProps.selector(state)[ownProps.id]
+  let component = ownProps.selector(state)[ownProps.id] || ownProps.selector(state).get(ownProps.id).toJS()
 
   return {
     id: component.id,
