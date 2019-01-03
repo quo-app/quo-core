@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup'
+import { DropdownCard } from 'quo-ui/cards';
 import { PrimarySelectionBox,
   LinkedSelectionBox } from '../selectionBox';
 
@@ -52,6 +53,9 @@ class LinksContent extends Component {
         {
           this.state.options[this.state.selected].obj
         }
+        <DropdownCard options={{'a':'Click', 'b':'Hover'}} title="Trigger" defaultValue='a'/>
+        <DropdownCard options={{'a':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/>
+        <DropdownCard options={{'a':'appears', 'b':'Hover'}} title="Action" defaultValue='a'/>
       </Fragment>
     )
   }

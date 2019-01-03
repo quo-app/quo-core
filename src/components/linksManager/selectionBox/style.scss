@@ -6,7 +6,7 @@
 
   .snapshot-wrapper {
 
-    margin-right: .5rem;
+    margin-right: .75rem;
     padding: 2px;
 
     border-radius: 4px;
@@ -14,10 +14,11 @@
     background-color: white;
 
     .snapshot {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
 
       img {
+        user-select: none;
         transform-origin: 0 0;
       }
     }
@@ -55,12 +56,31 @@
 .target-selections {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .component-container {
     margin-bottom: .5rem;
+    width: 100%;
 
     &:last-child {
       margin: 0;
+    }
+
+    &:hover .delete-button {
+      display: flex;
+    }
+
+    .delete-button {
+      display: none;
+      margin-left: auto;
+
+      &:hover {
+        cursor: pointer;
+
+        svg {
+          fill:  $color-icon-hover;
+        }
+      }
     }
   }
 }

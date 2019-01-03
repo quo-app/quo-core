@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { fSafe } from 'quo-utils'; 
+import { fSafe } from 'quo-utils';
 
 import { Button } from 'quo-ui/buttons';
 
@@ -19,8 +19,9 @@ export default class DropdownCard extends Component {
       defaultValue: PropTypes.string.isRequired,
       options: PropTypes.objectOf(PropTypes.string),
       onChange:PropTypes.func,
+      // { id1: text, id2: text ...}
     }
-  
+
     constructor(props){
       super(props);
       this.state = {
@@ -28,17 +29,17 @@ export default class DropdownCard extends Component {
         dropdownVisible: false,
       }
     }
-  
+
     updateSelected = (id) => {
       this.setState({selected: id});
       fSafe(this.props.onChange, id);
     }
-  
+
     updateDropdownVisibility = (value) => {
       if(value) this.setState({dropdownVisible:value})
       this.setState({dropdownVisible: !this.state.dropdownVisible})
     }
-  
+
     renderDropdown (){
       return (
         <ul>
@@ -56,7 +57,7 @@ export default class DropdownCard extends Component {
       </ul>
       )
     }
-  
+
     render(){
       return (
         <React.Fragment>
@@ -69,7 +70,7 @@ export default class DropdownCard extends Component {
           this.state.dropdownVisible ?
           <div className='card-dropdown-options-wrapper'>
             { this.renderDropdown() }
-            <Button title='Cancel' onClick={() => {this.updateDropdownVisibility(false)}}/>
+            <Button onClick={() => {this.updateDropdownVisibility(false)}}>Cancel</Button>
           </div> : null
         }
         </React.Fragment>

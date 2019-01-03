@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import SnapshotContainer from 'quo-components/snapshotContainer';
 import { Card } from 'quo-ui/cards';
+import Icons from 'quo-ui/icons';
 
 import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
@@ -79,15 +80,17 @@ class PrimarySelectionBox extends Component {
 }
 
 class ComponentPreview extends Component {
+
   defaultProps = {
     editable: false,
     onDelete: () => {}
   }
+
   selector = state => selectors.components(state)
   propsSelector = component => component.props
   render () {
     return (
-      <div class='component-container' onClick={() => this.props.onDelete(this.props.component.id)}>
+      <div class='component-container'>
         <div className='snapshot-wrapper'>
           <div className='snapshot'>
             <SnapshotContainer
@@ -105,6 +108,15 @@ class ComponentPreview extends Component {
           </div>
         </div>
       <div className='component-name'>{this.props.component.title}</div>
+      { this.props.editable ?
+        <div
+          className='delete-button'
+          onClick={() => this.props.onDelete(this.props.component.id)}
+        >
+          <Icons.Close/>
+        </div>
+        : null
+      }
     </div>
     )
   }
