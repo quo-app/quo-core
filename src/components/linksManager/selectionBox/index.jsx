@@ -88,6 +88,7 @@ class ComponentPreview extends Component {
 
   selector = state => selectors.components(state)
   propsSelector = component => component.props
+
   render () {
     return (
       <div class='component-container'>
