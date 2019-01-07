@@ -22,8 +22,8 @@ class LinksContent extends Component {
   state = {
     selected: '0',
     options: {
-      0: { text: 'Action In', obj: null},
-      1: { text: 'Action Out', obj: null}
+      0: { text: 'Action In', method: 'renderActionIn' },
+      1: { text: 'Action Out', method: 'renderActionOut' }
     }
   }
 
@@ -40,6 +40,26 @@ class LinksContent extends Component {
     )
   }
 
+  renderActionIn = () => {
+    return (
+      <Fragment key='1'>
+        <DropdownCard options={{'a':'Click', 'b':'Hover'}} title="Trigger" defaultValue='a'/>
+        <DropdownCard options={{'a':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/>
+        <DropdownCard options={{'a':'appears', 'b':'Hover'}} title="Action" defaultValue='a'/>
+      </Fragment>
+    )
+  }
+
+  renderActionOut = () => {
+    return (
+      <Fragment key='2'>
+        <DropdownCard options={{'a':'Click', 'b':'Hover'}} title="Trigger" defaultValue='a'/>
+        <DropdownCard options={{'a':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/>
+        <DropdownCard options={{'a':'appears', 'b':'Hover'}} title="Action" defaultValue='a'/>
+      </Fragment>
+    )
+  }
+
   renderLinkBuilder = () => {
     return (
       <Fragment>
@@ -51,11 +71,8 @@ class LinksContent extends Component {
           onChange={ id => this.setState({selected: id})}
         />
         {
-          this.state.options[this.state.selected].obj
+          this[this.state.options[this.state.selected].method]()
         }
-        <DropdownCard options={{'a':'Click', 'b':'Hover'}} title="Trigger" defaultValue='a'/>
-        <DropdownCard options={{'a':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/>
-        <DropdownCard options={{'a':'appears', 'b':'Hover'}} title="Action" defaultValue='a'/>
       </Fragment>
     )
   }

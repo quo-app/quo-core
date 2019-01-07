@@ -55,12 +55,14 @@ class LinksDropdown extends Component {
           onOptionClick={ onSelection }
         />
         {
-          this.state.dropdownCollapsed ? null
-          : <Button onClick={this.addNewLink}>
-          Create a new link
-        </Button>
+          this.state.dropdownCollapsed
+          ?
+            null
+          :
+            <Button onClick={this.addNewLink}>
+              Create a new link
+            </Button>
         }
-
       </div>
     )
   }
