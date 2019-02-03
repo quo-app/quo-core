@@ -1,30 +1,22 @@
 import React from 'react';
-import _ from 'lodash';
+import { connect } from 'react-redux';
+import { pick } from 'lodash';
 
+import selectors from 'quo-redux/selectors';
 import { translatePropData } from 'quo-parser/propTranslator';
 
 import CoreComponent from './CoreComponent';
 
 class TextComponent extends CoreComponent{
-    constructor(props){
-        super(props);
-        // let that = this;
-        this.state = { editMode: false };
-        // this.handleDoubleClick = this.handleDoubleClick.bind(this);
-        // console.log(this.props.component)
-    }
 
-    getColor(){
-        let c = this.state.textData.color;
-        return (
-            `rgba(${c.r},${c.g},${c.b},${c.a})`
-        )
+    state = {
+        editMode: false
     }
 
     getFontFamily(){
-        return (
-            `"${this.state.textData.fontName}", sans-serif`
-        )
+        // return (
+        //     `"${this.state.textData.fontName}", sans-serif`
+        // )
     }
 
     // handleDoubleClick(){
@@ -44,19 +36,6 @@ class TextComponent extends CoreComponent{
     //     dispatch(TEXT_STRING_UPDATE({textString:string,id:this.state.data.id}));
     // }
 
-    getText(){
-        return this.props.propsSelector(this.props.component).textString
-    }
-
-    getStyle(){
-        const props = this.props.propsSelector(this.props.component)
-        return translatePropData('abstract', 'css', _.pick(props, ['font-size','font-color','font-family']));
-    }
-
-    textUpdate(str){
-        this.newText = str
-    }
-
     // selectThis(){
     //     const { dispatch } = this.props;
     //     dispatch(COMPONENT_SELECT(this.state.data.id));
@@ -72,6 +51,26 @@ class TextComponent extends CoreComponent{
         // }
         // if(!this.state.editMode) this.setState({data:nextProps.data});
 
+    }
+
+    getStyle (props) {
+        return this.getPropData(props, 'css', ['fontColor', 'fontFamily', 'fontSize', 'textAlignment' ]);
+    }
+
+    getTextString (props) {
+        return this.getPropData(props, 'textProps', ['textString']).textString;
+    }
+
+    getPropData (props, to, filter) {
+        return translatePropData('abstract', to, pick(props, filter));
+    }
+
+    handleDoubleClick = e => {
+      if (this.props.selectedComponents.includes(this.props.id)) {
+        window.alert('edit!')
+        e.stopPropagation();
+        return false
+      }
     }
 
     //things that change(width,height,string)
@@ -112,15 +111,21 @@ class TextComponent extends CoreComponent{
     //         )
     //     }
     // }
-    render(){
-      // return ( this.renderTextElement() )
-      let style = this.getStyle();
+    render () {
+      console.log(this.props.selectedComponents, this.props.id);
+      const props = this.props.props;
       return (
-        <p className='text-inner' style={style}>
-        { this.getText() }
+        <p className='text-inner' style={this.getStyle(props)} onDoubleClickCapture={this.handleDoubleClick}>
+            { this.getTextString(props) }
         </p>
       )
     }
 }
+
+const mapStateToProps = state => ({
+  selectedComponents: selectors.selectedComponents(state)
+})
+
+TextComponent = connect(mapStateToProps)(TextComponent)
 
 export default TextComponent

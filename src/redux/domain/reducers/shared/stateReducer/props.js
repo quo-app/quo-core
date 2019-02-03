@@ -9,6 +9,7 @@ class StatePropsReducer extends ReduxLeaf {
     Takes in a object of properties and update the state
     with
   */
+  replace = state => this._newState
   update = state => ({ props }) => {
     Object.entries(props).forEach( ([key, value]) => {
       state = state.set(key, value)

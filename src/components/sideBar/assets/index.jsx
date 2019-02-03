@@ -28,7 +28,7 @@ class AssetsTab extends Component {
   componentDidMount(){
     if(!data) return;
     const { dispatch } = this.props;
-    dispatch(actions.SKETCH_ASSETS_ADD(data));
+    // dispatch(actions.SKETCH_ASSETS_ADD(data));
   }
 
   render(){

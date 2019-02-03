@@ -130,7 +130,11 @@ export const router = {
       },
       fontSize: {
         prop: 'fontSize',
-        translate:commonTranslators.id,
+        translate: commonTranslators.id,
+      },
+      textAlignment: {
+        prop: 'textAlignment',
+        translate: commonTranslators.id,
       }
       //
     }
@@ -193,11 +197,22 @@ export const router = {
       },
       fontFamily: {
         prop: 'fontFamily',
-        translate: (v) => `"${v}", sans-serif`,
+        translate: v => `"${v}", sans-serif`,
       },
       fontSize: {
         prop: 'fontSize',
         translate: commonTranslators.abstract.css.int2px,
+      },
+      textAlignment: {
+        prop: 'textAlign',
+        translate: v => {
+          const mapping = {
+            0: 'left',
+            1: 'right',
+            2: 'center'
+          };
+          return mapping[v];
+        },
       }
     },
     textProps:{

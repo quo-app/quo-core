@@ -1,10 +1,8 @@
 import { ReduxLeaf, ReduxBranch } from 'redux-shrub'
-import uuid from 'uuid/v1';
 import { OrderedSet } from 'immutable'
 
 import active from './active';
 import title from './title';
-import type from './type';
 import order from './order';
 import children from './children';
 import props from './props';
@@ -27,7 +25,6 @@ const StateReducer = new ReduxBranch({
     active,
     id: new Id({ slug: 'id'}),
     title,
-    type,
     order,
     children,
     props,
@@ -37,6 +34,10 @@ const StateReducer = new ReduxBranch({
   includeSlugInChildSelectors: true,
 })
 
+class LinkOrderChange extends ReduxLeaf {
+  _newState = ({ orderChange }) => orderChange || 1
+}
+
 const LinkReducer = new ReduxBranch({
   slug: 'link',
   children: {
@@ -44,8 +45,8 @@ const LinkReducer = new ReduxBranch({
     id: new Id({ slug: 'id'}),
     targets: new Targets({ slug: 'target'}),
     title,
-    type,
     order,
+    orderChange: new LinkOrderChange ({ slug: 'orderChange' }),
     children,
     props,
     events

@@ -2,7 +2,8 @@ import { ReduxLeaf, createReduxBranch } from 'redux-shrub';
 import { Set } from 'immutable';
 
 class EventsReducer extends ReduxLeaf {
-  add = state => ({ event }) => state.set(event)
+  add = state => ({ event }) => state.add(event)
+  change = state => ({ events }) => Set(events)
   remove = state => ({ event }) => state.delete(event)
 }
 

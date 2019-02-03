@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import actions from  'quo-redux/actions';
 import HorizontalOptionGroup from 'quo-ui/horizontalOptionGroup'
 import { DropdownCard } from 'quo-ui/cards';
 import { PrimarySelectionBox,
   LinkedSelectionBox } from '../selectionBox';
-
-// displayEmpty = false
-// link = {}
 
 class LinksContent extends Component {
   static propTypes = {
@@ -27,6 +26,8 @@ class LinksContent extends Component {
     }
   }
 
+
+
   renderEmpty = () => {
     return (
       <div className='no-link-description'>
@@ -40,12 +41,41 @@ class LinksContent extends Component {
     )
   }
 
+  actionIntoPropsMapping = {
+    show: { opacity: 0 }
+  }
+
+  onAddEventChange = key => {
+    this.props.dispatch(actions.LINK_ADD_EVENTS_CHANGE({
+      linkSource: this.props.id,
+      linkID: this.props.link.id,
+      events: [key]
+     }));
+  }
+
+  onRemoveEventChange = key => {
+    this.props.dispatch(actions.LINK_REMOVE_EVENTS_CHANGE({
+      linkSource: this.props.id,
+      linkID: this.props.link.id,
+      events: [key]
+     }));
+  }
+
+  onActionInActionChange = key => {
+    const props = this.actionIntoPropsMapping[key]
+    this.props.dispatch(actions.LINK_PROPS_REPLACE({
+      linkSource: this.props.id,
+      linkID: this.props.link.id,
+      props: props
+    }))
+  }
+
   renderActionIn = () => {
     return (
       <Fragment key='1'>
-        <DropdownCard options={{'a':'Click', 'b':'Hover'}} title="Trigger" defaultValue='a'/>
-        <DropdownCard options={{'a':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/>
-        <DropdownCard options={{'a':'appears', 'b':'Hover'}} title="Action" defaultValue='a'/>
+        <DropdownCard options={{'initial':'Initially applied', 'onMouseUp':'Click', 'onMouseEnter':'Hover'}} title="Trigger" defaultValue='initial' onChange={this.onAddEventChange}/>
+        {/* <DropdownCard options={{'outside':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/> */}
+        <DropdownCard options={{'show':'appears'}} title="Action" defaultValue='show' onChange={this.onActionInActionChange}/>
       </Fragment>
     )
   }
@@ -53,9 +83,9 @@ class LinksContent extends Component {
   renderActionOut = () => {
     return (
       <Fragment key='2'>
-        <DropdownCard options={{'a':'Click', 'b':'Hover'}} title="Trigger" defaultValue='a'/>
-        <DropdownCard options={{'a':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/>
-        <DropdownCard options={{'a':'appears', 'b':'Hover'}} title="Action" defaultValue='a'/>
+        <DropdownCard options={{'onMouseDown':'Click', 'onMouseEnter':'Hover', 'focusOut': 'Click Outside'}} title="Trigger" defaultValue='onMouseDown' onChange={this.onRemoveEventChange}/>
+        {/* <DropdownCard options={{'a':'Close when clicking outside', 'b':'Hover'}} title="Target Area" defaultValue='a'/> */}
+        <DropdownCard options={{'hide':'disappears'}} title="Action" defaultValue='hide'/>
       </Fragment>
     )
   }
@@ -92,5 +122,7 @@ class LinksContent extends Component {
     )
   }
 }
+
+LinksContent = connect()(LinksContent)
 
 export default LinksContent

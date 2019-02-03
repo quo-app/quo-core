@@ -91,7 +91,7 @@ class ComponentPreview extends Component {
 
   render () {
     return (
-      <div class='component-container'>
+      <div className='component-container'>
         <div className='snapshot-wrapper'>
           <div className='snapshot'>
             <SnapshotContainer

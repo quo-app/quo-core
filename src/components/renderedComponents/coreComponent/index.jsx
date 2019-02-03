@@ -10,7 +10,7 @@ class ComponentRenderCore extends PureComponent {
       case 'shape':
         return (<ShapeComponent props={ this.props.props }></ShapeComponent>)
       case 'text':
-        return (<TextComponent props={ this.props.props }></TextComponent>)
+        return (<TextComponent props={ this.props.props } id={this.props.id}></TextComponent>)
       case 'image':
         return <ImageComponent props={ this.props.props }/>
       default:

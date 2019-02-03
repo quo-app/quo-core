@@ -35,7 +35,7 @@ const pickEnabledProp = (props) => {
 class Translator {
   static abstract = (to,data) => {
     let allProps = {};
-    _.forEach(data,(val,prop)=>{
+    _.forEach(data, (val, prop) =>{
       if(router['abstract'][to][prop].disallow) return;
       //if there are inner values corresponding
       let res = router['abstract'][to][prop].translate(val)
@@ -118,7 +118,7 @@ class Translator {
     }
 
     if(data._class === 'text'){
-      addProp('textString',data.attributedString.string);
+      addProp('textString', data.attributedString.string);
       //gets the first attribute blob
       let attributes = data.attributedString.attributes[0].attributes;
 
@@ -127,15 +127,23 @@ class Translator {
         let font = attributes.MSAttributedStringFontAttribute
         if(color) addProp('fontColor', color);
         if(font){
-          let fontName = font.attributes.name;
-          let fontSize = font.attributes.size;
+          const fontName = font.attributes.name;
+          const fontSize = font.attributes.size;
           if(fontName) addProp('fontFamily', fontName);
-          if(fontSize) addProp('fontSize', fontSize);
+          if(fontSize) addProp('fontSize', fontSize)
         }
       }
+
+      // paragraphStyle
+      // alignment = 0 => left align
+      // aligment = 1 => right align
+      // alignment = 2 => center align
+      let alignment = 0;
+      if(data.style.textStyle.encodedAttributes.paragraphStyle.alignment !== undefined) {
+        alignment = data.style.textStyle.encodedAttributes.paragraphStyle.alignment;
+      }
+      addProp('textAlignment', alignment);
     }
-
-
 
     //add border radius for rectangular shapes
     //the border also exists for non-rectangular shapes
@@ -150,7 +158,7 @@ class Translator {
   }
 }
 
-export const translatePropData = (from,to,data) => {
+export const translatePropData = (from, to, data) => {
   switch(from){
     case 'sketch':
       return Translator.sketch(to,data);
