@@ -14,7 +14,7 @@ class Properties extends Component {
   // both of the component id and the state id will be provided from the
   // mapStateToProps function
 
-  dispatchAction = () => {
+  updateThroughCardDataChange = () => {
     const { dispatch, id, currentState } = this.props;
     return props => dispatch(actions.EDIT_COMPONENT_PROPS_UPDATE({id, stateID: currentState, props}))
   }
@@ -25,7 +25,12 @@ class Properties extends Component {
         this.props.cards.map((PropCard, i) => {
           if(!PropCard.card) return null
           return (
-            <PropCard.card key={i} update={this.dispatchAction()} id={this.props.id} currentState={this.props.currentState} {...PropCard.props}/>
+            <PropCard.card
+              key={i}
+              update={this.updateThroughCardDataChange()}
+              id={this.props.id}
+              currentState={this.props.currentState}
+              {...PropCard.props}/>
           )
         })
       }
@@ -60,10 +65,12 @@ const mapStateToProps = state => {
       return obj
     }
 
-    const cards = getCards(type).map( c => ({
+    const cards = getCards(type).map( c => {
+      return ({
         card: PropCards[c],
         props: retrieveProps(getPropsOfCard(c, type))
-      }));
+      })});
+
     return { cards, id, currentState}
   }
   // case where there is a multiple selection

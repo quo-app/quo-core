@@ -114,7 +114,6 @@ class Layer extends Component {
    }
 
   renderLayerStructure(){
-    // console.log(this.state.layer,!this.state.isGroup,this.props.isLast)
 
     let isLast = !this.state.isGroup && this.props.isLast ? 'last-el' : ''
     let isSingle = !this.state.isGroup && this.props.hasSiblingGroup ? 'single-el' : '';

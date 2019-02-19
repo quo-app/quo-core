@@ -19,76 +19,78 @@ const commonTranslators = {
   }
 }
 
+const { id } = commonTranslators
+
 export const router = {
-  sketch:{
-    abstract:{
-      width:{
-       prop:'width',
-       translate:commonTranslators.id,
+  sketch: {
+    abstract: {
+      width: {
+       prop: 'width',
+       translate: id,
       },
-      height:{
-        prop:'height',
-        translate:commonTranslators.id,
+      height: {
+        prop: 'height',
+        translate: id,
       },
-      x:{
+      x: {
         prop:'x',
-        translate:commonTranslators.id,
+        translate:id,
       },
-      y:{
-        prop:'y',
-        translate:commonTranslators.id,
+      y: {
+        prop: 'y',
+        translate:id,
       },
-      border:{
-       thickness:{
-         parent:'border',
-         prop:'width',
-         translate:commonTranslators.id,
+      border: {
+       thickness: {
+         parent: 'border',
+         prop: 'width',
+         translate:id,
        },
-       color:{
-         parent:'border',
-         prop:'color',
-         translate:commonTranslators.sketch.abstract.color,
+       color: {
+         parent: 'border',
+         prop: 'color',
+         translate: commonTranslators.sketch.abstract.color,
        },
-       radius:{
-         parent:'border',
-         prop:'radius',
-         translate:commonTranslators.id,
+       radius: {
+         parent: 'border',
+         prop: 'radius',
+         translate: id,
        },
-       style:{
-         parent:'border',
-         prop:'style',
-         translate:commonTranslators.id,
+       style: {
+         parent: 'border',
+         prop: 'style',
+         translate: id,
        }
       },
       borderRadius: {
-        prop:'borderRadius',
-        translate: commonTranslators.id,
+        prop: 'borderRadius',
+        translate: id,
       },
       rotation:{
         parent:'transform',
         prop:'rotation',
-        translate:commonTranslators.id,
+        translate:id,
       },
       shadow:{
         offsetX:{
           parent:'shadow',
           prop:'offset-x',
-          translate:commonTranslators.id,
+          translate:id,
         },
         offsetY:{
           parent:'shadow',
           prop:'offset-y',
-          translate:commonTranslators.id
+          translate:id
         },
         blurRadius:{
           parent:'shadow',
           prop:'blur',
-          translate:commonTranslators.id,
+          translate:id,
         },
         spread:{
           parent:'shadow',
           prop:'spread',
-          translate:commonTranslators.id,
+          translate:id,
         },
         color:{
           parent:'shadow',
@@ -106,7 +108,7 @@ export const router = {
       },
       fillOpacity:{
         prop:'fillOpacity',
-        translate: commonTranslators.id,
+        translate: id,
       },
       strokeColor: {
         prop: 'strokeColor',
@@ -114,11 +116,11 @@ export const router = {
       },
       strokeWidth: {
         prop: 'strokeWidth',
-        translate: commonTranslators.id,
+        translate: id,
       },
       textString:{
         prop:'textString',
-        translate: commonTranslators.id,
+        translate: id,
       },
       fontColor: {
         prop:'fontColor',
@@ -126,17 +128,33 @@ export const router = {
       },
       fontFamily: {
         prop: 'fontFamily',
-        translate: commonTranslators.id,
+        translate: id,
       },
       fontSize: {
         prop: 'fontSize',
-        translate: commonTranslators.id,
+        translate: id,
       },
       textAlignment: {
         prop: 'textAlignment',
-        translate: commonTranslators.id,
+        translate: id,
+      },
+      // Dock properties
+      innerWidth: {
+        prop: 'innerWidth',
+        translate: id
+      },
+      innerHeight: {
+        prop: 'innerHeight',
+        translate: id
+      },
+      overflowX: {
+        prop: 'overflowX',
+        translate: id,
+      },
+      overflowY: {
+        prop: 'overflowY',
+        translate: id
       }
-      //
     }
   },
   abstract:{
@@ -213,12 +231,24 @@ export const router = {
           };
           return mapping[v];
         },
+      },
+      innerWidth: {
+        disallow: true,
+      },
+      innerHeight: {
+        disallow: true,
+      },
+      overflowX: {
+        disallow: true,
+      },
+      overflowY: {
+        disallow: true,
       }
     },
     textProps:{
       textString:{
-        prop:'textString',
-        translate:commonTranslators.id
+        prop: 'textString',
+        translate:id
       }
     }
   }

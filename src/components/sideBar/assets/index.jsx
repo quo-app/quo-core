@@ -28,7 +28,7 @@ class AssetsTab extends Component {
   componentDidMount(){
     if(!data) return;
     const { dispatch } = this.props;
-    // dispatch(actions.SKETCH_ASSETS_ADD(data));
+    dispatch(actions.SKETCH_ASSETS_ADD(data));
   }
 
   render(){
@@ -68,18 +68,18 @@ class AssetPageViewer extends Component {
   updateSelected = page => this.setState({ selected: page })
 
   /*
-    returns viewportComponent[]
+    returns dockComponent[]
   */
 
-  getViewports(){
+  getDocks(){
     // if there are no assets
     if(!this.props.assets.first()) {
       return []
     }
     const currentComponents = this.state.selected.components
-    const pickViewports = component => component.type === 'viewport'
-    const onlyViewports = _.pickBy(currentComponents, pickViewports)
-    return _.values(onlyViewports)
+    const pickDocks = component => component.type === 'dock'
+    const onlyDocks = _.pickBy(currentComponents, pickDocks)
+    return _.values(onlyDocks)
   }
 
   render(){
@@ -88,8 +88,8 @@ class AssetPageViewer extends Component {
     let pages = this.props.assets.size === 0 ? [] : this.props.assets.valueSeq()
 
     // Find the components
-    let viewports = this.getViewports();
-    let components = viewports.length > 0 ? this.state.selected.components : {}
+    let docks = this.getDocks();
+    let components = docks.length > 0 ? this.state.selected.components : {}
 
 
     return (
@@ -109,7 +109,7 @@ class AssetPageViewer extends Component {
       <div className='assets-preview-wrapper'>
         <div className='asset-preview-table'>
         {
-          viewports.map( (viewport, i) => <AssetPreview key={i} component={viewport} components={components} title={viewport.title}/>)
+          docks.map( (dock, i) => <AssetPreview key={i} component={dock} components={components} title={dock.title}/>)
         }
         </div>
       </div>

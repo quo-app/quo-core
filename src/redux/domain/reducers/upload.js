@@ -2,6 +2,8 @@ import { SketchParser, PrimitiveParser } from 'quo-parser';
 
 const uploadSketch = (assets = {}, action) => {
 
+  console.log(action.payload.data);
+
   let newPage = new SketchParser.AbstractPage(action.payload.data);
   let filetype = action.payload.filetype
 

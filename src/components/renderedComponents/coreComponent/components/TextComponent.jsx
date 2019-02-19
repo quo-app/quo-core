@@ -112,7 +112,6 @@ class TextComponent extends CoreComponent{
     //     }
     // }
     render () {
-      console.log(this.props.selectedComponents, this.props.id);
       const props = this.props.props;
       return (
         <p className='text-inner' style={this.getStyle(props)} onDoubleClickCapture={this.handleDoubleClick}>

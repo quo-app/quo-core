@@ -70,7 +70,6 @@ class SelectionFrame extends Component {
   }
 
   onWheel(e){
-    console.log("AAAAAAA")
     return true
   }
 

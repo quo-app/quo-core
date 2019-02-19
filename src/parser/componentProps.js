@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const allComponents = ['viewport', 'shape', 'group', 'text']
+const allComponents = ['dock', 'shape', 'group', 'text']
 
 const componentProps = {
     x: allComponents,
@@ -12,6 +12,9 @@ const componentProps = {
     strokeColor: ['shape'],
     fill: ['shape'],
     textString: ['text'],
+    fontColor: ['text'],
+    innerWidth: ['dock'],
+    innerHeight: ['dock']
 }
 
 const propsOfCards = {
@@ -25,12 +28,27 @@ const propsOfCards = {
             all: ['width', 'height']
         }
     },
+    Viewport: {
+        requires: {
+            dock: ['innerWidth', 'innerHeight']
+        }
+    },
     Fill: {
         requires: {
             all: ['backgroundColor'],
-            shape: ['fill', 'fillOpacity'],
+            shape: ['fill', 'fillOpacity']
         }
     },
+    Text: {
+        requires: {
+            all: ['textString']
+        }
+    },
+    Color: {
+        requires: {
+            text: ['fontColor']
+        }
+    }
 }
 
 const propCardProps = {
@@ -38,10 +56,13 @@ const propCardProps = {
     height: 'Size',
     x: 'Position',
     y: 'Position',
-    // border: 'Border',
     fill: 'Fill',
     fillOpacity: 'Fill',
-    backgroundColor: 'Fill'
+    backgroundColor: 'Fill',
+    fontColor: 'Color',
+    textString: 'Text',
+    innerWidth: 'Viewport',
+    innerHeight: 'Viewport'
 }
 
 const getPropsOf = type => _.keys(_.pickBy(componentProps, prop => prop.includes(type)))

@@ -84,7 +84,7 @@ const makeBranch = (WrappedComponent, options) => {
       const dynamicProps = this.createDynamicProps()
       return(
         <div {...dynamicProps} {...staticProps} onMouseDownCapture={ !this.props.isParent ? this.clickHandler : () => {}}>
-          <WrappedComponent {...this.props} wrapper={BranchComponent}/>
+          <WrappedComponent {...this.props} wrapper={BranchComponent} renderType='edit'/>
         </div>
       )
     }

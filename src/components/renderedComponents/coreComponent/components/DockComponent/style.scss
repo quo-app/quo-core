@@ -1,0 +1,53 @@
+.dock-wrapper {
+
+  position: relative;
+
+  &.selected {
+    border: 1px dashed $color-blue;
+    background-color: transparent;
+  }
+
+  .dock-drag {
+    $drag-width: 28px;
+    $drag-height: 12px;
+
+    background: $color-blue;
+    position: absolute;
+
+    border-radius: 3px;
+
+    &.drag-y {
+      width: $drag-width;
+      height: $drag-height;
+      left: calc(50% - (#{$drag-width} / 2));
+      top: calc(100% - (#{$drag-height} / 2));
+    }
+
+    &.drag-x {
+      height: $drag-width;
+      width: $drag-height;
+      left: calc(100% - (#{$drag-height} / 2));
+      top: calc(50% - (#{$drag-width} / 2));
+
+    }
+  }
+}
+
+.dock-wrapper-negative {
+  position: absolute;
+
+
+  &.bottom {
+    bottom: 0;
+    width: 100%;
+  }
+
+  &.right {
+    right: 0;
+    height: 100%;
+  }
+
+  &.selected {
+    background: rgba($color-blue, 0.3)
+  }
+}

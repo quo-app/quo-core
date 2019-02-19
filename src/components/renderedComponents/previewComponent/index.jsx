@@ -119,7 +119,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
         const wrapperProps = this.createWrapperProps();
         return(
           <div {...wrapperProps} tabIndex='0'>
-            <WrappedComponent {...this.props} wrapper={PreviewComponent}/>
+            <WrappedComponent {...this.props} wrapper={PreviewComponent} renderType='preview'/>
           </div>
         )
       }

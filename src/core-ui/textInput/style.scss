@@ -26,15 +26,32 @@
     border-radius:4px;
     padding:4px;
 
-
     &:hover, &:focus {
       background-color:$color-bg-5;
     }
 
     &:focus {
-      border:1px solid $color-slider-fill;
-      outline:none;
+      border: 1px solid $color-slider-fill;
+      outline: none;
     }
   }
 
+  &.full-width {
+    padding-left: 0;
+    display: block;
+    width: 100%;
+
+    input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-overflow: ellipsis;
+      top: -2px;
+    }
+
+    .text-input-title {
+      padding-top: 2px;
+      padding-left: 4px;
+    }
+  }
 }

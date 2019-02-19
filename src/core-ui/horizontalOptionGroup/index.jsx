@@ -4,6 +4,17 @@ import PropTypes from 'prop-types';
 import { fSafe } from 'quo-utils';
 
 export default class HorizontalOptionGroup extends Component {
+
+  static propTypes = {
+    options: PropTypes.object,
+    selected: PropTypes.string,
+    onChange: PropTypes.func
+  }
+
+  static defaultProps = {
+    options: {}
+  }
+
   render(){
     return (
       Object.keys(this.props.options).length > 0 ? <div className='horizontal-option-group-wrapper'>
@@ -23,14 +34,4 @@ export default class HorizontalOptionGroup extends Component {
       </div> : null
     )
   }
-}
-
-HorizontalOptionGroup.defaultProps = {
-  options: {}
-};
-
-HorizontalOptionGroup.propTypes = {
-  options: PropTypes.obj,
-  selected: PropTypes.bool,
-  onChange: PropTypes.function
 }

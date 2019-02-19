@@ -11,13 +11,11 @@ export default class TextInput extends Component{
     fSafe(this.props.onChange, event.target.value, this.props.title, true);
   }
 
-  keyPress = e => {
-    if(e.key === 'Enter') e.currentTarget.blur(e);
-  }
+  keyPress = e => e.key === 'Enter' ? e.currentTarget.blur(e) : null
 
   render() {
     return (
-      <div className='text-input' >
+      <div className={`text-input ${this.props.fullWidth ? 'full-width' : ''}`}>
         <input type={this.props.type}
                 onBlur={this.handleBlur}
                 defaultValue={this.props.text}

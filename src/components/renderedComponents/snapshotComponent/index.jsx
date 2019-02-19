@@ -35,7 +35,7 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
       const wrapperProps = this.createWrapperProps();
       return(
         <div {...wrapperProps}>
-          <WrappedComponent {...this.props} wrapper={SnapshotComponent}/>
+          <WrappedComponent {...this.props} wrapper={SnapshotComponent} renderType='snapshot'/>
         </div>
       )
     }

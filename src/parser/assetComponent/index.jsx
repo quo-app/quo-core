@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 const convertType = type => {
   const mappings = {
-    artboard: 'viewport',
+    artboard: 'dock',
     // group
     group: 'group',
     // shapes
@@ -18,12 +18,12 @@ const convertType = type => {
     // text
     text: 'text',
   }
-  return mappings[type] ? mappings[type] : 'type not supported'
+  return mappings[type] || 'type not supported'
 }
 
 const typeToObject = type => {
   const mappings = {
-    viewport: ViewportComponent,
+    dock: DockComponent,
     group: GroupComponent,
     shape: ShapeComponent,
     text: TextComponent,
@@ -51,9 +51,9 @@ const SketchToAssetComponent = (sketchPage) => {
   sketchPage.layers.forEach( component => {
     const componentType = convertType(component._class)
     // only initialize the artboards in the page
-    if(componentType === 'viewport'){
-      let viewport = new ViewportComponent(component);
-      children.push( viewport )
+    if(componentType === 'dock'){
+      let dock = new DockComponent(component);
+      children.push( dock )
     }
   })
 
@@ -267,6 +267,14 @@ class TextComponent extends LeafComponent { }
 
 class GroupComponent extends BranchComponent { }
 
-class ViewportComponent extends BranchComponent { }
+class DockComponent extends BranchComponent {
+  constructor (props) {
+    super(props);
+    this.props.innerHeight = this.props.height;
+    this.props.innerWidth = this.props.width;
+    this.props.overflowX = 'visible';
+    this.props.overflowY = 'visible';
+  }
+}
 
 export { SketchToAssetComponent };

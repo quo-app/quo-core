@@ -6,10 +6,11 @@ import title from './title';
 import order from './order';
 import children from './children';
 import props from './props';
+import type from './type';
 import events from './events';
 
 class Id extends ReduxLeaf {
-  _newState = ({ stateID, linkID }) => stateID || linkID
+  _newState = ({ stateID, linkID }) =>  stateID || linkID
 }
 
 class Targets extends ReduxLeaf {
@@ -26,6 +27,7 @@ const StateReducer = new ReduxBranch({
     id: new Id({ slug: 'id'}),
     title,
     order,
+    type,
     children,
     props,
     events
@@ -46,6 +48,7 @@ const LinkReducer = new ReduxBranch({
     targets: new Targets({ slug: 'target'}),
     title,
     order,
+    type,
     orderChange: new LinkOrderChange ({ slug: 'orderChange' }),
     children,
     props,
