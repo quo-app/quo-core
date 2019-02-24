@@ -139,4 +139,12 @@
 
   box-sizing:border-box;
   right:0;
+
+  .sidebar-modal {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: $color-bg-1;
+  }
 }

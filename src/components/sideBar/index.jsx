@@ -52,7 +52,7 @@ class SideBarLeft extends Component {
     const CurrentComponent = this.state.components[this.props.selected];
     return(
       <Resizable height={tabDimensions.height} width={`${this.state.width}px`} minWidth={tabDimensions.width} onResize={this.dispatchResize}>
-          <div className={`sidebar-container sidebar-left`}>
+          <div className={`sidebar-container sidebar-left`} id='sidebar-left'>
             <CurrentComponent/>
           </div>
           <div className='interaction-nav left-nav'>
@@ -97,7 +97,7 @@ class SideBarRight extends Component {
   render () {
     const CurrentTab = this.tabData.components[this.props.selected]
     return (
-      <div className='sidebar-wrapper sidebar-right'>
+      <div className='sidebar-wrapper sidebar-right' id='sidebar-right'>
         <div className={`sidebar-container sidebar-right`}>
             <CurrentTab/>
         </div>
