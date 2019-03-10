@@ -1,8 +1,8 @@
-import { State } from '../state';
+import { editorState } from '../state';
 
 // these actions only trigger a change
 // in one point of the tree.
-const actions = State._composeActions()
+const actions = editorState._composeActions()
 
 console.log(actions)
 

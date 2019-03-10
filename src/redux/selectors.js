@@ -1,6 +1,6 @@
-import { State } from './state';
+import { editorState } from './state';
 
-const selectors = State._composeSelectors();
+const selectors = editorState._composeSelectors();
 
 console.log(selectors);
 

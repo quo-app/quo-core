@@ -4,10 +4,11 @@ import domain from './domain';
 import app from './app';
 import ui from './ui';
 
-const State = createReduxRoot('root', { domain, app, ui })
+const editorState = createReduxRoot('root', { domain, app, ui })
+const previewState = createReduxRoot('root', {});
 
 const constants = {
   appModes: ['EDIT','PREVIEW'],
 }
 
-export { State, constants }
+export { editorState, previewState, constants }

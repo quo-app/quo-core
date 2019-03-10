@@ -1,3 +1,4 @@
-import { State } from './state';
+import { editorState, previewState } from './state';
 
-export default State._createMainReducer()
+export const editorReducer = editorState._createMainReducer();
+export const previewReducer = previewState._createMainReducer();
