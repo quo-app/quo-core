@@ -15,7 +15,7 @@ class Viewport extends Component {
     this.deviceSelection = React.createRef();
   }
 
-  setToCustom () {
+  setToCustom = () => {
     this.deviceSelection.current.setToCustom();
   }
 
@@ -23,12 +23,13 @@ class Viewport extends Component {
       return (
         <PropCardWrapper title='Viewport'>
           <div className='viewport-row-wrapper'>
-            <DeviceSelection/>
+            <DeviceSelection ref={this.deviceSelection} update={this.props.update}/>
             <div className='card-divider'/>
             <WidthAndHeightValues
               innerWidth={this.props.innerWidth}
               innerHeight={this.props.innerHeight}
-              update={this.update}
+              update={this.props.update}
+              setToCustom={this.setToCustom}
             />
           </div>
         </PropCardWrapper>
@@ -86,6 +87,14 @@ class DeviceSelection extends Component {
     current: 'custom'
   }
 
+  selectDeviceSize = (entry, innerWidth, innerHeight) => {
+    this.props.update({innerWidth, innerHeight});
+    this.setState({
+      current: entry.key,
+      modalVisible: false
+    });
+  }
+
   setToCustom () {
     this.setState({ current: 'custom' })
   }
@@ -97,20 +106,18 @@ class DeviceSelection extends Component {
           <div className='device-list'>
             <Card title='devices'>
               {
-                Object.values(this.devices).map(entry => {
+                Object.values(this.devices).map((entry, index) => {
+                  const size = entry.value();
                   return (
                     entry.notAnOption ? null :
-                    <div className='device-entry' onClick={() => {
-                      this.setState({
-                        current: entry.key,
-                        modalVisible: false
-                      })
+                    <div className='device-entry' key={index}onClick={() => {
+                      this.selectDeviceSize(entry, size[0], size[1]);
                     }}>
                       <div className='entry-name'>
                         { entry.text }
                       </div>
                       <div className='entry-dimensions'>
-                        { `${entry.value()[0]}x${entry.value()[1]}` }
+                        { `${size[0]}x${size[1]}` }
                       </div>
                     </div>
                   )
@@ -129,8 +136,8 @@ class DeviceSelection extends Component {
       this.state.modalVisible ?
         this.modalView()
       :
-        <div className='devices-row' onClick={() => this.setState({ modalVisible: true})}>
-          <div className='device-row-value'>
+        <div className='devices-row'>
+          <div className='device-row-value' onClick={() => this.setState({ modalVisible: true})}>
           { this.devices[this.state.current].text }{<Icons.KeyboardArrowDown/>}
           </div>
           <div className='device-row-title'> Type </div>
@@ -141,9 +148,15 @@ class DeviceSelection extends Component {
 
 class WidthAndHeightValues extends TwoValue {
 
-  updateW = (val, title, isFinal) => this.updateValues(val, 'innerWidth', isFinal)
+  updateW = (val, title, isFinal) => {
+    this.props.setToCustom();
+    this.updateValues(val, 'innerWidth', isFinal)
+  }
 
-  updateH = (val, title, isFinal) => this.updateValues(val, 'innerHeight', isFinal)
+  updateH = (val, title, isFinal) => {
+    this.props.setToCustom();
+    this.updateValues(val, 'innerHeight', isFinal)
+  }
 
   valuesExist = () => isNumber(this.props.innerWidth) && isNumber(this.props.innerHeight)
 

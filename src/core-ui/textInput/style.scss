@@ -12,19 +12,19 @@
 
   }
 
-  input {
+  input, .input-display {
 
-    width:32px;
+    width: 32px;
 
-    position:relative;
-    top:-7px;
+    position: relative;
+    top: -7px;
 
-    background-color:transparent;
-    color:$color-text-2;
-    border:1px solid transparent;
-    font-size:$card-body-main-text;
-    border-radius:4px;
-    padding:4px;
+    background-color: transparent;
+    color: $color-text-2;
+    border: 1px solid transparent;
+    font-size: $card-body-main-text;
+    border-radius: 4px;
+    padding: 4px;
 
     &:hover, &:focus {
       background-color:$color-bg-5;
@@ -34,6 +34,10 @@
       border: 1px solid $color-slider-fill;
       outline: none;
     }
+  }
+
+  .input-display {
+    width: 48px;
   }
 
   &.full-width {

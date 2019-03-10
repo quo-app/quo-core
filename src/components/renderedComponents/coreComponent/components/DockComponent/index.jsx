@@ -29,8 +29,10 @@ class EditDockComponent extends CoreComponent {
   dockStyling () {
     const { innerWidth, width, height, innerHeight } = this.props.props;
     return {
-      height: Math.min(innerHeight, height),
-      width:  Math.min(innerWidth, width)
+      height: innerHeight,
+      width: innerWidth
+      // height: Math.min(innerHeight, height),
+      // width:  Math.min(innerWidth, width)
     }
   }
 
