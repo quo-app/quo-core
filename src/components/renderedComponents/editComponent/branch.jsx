@@ -8,6 +8,7 @@ import { translatePropData } from 'quo-parser/propTranslator';
 import { DragInterface, DoubleClickInterface, SelectionInterface } from './features';
 import ComponentRender from '../coreComponent';
 import componentWrapper from '../componentWrapper';
+import { previewReducer } from '../../../redux/reducer';
 
 const makeBranch = (WrappedComponent, options) => {
   return class extends React.Component {
@@ -84,7 +85,7 @@ const makeBranch = (WrappedComponent, options) => {
       const dynamicProps = this.createDynamicProps()
       return(
         <div {...dynamicProps} {...staticProps} onMouseDownCapture={ !this.props.isParent ? this.clickHandler : () => {}}>
-          <WrappedComponent {...this.props} wrapper={BranchComponent} renderType='edit'/>
+          <WrappedComponent {...this.props} wrapper={BranchComponent} renderType='preview'/>
         </div>
       )
     }
@@ -101,9 +102,10 @@ const mapStateToProps = (state, ownProps) => {
 
     let props;
 
-    if(ownProps.isParent) {
+    if (ownProps.isParent) {
       props = component.get('props')
     }
+
     else {
       const states = component.get('states')
       const defaultStateProps = states.getIn(['default', 'props'])
@@ -121,7 +123,6 @@ const mapStateToProps = (state, ownProps) => {
       selectables: selectors.selectables(state),
       currentState,
     }
-
   }
 
 const BranchComponent = connect(mapStateToProps)(componentWrapper(makeBranch(ComponentRender)))

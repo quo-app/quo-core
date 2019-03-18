@@ -16,6 +16,14 @@ export const getAllPreviews = () => {
   })
 }
 
+export const getLivePreview = (id, callback) => {
+  return new Promise(resolve => {
+    previews()
+    .doc(id)
+    .onSnapshot(doc => callback(doc.data() || {}));
+  })
+}
+
 export const addToPreviews = (id, data) => {
   return previews().doc(id).set({ data })
 }

@@ -13,30 +13,6 @@ class KeyController extends Component {
     keyDown:false
   }
 
-  componentDidMount(){
-    // this.props.dispatch(actions.COMPONENTS_ADD({id: uuid1, title: 'deniz'}))
-    // this.props.dispatch(actions.COMPONENT_STATES_ADD({id: uuid1, stateID: uuid1, title: 'asdasdasd', class:'shape', props:{
-    //   x: 20,
-    //   y: 20
-    // }}))
-    // this.props.dispatch(actions.COMPONENT_STATES_ADD({id: uuid1, stateID: uuid1+'s', title: 'asdasdasd', class:'shape', props:{
-    //   x: 20,
-    //   y: 20
-    // }}))
-    // this.props.dispatch(actions.COMPONENT_STATE_TITLE_UPDATE({id: uuid1, stateID: uuid1, title: 'state2'}))
-    // this.props.dispatch(actions.COMPONENT_STATE_PROPS_ADD({id: uuid1, stateID: uuid1, prop: {
-    //   key: 'x',
-    //   value: 10
-    // }}))
-    // this.props.dispatch(actions.TABS_ADD({id: uuid1, rootComponent: uuid1}));
-    // this.props.dispatch(actions.TABS_REMOVE({id: uuid1}));
-    // this.props.dispatch(actions.MESSAGES_ADD({
-    //   type:'status',
-    //   text:'this is a test message',
-    //   duration: 5000
-    // }))
-  }
-
   keyUp = (e) => this.props.dispatch(actions.KEYS_UP(e.keyCode));
 
   keyDown = (e) => {

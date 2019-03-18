@@ -66,11 +66,11 @@ class TextComponent extends CoreComponent{
     }
 
     handleDoubleClick = e => {
-      if (this.props.selectedComponents.includes(this.props.id)) {
-        window.alert('edit!')
-        e.stopPropagation();
-        return false
-      }
+      // if (this.props.selectedComponents.includes(this.props.id)) {
+      //   window.alert('edit!')
+      //   e.stopPropagation();
+      //   return false
+      // }
     }
 
     //things that change(width,height,string)
@@ -122,7 +122,7 @@ class TextComponent extends CoreComponent{
 }
 
 const mapStateToProps = state => ({
-  selectedComponents: selectors.selectedComponents(state)
+  // selectedComponents: selectors.selectedComponents(state)
 })
 
 TextComponent = connect(mapStateToProps)(TextComponent)

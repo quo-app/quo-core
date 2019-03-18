@@ -77,21 +77,10 @@ $artboard-size-h:2100px;
   height:2000px;
 }
 
-.component-viewer {
-
-  position:absolute;
-  background-color:$color-viewer-bg;
-  touch-action:auto!important;
-
+.edit-component, .preview-component {
+  position: absolute;
   &:focus {
-    outline:none;
-  }
-
-  .edit-component, .preview-component {
-    position: absolute;
-    &:focus {
-      outline: none;
-    }
+    outline: none;
   }
 
   .text-component {
@@ -128,6 +117,17 @@ $artboard-size-h:2100px;
 
 
   }
+}
+
+.component-viewer {
+
+  position:absolute;
+  background-color:$color-viewer-bg;
+  touch-action:auto!important;
+
+  &:focus {
+    outline:none;
+  }
 
   .component-container {
 
@@ -138,13 +138,6 @@ $artboard-size-h:2100px;
     svg {
       fill:transparent;
     }
-
-    // &.child.hover-active:hover {
-
-    //   outline:2px solid $highlight-color;
-    //   cursor:default;
-
-    // }
 
     &.component-artboard {
       &:hover{
@@ -201,7 +194,7 @@ $artboard-size-h:2100px;
   z-index:1;
   outline:1px solid #ccc;
 
-  .click-box{
+  .click-box {
 
     width:7px;
     height:7px;

@@ -9,6 +9,7 @@ import TopBar from 'quo-components/topBar';
 import DropzoneContainer from 'quo-components/dropzone';
 import Viewer from 'quo-components/viewer';
 import MessageStack from 'quo-components/messageStack';
+import Preview from 'quo-components/preview';
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -19,7 +20,7 @@ function App() {
     <Router>
         <Switch>
           <Route exact path='/' component={Editor}/>
-          <Route path='/preview/:previewId' component={Preview}/>
+          <Route path='/preview/:previewId' component={PreviewWrapper}/>
         </Switch>
     </Router>
   );
@@ -44,12 +45,10 @@ const Editor = () => {
   );
 }
 
-const Preview = ({ match }) => {
+const PreviewWrapper = ({ match }) => {
   return (
     <Provider store={previewStore}>
-      <div>
-       { match.params.previewId }
-      </div>
+      <Preview id={match.params.previewId}/>
     </Provider>
   );
 }

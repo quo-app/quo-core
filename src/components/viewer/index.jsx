@@ -183,7 +183,6 @@ class Viewer extends React.PureComponent {
   }
 
   renderComponents(){
-    const ComponentRenderClass = EditComponent
     const parentComponent = Map({
       id: this.props.activeTabObject.rootComponent.id,
       type: 'parent',
@@ -191,7 +190,7 @@ class Viewer extends React.PureComponent {
       props: Map(this.props.activeTabObject.rootComponent.props)
     })
     return (
-      <ComponentRenderClass
+      <EditComponent
         style={{
             left:'750px',
             top:'525px',

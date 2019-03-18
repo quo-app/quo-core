@@ -13,8 +13,9 @@ payload: {
 
 export const PREVIEW_PUSH_TO_CLOUD = preview => (dispatch, getState) => {
   // prepare the data to be sent as a preview instance
-  const previewData = JSON.stringify(selectors.domain(getState()).toJS());
-  const id = uuid();
+  const domain = selectors.domain(getState()).toJS();
+  const previewData = JSON.stringify(domain);
+  const id = domain.tabs.tabs[domain.tabs.currentTab].rootComponent.id;
   previews.addToPreviews(id, previewData).then(() => {
     previews.getAllPreviews().then(data => console.log(id))
   })
