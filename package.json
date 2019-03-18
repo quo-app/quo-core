@@ -2,6 +2,9 @@
   "name": "quo-core",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "11.4.0"
+  },
   "dependencies": {
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.10",
