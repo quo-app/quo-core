@@ -9,13 +9,14 @@ volumes:
       o: bind
 
 services:
-  # Dependencies
   web:
     build: .
     image: quo/quo-core:1.0.0
     working_dir: /quo-core
-    command: npm run serve
+    command: npm run start
     volumes:
       - standalone_volume:/quo-core
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=development
