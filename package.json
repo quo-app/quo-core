@@ -2,10 +2,6 @@
   "name": "quo-core",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "10.15.3",
-    "npm": "5.4.0"
-  },
   "dependencies": {
     "bfj": "^6.1.1",
     "chalk": "^2.4.2",
