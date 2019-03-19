@@ -4,4 +4,5 @@ WORKDIR /quo-core
 COPY package*.json /quo-core/
 RUN npm install
 RUN npm rebuild node-sass
+RUN npm build
 COPY . /quo-core
