@@ -9,7 +9,7 @@
   "dependencies": {
     "compression": "^1.7.3",
     "express": "^4.16.4",
-    "fs-extra": "7.0.0"
+    "fs-extra": "^7.0.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
