@@ -17,7 +17,9 @@ require('../config/env');
 
 const path = require('path');
 const chalk = require('chalk');
+console.log('asdasdasdasd');
 const fs = require('fs-extra');
+console.log('asdasdasdasd');
 const webpack = require('webpack');
 const bfj = require('bfj');
 const config = require('../config/webpack.config.prod');
