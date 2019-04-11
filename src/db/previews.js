@@ -3,7 +3,6 @@ import { db } from './init';
 const previews = () => db().collection('previews');
 
 export const getAllPreviews = () => {
-  // example db query
   const data = {};
   return new Promise(resolve => {
     previews().get()
