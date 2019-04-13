@@ -157,8 +157,6 @@ const makePreviewComponent = (WrappedComponent, options) => {
 
     const component = ownProps.isParent ? ownProps.component : ownProps.selector(state, ownProps.id)
 
-    // const currentState = selectors.currentState(state);
-
     let props;
 
     props = component.props;

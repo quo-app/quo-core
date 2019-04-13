@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import uuid from 'uuid/v1';
 
 import { editorStore, previewStore } from 'quo-redux';
 
@@ -11,7 +12,7 @@ import Viewer from 'quo-components/viewer';
 import MessageStack from 'quo-components/messageStack';
 import Preview from 'quo-components/preview';
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import './scss/main.scss';
 
@@ -19,11 +20,18 @@ function App() {
   return (
     <Router>
         <Switch>
-          <Route exact path='/' component={Editor}/>
+          <Route exact path='/' component={RedirectToEditor}/>
+          <Route path='/editor/:editorId' component={Editor}/>
           <Route path='/preview/:previewId' component={PreviewWrapper}/>
         </Switch>
     </Router>
   );
+}
+
+const RedirectToEditor = () => {
+  return (
+    <Redirect to={`/editor/${uuid()}`}/>
+  )
 }
 
 

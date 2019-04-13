@@ -20,7 +20,7 @@ class TopBar extends Component {
     let previewSelected = this.props.appMode === 'PREVIEW'
     return (
       <div className='top-bar'>
-        <Button onClick={()=> {this.props.dispatch(actions.PREVIEW_PUSH_TO_CLOUD({selectedComponents:[], previewID: uuid()}))}}>push to cloud!</Button>
+        <Button onClick={()=> {this.props.dispatch(actions.PREVIEW_PUSH_TO_CLOUD({selectedComponents:[], previewID: uuid()}))}}>Share Preview</Button>
         <Button selected={editSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_EDIT())}>App Mode: EDIT</Button>
         <Button selected={previewSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_PREVIEW())}>App Mode: PREVIEW</Button>
       </div>
