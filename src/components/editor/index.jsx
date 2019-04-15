@@ -18,21 +18,27 @@ class Editor extends Component {
 
   componentDidMount () {
     if (!this.state.initialMountFired) {
-      this.hydrateStore();
+      this.retrieveOrLoadNewProject();
+      this.setState({ initialMountFired: true });
     }
   }
 
-  hydrateStore () {
+  retrieveOrLoadNewProject () {
     const id = this.props.match.params.editorId;
     const { dispatch } = this.props;
     getProject(id).then(project => {
       if(project) {
         // project exists
-        console.log(project[id]);
+        this.hydrateDomain(JSON.parse(project[id].data));
       } else {
         dispatch(actions.PROJECT_PUSH_TO_CLOUD(id));
       }
     })
+  }
+
+  hydrateDomain (projectData) {
+    const { dispatch } = this.props;
+    dispatch(actions.HYDRATE_DOMAIN(projectData));
   }
 
   render () {
