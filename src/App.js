@@ -1,15 +1,10 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import uuid from 'uuid/v1';
+import { Provider } from 'react-redux';
 
-import { editorStore, previewStore } from 'quo-redux';
+import { previewStore } from 'quo-redux';
 
-import KeyController from 'quo-components/keyController';
-import { SideBarRight, SideBarLeft } from 'quo-components/sideBar';
-import TopBar from 'quo-components/topBar';
-import DropzoneContainer from 'quo-components/dropzone';
-import Viewer from 'quo-components/viewer';
-import MessageStack from 'quo-components/messageStack';
+import Editor from 'quo-components/editor';
 import Preview from 'quo-components/preview';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
@@ -34,28 +29,9 @@ const RedirectToEditor = () => {
   )
 }
 
-
-const Editor = () => {
-  return (
-    <Provider store={editorStore}>
-      <main className="quo-content">
-        <KeyController>
-          <DropzoneContainer>
-            <Viewer />
-            <TopBar />
-            <SideBarLeft />
-            <SideBarRight />
-          </DropzoneContainer>
-          <MessageStack />
-        </KeyController>
-      </main>
-    </Provider>
-  );
-}
-
 const PreviewWrapper = ({ match }) => {
   return (
-    <Provider store={previewStore}>
+    <Provider store={previewStore()}>
       <Preview id={match.params.previewId}/>
     </Provider>
   );

@@ -5,12 +5,12 @@ import { editorReducer, previewReducer } from './reducer';
 
 const composeEnhancer = compose;
 
-export const editorStore = createStore(
+export const editorStore = () => createStore(
   editorReducer,
   composeEnhancer(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__({ serialize: { Immutable }})),
 );
 
-export const previewStore = createStore(
+export const previewStore = () => createStore(
   previewReducer,
   composeEnhancer(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__({ serialize: { Immutable }})),
 );

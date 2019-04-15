@@ -6,8 +6,6 @@ import uuid from 'uuid/v1'
 import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
 
-let uuid1 = uuid()
-
 class KeyController extends Component {
   state = {
     keyDown:false
