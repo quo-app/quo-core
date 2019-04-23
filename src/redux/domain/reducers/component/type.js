@@ -1,15 +1,15 @@
 // @flow
 import { ReduxLeaf } from 'redux-shrub';
 
-class CompositeReducer extends ReduxLeaf {
-  _newState = ({ state }) => {
-    let type = ''
-    if(state){
-      let activeStates = state.filter(eachState => eachState.active)
-      activeStates.map( activeState => {
-        type = activeState.type
-      })
-    }
+class CompositeTypeReducer extends ReduxLeaf {
+  _newState = ({ states, type }) => {
+    // let type = ''
+    // if (states) {
+    //   let activeStates = states.filter(eachState => eachState.active)
+    //   activeStates.map( activeState => {
+    //     type = activeState.type
+    //   })
+    // }
     return type
   }
   _createComposite = states => {
@@ -21,7 +21,7 @@ class CompositeReducer extends ReduxLeaf {
   }
 }
 
-const compositeType = new CompositeReducer({
+const compositeType = new CompositeTypeReducer({
   slug: 'compositeType'
 })
 

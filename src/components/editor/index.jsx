@@ -27,6 +27,9 @@ class Editor extends Component {
     const id = this.props.match.params.editorId;
     const { dispatch } = this.props;
     getProject(id).then(project => {
+      // set the project id
+      dispatch(actions.PROJECT_ID_UPDATE(id));
+
       if(project) {
         // project exists
         this.hydrateDomain(JSON.parse(project[id].data));

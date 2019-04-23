@@ -33,6 +33,21 @@ class TabsReducer extends ReduxLeaf {
     return state
   }
 
+  addExisting = state => ({ id, rootComponent, title }) => {
+    state = state.setIn(['tabs', id], new Tab({ id, tabCount: state.get('tabCount')}))
+    state = state.set('tabCount', state.get('tabCount') + 1)
+    state = this.editTitle(state)({ id, title })
+    state = this._addRootComponent(state)({ id, rootComponent })
+    return state
+  }
+
+  _addRootComponent = state => ({ id, rootComponent }) => {
+    let tab = state.getIn(['tabs', id]);
+    tab.rootComponent = rootComponent;
+    state = state.setIn(['tabs', id], tab);
+    return state
+  }
+
   changeActive = state => ({ id }) => this.__updateCurrentTab(state, id)
 
   editTitle = state => ({ id, title }) => {

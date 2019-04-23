@@ -4,8 +4,10 @@ import assets from './reducers/assets';
 import tabs from './reducers/tabs';
 import previews from './reducers/previews';
 import links from './reducers/links';
+import projectId from './reducers/projectId';
 
 const domain = createReduxBranch('domain', {
+  projectId,
   components,
   previews,
   links,

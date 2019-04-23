@@ -59,21 +59,33 @@
 //   },
 //   _coreProps: Property[]
 // }
-
+import _ from 'lodash';
 import { OrderedMap } from 'immutable'
 import { ReduxPolyBranch } from 'redux-shrub'
 
 import { StateReducer } from '../shared/stateReducer'
 
 class StatesReducer extends ReduxPolyBranch {
-  _newState = ({ state }) => {
+  _newState = ({ states }) => {
     let reducerState = OrderedMap()
-    if(state){
-      state.map(stateData => {
-        reducerState = this.add(reducerState)(stateData)
-      })
+
+    if(Array.isArray(states)) {
+      if (states) {
+        states.map(stateData => {
+          reducerState = this.add(reducerState)(stateData)
+        })
+      }
+      return reducerState
+    } else {
+      if (states) {
+        _.mapValues(states, stateData => {
+          // this is terrible but can't think a better way...
+          stateData.stateID = stateData.id;
+          reducerState = this.add(reducerState)(stateData)
+        })
+      }
+      return reducerState
     }
-    return reducerState
   }
 }
 

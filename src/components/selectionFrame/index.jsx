@@ -69,11 +69,6 @@ class SelectionFrame extends Component {
     }
   }
 
-  onWheel(e){
-    return true
-  }
-
-
   render () {
 
     if (this.state.target) {

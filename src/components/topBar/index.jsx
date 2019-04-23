@@ -15,11 +15,12 @@ class TopBar extends Component {
     dispatch(actions.SET_APP_MODE(mode));
   }
 
-  render(){
+  render () {
     let editSelected = this.props.appMode === 'EDIT'
     let previewSelected = this.props.appMode === 'PREVIEW'
     return (
       <div className='top-bar'>
+        <Button onClick={()=> {this.props.dispatch(actions.PROJECT_PUSH_TO_CLOUD(this.props.projectId))}}>Save Project</Button>
         <Button onClick={()=> {this.props.dispatch(actions.PREVIEW_PUSH_TO_CLOUD({selectedComponents:[], previewID: uuid()}))}}>Share Preview</Button>
         <Button selected={editSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_EDIT())}>App Mode: EDIT</Button>
         <Button selected={previewSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_PREVIEW())}>App Mode: PREVIEW</Button>
@@ -28,6 +29,9 @@ class TopBar extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { appMode: selectors.appMode(state) };
+  return {
+    appMode: selectors.appMode(state),
+    projectId: selectors.projectId(state)
+   }
 }
 export default connect(mapStateToProps)(TopBar);

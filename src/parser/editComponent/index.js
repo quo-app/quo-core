@@ -36,7 +36,7 @@ const createStates = component => {
     states.push(newState)
   })
 
-  component.state = states
+  component.states = states
 
   return component
 }

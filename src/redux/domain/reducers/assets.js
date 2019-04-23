@@ -12,6 +12,10 @@ class SketchAssetContainer extends AssetContainer {
     let newPage = SketchToAssetComponent(payload);
     return state.set(newPage.id, newPage);
   }
+
+  addExisting = state => ({id, data}) => (
+    state.set(id, data)
+  )
 }
 
 const imageAssets = new AssetContainer({ slug: 'imageAssets' })

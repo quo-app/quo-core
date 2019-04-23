@@ -2,14 +2,14 @@
 import { ReduxLeaf } from 'redux-shrub';
 
 class CompositeParentReducer extends ReduxLeaf {
-  _newState = ({ state }) => {
-    let parent = ''
-    if(state){
-      let activeStates = state.filter(eachState => eachState.active)
-      activeStates.map( activeState => {
-        parent = activeState.parent
-      })
-    }
+  _newState = ({ states, parent }) => {
+    // let parent = ''
+    // if(states){
+    //   let activeStates = states.filter(eachState => eachState.active)
+    //   activeStates.map( activeState => {
+    //     parent = activeState.parent
+    //   })
+    // }
     return parent
   }
   _createComposite = states => {
