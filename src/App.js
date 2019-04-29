@@ -20,6 +20,7 @@ function App() {
           <Route path='/editor/:editorId' component={Editor}/>
           <Route path='/preview/:previewId' component={PreviewWrapper}/>
           <Route path='/projects/:userId' component={Projects}/>
+          {/* Handle the paths that don't have the /param */}
         </Switch>
     </Router>
   );
