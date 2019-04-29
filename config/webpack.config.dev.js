@@ -165,6 +165,7 @@ module.exports = {
       'quo-utils': path.resolve('./src/utils'),
       // types that are used across files
       'quo-types': path.resolve('./src/types'),
+      'quo-pages': path.resolve('./src/pages'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

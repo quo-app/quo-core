@@ -4,8 +4,9 @@ import { Provider } from 'react-redux';
 
 import { previewStore } from 'quo-redux';
 
-import Editor from 'quo-components/editor';
-import Preview from 'quo-components/preview';
+import Editor from 'quo-pages/editor';
+import Preview from 'quo-pages/preview';
+import Projects from 'quo-pages/projects';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
@@ -18,6 +19,7 @@ function App() {
           <Route exact path='/' component={RedirectToEditor}/>
           <Route path='/editor/:editorId' component={Editor}/>
           <Route path='/preview/:previewId' component={PreviewWrapper}/>
+          <Route path='/projects/:userId' component={Projects}/>
         </Switch>
     </Router>
   );
