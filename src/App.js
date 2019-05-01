@@ -17,6 +17,7 @@ function App() {
     <Router>
         <Switch>
           <Route exact path='/' component={RedirectToEditor}/>
+          <Route exact path='/editor' component={RedirectToEditor}/>
           <Route path='/editor/:editorId' component={Editor}/>
           <Route path='/preview/:previewId' component={PreviewWrapper}/>
           <Route path='/projects/:userId' component={Projects}/>
