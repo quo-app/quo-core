@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import Icons from 'quo-ui/icons';
 
 class AddNewProjectCard extends Component {
   onClick = () => {
@@ -8,7 +9,7 @@ class AddNewProjectCard extends Component {
   render () {
     return (
       <div className='project-card new-project-card' onClick={this.onClick}>
-
+        <Icons.Add/>
       </div>
     )
   }
