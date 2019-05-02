@@ -6,7 +6,7 @@ import { getProject } from 'quo-db/projects';
 import actions from 'quo-redux/actions';
 import KeyController from 'quo-components/keyController';
 import { SideBarRight, SideBarLeft } from 'quo-components/sideBar';
-import TopBar from 'quo-components/topBar';
+import { EditorTopBar } from 'quo-components/topBar';
 import DropzoneContainer from 'quo-components/dropzone';
 import Viewer from 'quo-components/viewer';
 import MessageStack from 'quo-components/messageStack';
@@ -50,7 +50,7 @@ class Editor extends Component {
         <KeyController>
           <DropzoneContainer>
             <Viewer/>
-            <TopBar/>
+            <EditorTopBar/>
             <SideBarLeft/>
             <SideBarRight/>
           </DropzoneContainer>

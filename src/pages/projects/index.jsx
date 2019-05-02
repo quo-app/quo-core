@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { getProject } from 'quo-db/projects';
+import { ProjectsTopBar } from 'quo-components/topBar';
+import { AddNewProjectCard } from 'quo-components/projectCard';
 
 class Projects extends Component {
   state = {
@@ -32,7 +34,10 @@ class Projects extends Component {
   render () {
     return (
       <main className="quo-content projects">
-        <h1> Projects </h1>
+        <ProjectsTopBar/>
+        <div className='projects-main'>
+          <AddNewProjectCard/>
+        </div>
       </main>
     )
   }

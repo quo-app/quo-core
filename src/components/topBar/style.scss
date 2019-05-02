@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:500,600,700');
+
 .top-bar {
   height: $top-bar-height;
   background-color: $color-topbar-bg;
@@ -7,10 +9,64 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 0 1rem;
   box-sizing: border-box;
-  & > div {
-    margin-right: 1rem;
+
+  &.projects-top-bar {
+    .left-group,
+    .right-group,
+    .center-group {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+    .left-group,
+    .right-group {
+      flex: 1;
+    }
+
+    .right-group {
+      justify-content: flex-end;
+    }
+
+    .button-inner {
+      padding-top: 4px;
+      padding-bottom: 3px;
+      border-radius: 3px;
+      font-family: 'Rajdhani';
+      font-size: $font-l;
+    }
+
+    svg {
+      height: 24px;
+      width: 24px;
+      margin-right: 1rem;
+    }
+
+    .profile-circle {
+      width: 24px;
+      height: 24px;
+      background-color: #DDD;
+      border-radius: 50%;
+    }
+
+    .link {
+      color: $color-text-3;
+      margin-right: 1rem;
+      user-select: none;
+
+      font-size: $font-l;
+      font-family: 'Rajdhani';
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        cursor: pointer;
+        color: white;
+      }
+    }
   }
 }
