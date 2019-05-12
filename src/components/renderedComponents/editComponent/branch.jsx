@@ -8,7 +8,6 @@ import { translatePropData } from 'quo-parser/propTranslator';
 import { DragInterface, DoubleClickInterface, SelectionInterface } from './features';
 import ComponentRender from '../coreComponent';
 import componentWrapper from '../componentWrapper';
-import { previewReducer } from '../../../redux/reducer';
 
 const makeBranch = (WrappedComponent, options) => {
   return class extends React.Component {

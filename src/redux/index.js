@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
-import { editorReducer, previewReducer } from './reducer';
+import { editorReducer, previewReducer, projectsReducer } from './reducer';
 
 const composeEnhancer = compose;
 
@@ -12,5 +12,10 @@ export const editorStore = () => createStore(
 
 export const previewStore = () => createStore(
   previewReducer,
+  composeEnhancer(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__({ serialize: { Immutable }})),
+);
+
+export const projectsStore = () => createStore(
+  projectsReducer,
   composeEnhancer(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__({ serialize: { Immutable }})),
 );

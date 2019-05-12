@@ -6,9 +6,10 @@ import ui from './ui';
 
 const editorState = createReduxRoot('root', { domain, app, ui })
 const previewState = createReduxRoot('root', {});
+const projectsState = createReduxRoot('root', {});
 
 const constants = {
   appModes: ['EDIT','PREVIEW'],
 }
 
-export { editorState, previewState, constants }
+export { editorState, previewState, projectsState, constants }

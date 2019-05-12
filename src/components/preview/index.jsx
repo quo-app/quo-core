@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { previews } from 'quo-db';
-import { PreviewRenderer } from './previewRenderer';
+import PreviewRenderer from './previewRenderer';
 
 export default class Preview extends Component {
 

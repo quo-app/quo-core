@@ -7,21 +7,22 @@ import { previewStore } from 'quo-redux';
 import Editor from 'quo-pages/editor';
 import Preview from 'quo-pages/preview';
 import Projects from 'quo-pages/projects';
+import AuthenticatedRoute from 'quo-components/authenticatedRoute';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import './scss/main.scss';
+import { projectsStore } from './redux';
 
 function App() {
   return (
     <Router>
         <Switch>
           <Route exact path='/' component={RedirectToEditor}/>
-          <Route exact path='/editor' component={RedirectToEditor}/>
-          <Route path='/editor/:editorId' component={Editor}/>
           <Route path='/preview/:previewId' component={PreviewWrapper}/>
-          <Route path='/projects/:userId' component={Projects}/>
-          {/* Handle the paths that don't have the /param */}
+          <Route exact path='/editor' component={RedirectToEditor}/>
+          <AuthenticatedRoute path='/editor/:editorId' component={Editor}/>
+          <AuthenticatedRoute exact path='/projects' component={ProjectsWrapper}/>
         </Switch>
     </Router>
   );
@@ -40,5 +41,11 @@ const PreviewWrapper = ({ match }) => {
     </Provider>
   );
 }
+
+const ProjectsWrapper = () => (
+  <Provider store={projectsStore()}>
+    <Projects/>
+  </Provider>
+)
 
 export default App

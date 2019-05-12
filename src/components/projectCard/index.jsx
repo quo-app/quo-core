@@ -1,3 +1,4 @@
 import AddNewProjectCard from './addNewProjectCard';
+import ExistingProjectCard from './existingProjectCard';
 
-export { AddNewProjectCard };
+export { AddNewProjectCard, ExistingProjectCard };

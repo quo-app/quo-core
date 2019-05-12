@@ -1,34 +1,38 @@
 import React, { Component } from 'react';
-import { getProject } from 'quo-db/projects';
 import { ProjectsTopBar } from 'quo-components/topBar';
-import { AddNewProjectCard } from 'quo-components/projectCard';
+import { AddNewProjectCard, ExistingProjectCard } from 'quo-components/projectCard';
+import { auth, projects } from 'quo-db';
 
 class Projects extends Component {
   state = {
-    initialMountFired: false
+    initialMountFired: false,
+    projects: []
   }
-
-  componentDidMount () {
-    if (!this.state.initialMountFired) {
-      // this.retrieveOrLoadNewProject();
-      this.setState({ initialMountFired: true });
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialMountFired: false,
+      projects: []
     }
   }
 
-  retrieveProjects () {
-    // const id = this.props.match.params.editorId;
-    // const { dispatch } = this.props;
-    // getProject(id).then(project => {
-    //   // set the project id
-    //   dispatch(actions.PROJECT_ID_UPDATE(id));
+  componentDidMount () {
+    this.retrieveProjects();
+  }
 
-    //   if(project) {
-    //     // project exists
-    //     this.hydrateDomain(JSON.parse(project[id].data));
-    //   } else {
-    //     dispatch(actions.PROJECT_PUSH_TO_CLOUD(id));
-    //   }
-    // })
+  retrieveProjects () {
+    projects.getProjectsOfUser(auth().currentUser.uid).then(data => {
+      console.log(this.setState({ projects: data }));
+      // console.log(this);
+      // this.setState({ projects: data })
+    })
+  }
+
+  renderExistingProjects () {
+    if (this.state.projects.length === 0) return null;
+    return (
+      this.state.projects.map(({ data, id }) => (<ExistingProjectCard data={data} projectId={id}key={id} />))
+    )
   }
 
   render () {
@@ -37,6 +41,7 @@ class Projects extends Component {
         <ProjectsTopBar/>
         <div className='projects-main'>
           <AddNewProjectCard/>
+          { this.renderExistingProjects() }
         </div>
       </main>
     )

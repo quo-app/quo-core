@@ -58,6 +58,8 @@ export default class SnapshotContainer extends Component {
       eDimensions : this.getComponentDimensions(),
     }
 
+    console.log(data);
+
     let { image, scale } = convertSnapshotToImage(data);
     let fullImage = convertSnapshotToImage({...data, full:true});
 
@@ -68,7 +70,7 @@ export default class SnapshotContainer extends Component {
   }
 
   render = () => {
-    let alt = `Snapshot of an ${this.props.component.title}.`
+    let alt = `Snapshot of an ${this.props.component.name}.`
     return (
       <React.Fragment>
         {
@@ -79,6 +81,7 @@ export default class SnapshotContainer extends Component {
             <div style={{display:'none'}}>
               <SnapshotComponent
                 selector = {this.props.selector}
+                component = {this.props.component}
                 propsSelector = {this.props.propsSelector}
                 id = {this.props.component.id}
                 isParent

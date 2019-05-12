@@ -16,3 +16,7 @@ export const PROJECT_PUSH_TO_CLOUD = id => (dispatch, getState) => {
   // const id = domain.tabs.tabs[domain.tabs.currentTab].rootComponent.id;
   projects.setProject(id, projectData);
 }
+
+export const PROJECT_CLEAR_ALL = id => (dispatch) => {
+  projects.clearAllProjects()
+}

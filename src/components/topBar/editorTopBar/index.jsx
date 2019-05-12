@@ -22,6 +22,7 @@ class EditorTopBar extends Component {
     return (
       <TopBar>
         <Button onClick={()=> {this.props.dispatch(actions.PROJECT_PUSH_TO_CLOUD(this.props.projectId))}}>Save Project</Button>
+        <Button onClick={()=> {this.props.dispatch(actions.PROJECT_CLEAR_ALL())}}>Delete All Projects</Button>
         <Button onClick={()=> {this.props.dispatch(actions.PREVIEW_PUSH_TO_CLOUD({selectedComponents:[], previewID: uuid()}))}}>Share Preview</Button>
         <Button selected={editSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_EDIT())}>App Mode: EDIT</Button>
         <Button selected={previewSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_PREVIEW())}>App Mode: PREVIEW</Button>

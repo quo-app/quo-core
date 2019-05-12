@@ -6,6 +6,9 @@
   height: 150px;
   border-radius: 4px;
 
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+
 
   &.new-project-card {
     display: flex;
@@ -18,6 +21,22 @@
       height: 48px;
       width: 48px;
     }
+
+    &:hover {
+      border: 4px solid $card-hover-color;
+      cursor: pointer;
+
+      svg {
+        fill: $card-hover-color;
+      }
+    }
+  }
+
+  &.existing-project-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid $card-color;
 
     &:hover {
       border: 4px solid $card-hover-color;
