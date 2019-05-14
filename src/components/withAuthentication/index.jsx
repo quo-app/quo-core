@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { provider, auth } from 'quo-db';
-import { Route } from 'react-router-dom';
+import { Button } from 'quo-ui/buttons';
 
 const withAuthentication = (WrappedComponent) => {
   return class extends Component {
@@ -9,6 +9,7 @@ const withAuthentication = (WrappedComponent) => {
       this.state = {
           initialAuthChange: false,
           authenticated : !!auth().currentUser,
+          errored: false,
       }
     }
 
@@ -26,14 +27,26 @@ const withAuthentication = (WrappedComponent) => {
       }
     }
 
-    signInWithPopup () {
+    signInWithPopup = () => {
       this.setState({ authOpen: true });
-      auth().signInWithPopup(provider())
+      auth().signInWithPopup(provider()).catch((error) => {
+        this.setState({ errored: true, errorData: error })
+      })
     }
 
     render () {
       if(this.state.authenticated) {
         return (<WrappedComponent {...this.props}/>)
+      } else if (this.state.errored) {
+        const errorData = this.state.errorData
+        return (
+          <div className='interstitial'>
+            <h2> Authentication Error occurred</h2>
+            <p>{errorData.code}</p>
+            <p>{errorData.message}</p>
+            <Button onClick={this.signInWithPopup}>Sign in again</Button>
+          </div>
+        )
       } else {
         if (!this.state.authOpen && this.state.initialAuthChange) this.signInWithPopup();
         return null;
@@ -76,21 +89,3 @@ const withAuthentication = (WrappedComponent) => {
 // )
 
 export default withAuthentication
-
-// firebase.auth().signInWithPopup(auth()).then(function(result) {
-//   // This gives you a Google Access Token. You can use it to access the Google API.
-//   var token = result.credential.accessToken;
-//   // The signed-in user info.
-//   var user = result.user;
-//   console.log(user);
-//   // ...
-// }).catch(function(error) {
-//   // Handle Errors here.
-//   var errorCode = error.code;
-//   var errorMessage = error.message;
-//   // The email of the user's account used.
-//   var email = error.email;
-//   // The firebase.auth.AuthCredential type that was used.
-//   var credential = error.credential;
-//   // ...
-// });
