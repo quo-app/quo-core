@@ -1,7 +1,5 @@
-import uuid from 'uuid/v1';
 import selectors from 'quo-redux/selectors';
 import { previews } from 'quo-db';
-import actions from './rootActions';
 
 /*
 action: PREVIEW_PUSH_TO_CLOUD
@@ -26,5 +24,5 @@ export const PREVIEW_PUSH_TO_CLOUD = preview => (dispatch, getState) => {
 }
 
 const constructPreviewUrl = id => {
-  return `${window.location.href}preview/${id}`
+  return `${window.location.origin}/preview/${id}`
 }

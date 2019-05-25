@@ -13,7 +13,7 @@ export const PROJECT_PUSH_TO_CLOUD = id => (dispatch, getState) => {
   // prepare the data to be sent as a preview instance
   const domain = selectors.domain(getState()).toJS();
   const projectData = JSON.stringify(domain);
-  // const id = domain.tabs.tabs[domain.tabs.currentTab].rootComponent.id;
+  const id = domain.tabs.tabs[domain.tabs.currentTab].rootComponent.id;
   projects.setProject(id, projectData);
 }
 

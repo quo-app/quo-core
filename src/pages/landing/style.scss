@@ -1,0 +1,76 @@
+#quo-homepage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  align-items: center;
+
+  > * {
+    padding:0 20%;
+  }
+
+  nav {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  main {
+    flex-grow: 1;
+    text-align: center;
+    width: 800px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+      color: white;
+      font-size: 7rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .subheading {
+      color: white;
+      font-size: 2rem;
+      padding: 0 5rem;
+      margin-bottom: 3rem;
+    }
+
+    button {
+      display: block;
+      -webkit-text-decoration: none;
+      text-decoration: none;
+      text-align: center;
+      border: none;
+      background-color: #0853fe;
+      color: #ffffff;
+      font-family: Rajdhani,sans-serif;
+      font-size: 1.2rem;
+      border-radius: 4px;
+      padding: .75em 3em;
+      margin: 0em 0em 1em 0em;
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+      a {
+        text-decoration: none;
+        &:visited {
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  footer {
+    background: white;
+    width: 100vw;
+    div {
+      padding: 1rem 20vw;
+    }
+  }
+}

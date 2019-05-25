@@ -13,10 +13,10 @@ import componentWrapper from '../componentWrapper';
 
 const makePreviewComponent = (WrappedComponent, options) => {
     return class extends Component {
-      // stopPropagation = f => e => {
-      //   e.stopPropagation();
-      //   return f(e)
-      // }
+      stopPropagation = f => e => {
+        e.stopPropagation();
+        return f(e)
+      }
       // findStates(trigger, type){
       //   let states = _.omit(this.props.component.state.states, 'composite');
       //   return _.values(_.pickBy(states, state => state[type].includes(trigger)));
@@ -116,7 +116,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
       // }
 
       createStaticProps = () => {
-        const className = `edit-component ${this.props.type}-component`
+        const className = `preview-component ${this.props.type}-component`
         return {
           className,
           id: `component-${this.props.id}`
@@ -132,12 +132,6 @@ const makePreviewComponent = (WrappedComponent, options) => {
       getStyleProps = () => {
         if(this.props.isParent) return { ...this.props.props }
         return translatePropData('abstract', 'css', pick(this.props.props, ['width','height','x','y']));
-      }
-
-      onDrag = () => {
-        document.removeEventListener('mouseup', this.onDoubleClickMouseUp);
-        // reset the unpack that happened in doubleClickMouseDown event here
-        this.selectionManager.makeChildrenUnselectable();
       }
 
       render = () => {

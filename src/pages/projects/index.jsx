@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import { ProjectsTopBar } from 'quo-components/topBar';
 import { AddNewProjectCard, ExistingProjectCard } from 'quo-components/projectCard';
 import { auth, projects } from 'quo-db';
+import { createReduxStructure } from 'quo-redux';
 
 class Projects extends Component {
   state = {
@@ -14,6 +16,7 @@ class Projects extends Component {
       initialMountFired: false,
       projects: []
     }
+    this.store = createReduxStructure({});
   }
 
   componentDidMount () {
@@ -22,9 +25,7 @@ class Projects extends Component {
 
   retrieveProjects () {
     projects.getProjectsOfUser(auth().currentUser.uid).then(data => {
-      console.log(this.setState({ projects: data }));
-      // console.log(this);
-      // this.setState({ projects: data })
+      this.setState({ projects: data });
     })
   }
 
@@ -37,13 +38,15 @@ class Projects extends Component {
 
   render () {
     return (
-      <main className="quo-content projects">
-        <ProjectsTopBar/>
-        <div className='projects-main'>
-          <AddNewProjectCard/>
-          { this.renderExistingProjects() }
-        </div>
-      </main>
+      <Provider store={this.store}>
+        <main className="quo-content projects">
+          <ProjectsTopBar/>
+          <div className='projects-main'>
+            <AddNewProjectCard/>
+            { this.renderExistingProjects() }
+          </div>
+        </main>
+      </Provider>
     )
   }
 }
