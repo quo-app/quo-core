@@ -4,10 +4,10 @@ import firebase from 'firebase/app';
 import firestore from 'firebase/firestore';
 import 'firebase/auth';
 
-const FIREBASE_CONNECTION = false;
+const FIREBASE_CONNECTION = true;
 
 const config = {
-  apiKey: process.env.FIREBASE_API_KEY,
+  apiKey: 'AIzaSyBpgSJAcI7tIEUS1nSSs6TqE6AMIFTV7pA',
   authDomain: "quo-staging.firebaseapp.com",
   databaseURL: "https://quo-staging.firebaseio.com",
   projectId: "quo-staging",

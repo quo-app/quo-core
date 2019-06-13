@@ -5,11 +5,20 @@ import { createReduxRoot } from 'redux-shrub';
 import { editorReducer } from './reducer';
 
 const composeEnhancer = compose;
+let middleware;
+
+if (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') {
+  middleware = composeEnhancer(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__({ serialize: { Immutable }}))
+}
+else {
+  middleware = composeEnhancer(applyMiddleware(thunk));
+}
 
 export const editorStore = () => createStore(
   editorReducer,
-  composeEnhancer(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__({ serialize: { Immutable }})),
+  middleware
 );
+
 
 export const createReduxStructure = (reducers = {}) => {
   const reduxShrubInstance = createReduxRoot('root', reducers);
