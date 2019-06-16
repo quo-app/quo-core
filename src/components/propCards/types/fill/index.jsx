@@ -18,24 +18,33 @@ class Fill extends Component {
     }
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return {
+      ...state,
+      color: props.fill || props.backgroundColor || { r: 0, g:0, b:0, a:0 }
+    }
+  }
+
   getProp = () => this.props.fill ? 'fill' : 'backgroundColor'
 
-  updateStore = () => {
-    let props = {[this.getProp()]:this.state.color}
+  updateStore = (color) => {
+    let props = {[this.getProp()]: color}
     if(this.getProp() === 'fill') {
-      props.fillOpacity =  this.state.color.a
+      props.fillOpacity =  color.a
     }
     this.props.update(props)
   }
 
   handleChange = color => {
-    this.setState({ color: color.rgb }, this.updateStore)
+    this.updateStore(color.rgb)
+    // this.setState({ color: color.rgb }, this.updateStore)
   }
 
   handleSliderChange = alpha => {
     let color = {...this.state.color}
     color.a = alpha / 100;
-    this.setState({ color }, this.updateStore);
+    this.updateStore(color);
+    // this.setState({ color }, this.updateStore);
   };
 
   handleClick = () => this.setState({ displayColorPicker: !this.state.displayColorPicker })
@@ -44,7 +53,6 @@ class Fill extends Component {
     return(
       <div>
         <PropCardWrapper title='Fill'>
-
            <ColorPicker title='Color' color={ this.state.color } handleClick={ this.handleClick }/>
            <SliderCore title='Opacity' step={1} min={0} max={100} value={parseInt(this.state.color.a * 100)} handleOnChange={this.handleSliderChange}/>
           <TextInput title='' text={parseInt(this.state.color.a * 100)} type='percentage' after="%"/>

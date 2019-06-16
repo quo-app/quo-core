@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
 const Logo = () => (
   <svg>Q</svg>
@@ -18,7 +19,9 @@ export default class Landing extends Component {
         <main>
           <h1> Enter a new <br/> world </h1>
           <div class='subheading'> Say hello to the digital design space where the only limit is your imagination. </div>
-          <button><a href='/projects'> Try the Quo Sandbox </a></button>
+          <button>
+            <Link to='/projects'> Try the Quo Sandbox</Link>
+          </button>
         </main>
         <footer>
           <div>

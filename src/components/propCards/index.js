@@ -24,7 +24,7 @@ const PropCards =  {
                     //  Scale,
                      'Inner Size': InnerSize,
                      Viewport,
-                    //  Size,
+                     Size,
                      Text
                     };
 

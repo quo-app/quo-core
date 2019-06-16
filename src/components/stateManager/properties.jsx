@@ -48,7 +48,6 @@ const mapStateToProps = state => {
   }
   // case where there is a single selection
   if(selectedComponents.length === 1){
-
     const id = selectedComponents[0];
     const accessors = { id, stateID: currentState}
 
@@ -57,18 +56,25 @@ const mapStateToProps = state => {
     const stateProps = selectors.componentStateProps(state, accessors)
     const defaultProps = selectors.componentStateProps(state, {...accessors, stateID: 'default'})
 
-    const retrieveProps = propArr => {
-      let obj = {}
-      propArr.forEach(prop => {
-        obj[prop] = stateProps.get(prop) || defaultProps.get(prop)
-      })
-      return obj
+    let retrieveProps;
+
+    if (currentState === 'default') {
+      retrieveProps = propArr => defaultProps.toJSON()
+    }
+    else {
+      retrieveProps = propArr => {
+        let obj = {}
+        propArr.forEach(prop => {
+          obj[prop] = stateProps.get(prop) || defaultProps.get(prop)
+        })
+        return obj
+      }
     }
 
-    const cards = getCards(type).map( c => {
+    const cards = getCards(type).map( card => {
       return ({
-        card: PropCards[c],
-        props: retrieveProps(getPropsOfCard(c, type))
+        card: PropCards[card],
+        props: retrieveProps(getPropsOfCard(card, type))
       })});
 
     return { cards, id, currentState}

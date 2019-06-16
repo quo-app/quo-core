@@ -11,12 +11,12 @@ class KeyController extends Component {
     keyDown:false
   }
 
-  keyUp = (e) => this.props.dispatch(actions.KEYS_UP(e.keyCode));
+  // keyUp = (e) => this.props.dispatch(actions.KEYS_UP(e.keyCode));
 
-  keyDown = (e) => {
-    if(this.props.keys.has(e.keyCode)) return;
-    this.props.dispatch(actions.KEYS_DOWN(e.keyCode))
-  }
+  // keyDown = (e) => {
+  //   if(this.props.keys.has(e.keyCode)) return;
+  //   this.props.dispatch(actions.KEYS_DOWN(e.keyCode))
+  // }
 
   // @keydown('cmd+shift+z')
   // dispatchRedo(e){
