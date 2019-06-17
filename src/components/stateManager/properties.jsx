@@ -18,6 +18,7 @@ class Properties extends Component {
     const { dispatch, id, currentState } = this.props;
     return props => dispatch(actions.EDIT_COMPONENT_PROPS_UPDATE({id, stateID: currentState, props}))
   }
+
   render = () => {
     return (
       <Fragment>

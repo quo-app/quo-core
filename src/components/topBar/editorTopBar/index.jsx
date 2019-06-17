@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import actions from 'quo-redux/actions';
 import selectors from 'quo-redux/selectors';
@@ -26,6 +27,7 @@ class EditorTopBar extends Component {
         <Button onClick={()=> {this.props.dispatch(actions.PREVIEW_PUSH_TO_CLOUD({selectedComponents:[], previewID: uuid()}))}}>Share Preview</Button>
         <Button selected={editSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_EDIT())}>App Mode: EDIT</Button>
         <Button selected={previewSelected} onClick={() => this.props.dispatch(actions.APPMODE_SET_PREVIEW())}>App Mode: PREVIEW</Button>
+        <Button><Link to='/projects'>Projects</Link></Button>
       </TopBar>
     )
   }

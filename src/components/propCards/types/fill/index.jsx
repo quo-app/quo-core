@@ -37,15 +37,15 @@ class Fill extends Component {
 
   handleChange = color => {
     this.updateStore(color.rgb)
-    // this.setState({ color: color.rgb }, this.updateStore)
   }
 
   handleSliderChange = alpha => {
     let color = {...this.state.color}
     color.a = alpha / 100;
     this.updateStore(color);
-    // this.setState({ color }, this.updateStore);
   };
+
+  decimalToPercentage = decimal => parseInt(decimal * 100);
 
   handleClick = () => this.setState({ displayColorPicker: !this.state.displayColorPicker })
 
@@ -54,8 +54,8 @@ class Fill extends Component {
       <div>
         <PropCardWrapper title='Fill'>
            <ColorPicker title='Color' color={ this.state.color } handleClick={ this.handleClick }/>
-           <SliderCore title='Opacity' step={1} min={0} max={100} value={parseInt(this.state.color.a * 100)} handleOnChange={this.handleSliderChange}/>
-          <TextInput title='' text={parseInt(this.state.color.a * 100)} type='percentage' after="%"/>
+           <SliderCore title='Opacity' step={1} min={0} max={100} value={this.decimalToPercentage(this.state.color.a)} handleOnChange={this.handleSliderChange}/>
+          <TextInput title='' text={this.decimalToPercentage(this.state.color.a)} type='percentage' after="%"/>
         </PropCardWrapper>
         {
           this.state.displayColorPicker

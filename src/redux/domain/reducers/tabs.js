@@ -27,6 +27,9 @@ class TabsReducer extends ReduxLeaf {
 
   // reducers
   add = state => ({ id }) => {
+    if (!id) {
+      throw new Error('an id:string needs to be provided')
+    }
     state = state.setIn(['tabs', id], new Tab({ id, tabCount: state.get('tabCount')}))
     state = this.__updateCurrentTab(state, id)
     state = state.set('tabCount', state.get('tabCount') + 1)

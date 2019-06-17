@@ -17,6 +17,7 @@ function Routes() {
           <Route exact path='/' component={Landing}/>
           <Route path='/preview/:previewId' component={Preview}/>
           <AuthenticatedRoute path='/editor/:editorId' component={Editor}/>
+          <AuthenticatedRoute exact path='/editor' component={Editor}/>
           <AuthenticatedRoute exact path='/projects' component={Projects}/>
         </Switch>
     </Router>

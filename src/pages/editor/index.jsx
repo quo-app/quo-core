@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect, Provider } from 'react-redux';
+import { Redirect } from 'react-router-dom'
+import uuid from 'uuid/v1';
 
 import { editorStore } from 'quo-redux';
 import { getProject } from 'quo-db/projects';
@@ -17,7 +19,7 @@ class Editor extends Component {
   }
 
   componentDidMount () {
-    if (!this.state.initialMountFired) {
+    if (!this.state.initialMountFired && this.props.match.params.editorId) {
       this.retrieveOrLoadNewProject();
       this.setState({ initialMountFired: true });
     }
@@ -26,6 +28,7 @@ class Editor extends Component {
   retrieveOrLoadNewProject () {
     const id = this.props.match.params.editorId;
     const { dispatch } = this.props;
+
     getProject(id).then(project => {
       // set the project id
       dispatch(actions.PROJECT_ID_UPDATE(id));
@@ -34,7 +37,8 @@ class Editor extends Component {
         // project exists
         this.hydrateDomain(JSON.parse(project[id].data));
       } else {
-        dispatch(actions.PROJECT_PUSH_TO_CLOUD(id));
+          dispatch(actions.TABS_ADD({ id: uuid()}));
+          dispatch(actions.PROJECT_PUSH_TO_CLOUD(id));
       }
     })
   }
@@ -44,7 +48,14 @@ class Editor extends Component {
     dispatch(actions.HYDRATE_DOMAIN(projectData));
   }
 
+  renderRedirect () {
+    return (<Redirect to={`/editor/${uuid()}`}/>)
+  }
+
   render () {
+    if (!this.props.match.params.editorId) {
+      return this.renderRedirect();
+    }
     return (
       <main className="quo-content">
         <KeyController>
