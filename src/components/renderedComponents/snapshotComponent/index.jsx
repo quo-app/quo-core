@@ -6,7 +6,6 @@ import { pick } from 'lodash'
 import { translatePropData } from 'quo-parser/propTranslator';
 
 import ComponentRender from '../coreComponent';
-
 import componentWrapper from '../componentWrapper';
 
 const makeSnapshotComponent = (WrappedComponent, options) => {
@@ -43,19 +42,17 @@ const makeSnapshotComponent = (WrappedComponent, options) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  if(!ownProps.selector || !ownProps.propsSelector ) return {}
+  if (!ownProps.selector || !ownProps.propsSelector ) return {}
 
   let component;
 
-  if(ownProps.isParent) {
+  if (ownProps.isParent) {
     component = ownProps.component || ownProps.selector(state, ownProps.id) || ownProps.selector(state).get(ownProps.id).toJS()
   }
 
   if (!component) {
     component = ownProps.selector(state, ownProps.id) || ownProps.selector(state).get(ownProps.id).toJS()
   }
-
-  console.log(component);
 
   return {
     id: component.id,
