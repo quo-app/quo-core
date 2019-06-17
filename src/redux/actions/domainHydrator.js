@@ -1,8 +1,5 @@
-import selectors from 'quo-redux/selectors'
 import actions from './rootActions'
-import assets from '../domain/reducers/assets';
 import _ from 'lodash';
-import tabs from '../domain/reducers/tabs';
 
 /*
 action: HYDRATE_DOMAIN
@@ -15,8 +12,6 @@ A full hydration of the domain.
 */
 
 export const HYDRATE_DOMAIN = projectData => (dispatch, getState) => {
-  console.log(projectData);
-
   // ADD ALL ASSETS
   _.mapKeys(projectData.assets.sketch, (data, id) => {
     dispatch(actions.SKETCH_ASSETS_ADD_EXISTING({ id, data }))
@@ -35,4 +30,10 @@ export const HYDRATE_DOMAIN = projectData => (dispatch, getState) => {
     dispatch(actions.TABS_ADD_EXISTING(tab));
   })
   dispatch(actions.TABS_CHANGE_ACTIVE({ id: tabs.currentTab}))
+
+  dispatch(actions.MESSAGES_ADD({
+    type:'success',
+    text: 'Loading complete',
+    duration: 3000
+  }))
 }

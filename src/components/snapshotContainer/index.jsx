@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v1';
 
 import { fSafe } from 'quo-utils';
 
@@ -33,6 +34,8 @@ export default class SnapshotContainer extends Component {
 
   state = {}
 
+  rootId = uuid();
+
   getContainerDimensions = () => {
     let dims =  ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect();
     let paddingHorizontal = this.props.padding.left + this.props.padding.right;
@@ -53,12 +56,10 @@ export default class SnapshotContainer extends Component {
   componentDidMount = () => {
 
     let data  = {
-      id: this.props.component.id,
+      id: this.rootId,
       cDimensions : this.getContainerDimensions(),
       eDimensions : this.getComponentDimensions(),
     }
-
-    console.log(data);
 
     let { image, scale } = convertSnapshotToImage(data);
     let fullImage = convertSnapshotToImage({...data, full:true});
@@ -83,7 +84,7 @@ export default class SnapshotContainer extends Component {
                 selector = {this.props.selector}
                 component = {this.props.component}
                 propsSelector = {this.props.propsSelector}
-                id = {this.props.component.id}
+                id = {this.rootId}
                 isParent
               />
             </div>

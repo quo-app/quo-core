@@ -48,6 +48,8 @@ const mapStateToProps = (state, ownProps) => {
 
   if (ownProps.isParent) {
     component = ownProps.component || ownProps.selector(state, ownProps.id) || ownProps.selector(state).get(ownProps.id).toJS()
+    // setting this to a unique id otherwise all of them are called root...
+    component.id = ownProps.id
   }
 
   if (!component) {

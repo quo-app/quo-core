@@ -25,14 +25,18 @@ class Projects extends Component {
 
   retrieveProjects () {
     projects.getProjectsOfUser(auth().currentUser.uid).then(data => {
+      console.log(data);
       this.setState({ projects: data });
     })
   }
 
   renderExistingProjects () {
     if (this.state.projects.length === 0) return null;
+
+    console.log(this.state.projects.map(({ data, id }) => (<ExistingProjectCard data={data} projectId={id} key={id} />)))
+
     return (
-      this.state.projects.map(({ data, id }) => (<ExistingProjectCard data={data} projectId={id}key={id} />))
+      this.state.projects.map(({ data, id }) => (<ExistingProjectCard data={data} projectId={id} key={id} />))
     )
   }
 

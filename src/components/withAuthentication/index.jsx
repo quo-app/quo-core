@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { provider, auth } from 'quo-db';
 import { Button } from 'quo-ui/buttons';
+import actions from 'quo-redux/actions';
 
 const withAuthentication = (WrappedComponent) => {
   return class extends Component {
@@ -54,38 +55,5 @@ const withAuthentication = (WrappedComponent) => {
     }
   }
 }
-
-// const AuthenticatedRoute = ({ component: Component, ...rest }) => (
-
-//   <Route {...rest} render={(props) => {
-//     auth().onAuthStateChanged(user => {
-//       if (user) {
-//         console.log(user);
-//         // User is signed in.
-//       } else {
-//         // User is signed out.
-//       }
-//     });
-//     auth().signInWithPopup(provider()).then(result => {
-//       // This gives you a Google Access Token. You can use it to access the Google API.
-//       var token = result.credential.accessToken;
-//       // The signed-in user info.
-//       var user = result.user;
-//       // ...
-//     }).catch(function(error) {
-//       // Handle Errors here.
-//       var errorCode = error.code;
-//       var errorMessage = error.message;
-//       // The email of the user's account used.
-//       var email = error.email;
-//       // The firebase.auth.AuthCredential type that was used.
-//       var credential = error.credential;
-//       // ...
-//     });
-//     return (
-//       <Component {...props} />
-//     )
-//   }} />
-// )
 
 export default withAuthentication

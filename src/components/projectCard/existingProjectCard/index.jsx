@@ -6,11 +6,14 @@ class ExistingProjectCard extends Component {
   onClick = () => {
     this.props.history.push(`/editor/${this.props.projectId}`)
   }
+
   render () {
 
     const data = JSON.parse(this.props.data);
     const { components } = data;
     const rootComponent = data.tabs.tabs[data.tabs.currentTab].rootComponent;
+
+    console.log(components);
 
     const calcWidth = artboards => {
       const leftMost = Math.min(...artboards.map(c => components[c].props.x))
