@@ -11,11 +11,6 @@ import ComponentRender from '../coreComponent';
 
 import componentWrapper from '../componentWrapper';
 
-
-/**
- * each object should have 4 functions to with things to set
-*/
-
 const makePreviewComponent = (WrappedComponent, options) => {
     return class extends Component {
       constructor(props) {
@@ -181,7 +176,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
         const eventListeners = this.createMouseEventListeners()
         return(
           <div {...dynamicProps} {...staticProps} {...eventListeners}>
-          <WrappedComponent {...this.props} wrapper={PreviewComponent} renderType='preview'/>
+            <WrappedComponent {...this.props} wrapper={PreviewComponent} renderType='preview'/>
           </div>
         )
       }
