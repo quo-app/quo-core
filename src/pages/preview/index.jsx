@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { previews } from 'quo-db';
 import { Provider } from 'react-redux';
-import { createReduxStructure } from 'quo-redux';
 import { PreviewRenderer } from './previewRenderer';
+import { previewStore } from 'quo-redux/preview';
 
 export default class Preview extends Component {
   constructor(props) {
     super(props);
     const previewId = this.props.match.params.previewId;
-    this.store = createReduxStructure({});
+    this.store = previewStore();
     previews.getLivePreview(previewId, ({ data }) => this.setState({ data: JSON.parse(data) }));
   }
 

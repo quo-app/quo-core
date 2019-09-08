@@ -13,8 +13,6 @@ class ExistingProjectCard extends Component {
     const { components } = data;
     const rootComponent = data.tabs.tabs[data.tabs.currentTab].rootComponent;
 
-    console.log(components);
-
     const calcWidth = artboards => {
       const leftMost = Math.min(...artboards.map(c => components[c].props.x))
       const rightMost = Math.max(...artboards.map(c => components[c].props.x + components[c].props.width))

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { pick } from 'lodash';
+import _ from 'lodash';
 
-import actions from 'quo-redux/actions';
+import { actions, selectors } from 'quo-redux/preview';
 
 import { translatePropData } from 'quo-parser/propTranslator';
 
@@ -11,8 +12,30 @@ import ComponentRender from '../coreComponent';
 import componentWrapper from '../componentWrapper';
 
 
+/**
+ * each object should have 4 functions to with things to set
+*/
+
 const makePreviewComponent = (WrappedComponent, options) => {
     return class extends Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          hover: {},
+          click: {},
+          clicked: false
+        }
+          // add the rest here
+      }
+      addStates = (stateBagId, states) => {
+        // _.mapKeys(states, (props, key) => {
+        //   this.props.dispatch(actions.STATEBAG_STATE_ADD({
+        //     stateBagId,
+        //     stateId: key,
+        //     stateContent: props }))
+        // })
+      }
+
       stopPropagation = f => e => {
         e.stopPropagation();
         return f(e)
@@ -21,6 +44,7 @@ const makePreviewComponent = (WrappedComponent, options) => {
       //   let states = _.omit(this.props.component.state.states, 'composite');
       //   return _.values(_.pickBy(states, state => state[type].includes(trigger)));
       // }
+
       // addLinkStates(event){
       //   const { dispatch } = this.props;
       //   let links = this.props.component.links.triggers[event];
@@ -51,14 +75,8 @@ const makePreviewComponent = (WrappedComponent, options) => {
       //     dispatch(actions.REMOVE_STATE_FROM_COMPOSITE({id:id, state:s}))
       //   })
       // }
-      // handleStates(event){
-      //   // states of the component
-      //   this.addStates(this.props.component.id, this.findStates(event,'ins'));
-      //   this.removeStates(this.props.component.id, this.findStates(event,'outs'));
-      //   // states for other components
-      //   this.addLinkStates(event);
-      //   this.removeLinkStates(event);
-      // }
+      handleStates(event){
+      }
       // onMouseDown(e){
       //   this.handleStates('onMouseDown');
       //   //apply onMouseDown states
@@ -67,12 +85,32 @@ const makePreviewComponent = (WrappedComponent, options) => {
       // onMouseUp(e){
       //   this.handleStates('onMouseUp');
       // }
-      // onMouseEnter(e){
-      //   this.handleStates('onMouseEnter');
-      // }
-      // onMouseLeave(e){
-      //   this.handleStates('onMouseLeave');
-      // }
+      onMouseEnter = e => {
+        this.setState({ hover : {}});
+        // console.log(this.props.currentStateBag.hover.props);
+      }
+      onMouseLeave = e => {
+        this.setState({hover: {}});
+        // console.log(this.props.currentStateBag.hover.props);
+      }
+
+      onMouseDown = e => {
+        this.setState({ click: {}});
+      }
+
+      onMouseUp = e => {
+        this.setState({ click: {}})
+      }
+
+      onClick = e => {
+        if (this.state.clicked)
+        {
+          this.setState({ clicked: false, click: {}})
+        } else {
+          this.setState({ clicked: true, click: {}})
+        }
+      }
+
       // onBlur(e){
       //   this.handleStates('onBlur');
       // }
@@ -80,23 +118,18 @@ const makePreviewComponent = (WrappedComponent, options) => {
       //   this.handleStates('onFocus');
       // }
 
-      // getStyleProps = () =>   {
-      //   if(this.props.isParent) return { ...this.props.style }
-      //   const props = this.props.component.state.states.composite.props
-      //   return translatePropData('abstract', 'css', _.pick(props,['width','height','x','y']));
-      // }
-
-      // createMouseEventListeners = () => {
-      //   if (this.props.isParent) return {};
-      //   return _.mapValues({
-      //     onMouseDown: this.onMouseDown,
-      //     onMouseUp: this.onMouseUp,
-      //     onMouseEnter: this.onMouseEnter,
-      //     onMouseLeave: this.onMouseLeave,
-      //     onFocus: this.onFocus,
-      //     onBlur: this.onBlur,
-      //   }, f => this.stopPropagation(f.bind(this)));
-      // }
+      createMouseEventListeners = () => {
+        if (this.props.isParent) return {};
+        return _.mapValues({
+          onMouseDown: this.onMouseDown,
+          onMouseUp: this.onMouseUp,
+          onMouseEnter: this.onMouseEnter,
+          onMouseLeave: this.onMouseLeave,
+          onClick: this.onClick,
+          // onFocus: this.onFocus,
+          // onBlur: this.onBlur,
+        }, f => this.stopPropagation(f));
+      }
 
       // createWrapperProps = () => {
 
@@ -131,15 +164,24 @@ const makePreviewComponent = (WrappedComponent, options) => {
 
       getStyleProps = () => {
         if(this.props.isParent) return { ...this.props.props }
-        return translatePropData('abstract', 'css', pick(this.props.props, ['width','height','x','y']));
+        let props = {};
+
+        _.merge(props,
+          this.props.props,
+          this.state.hover,
+          this.state.click
+        );
+
+        return translatePropData('abstract', 'css', pick(props, ['height', 'width', 'y', 'x']));
       }
 
       render = () => {
         const staticProps = this.createStaticProps()
-        const dynamicProps = this.createDynamicProps()
+        const dynamicProps = { style: this.getStyleProps() }
+        const eventListeners = this.createMouseEventListeners()
         return(
-          <div {...dynamicProps} {...staticProps}>
-            <WrappedComponent {...this.props} wrapper={PreviewComponent} renderType='preview'/>
+          <div {...dynamicProps} {...staticProps} {...eventListeners}>
+          <WrappedComponent {...this.props} wrapper={PreviewComponent} renderType='preview'/>
           </div>
         )
       }
@@ -150,16 +192,26 @@ const makePreviewComponent = (WrappedComponent, options) => {
     if(!ownProps.selector) return {}
 
     const component = ownProps.isParent ? ownProps.component : ownProps.selector(state, ownProps.id)
-
     let props;
 
     props = component.props;
+
+    let currentBag;
+    let currentStateBag;
+
+    if (!ownProps.isParent) {
+      currentBag = ownProps.isParent ? null : selectors.componentCurrentBag(state, { id: component.id });
+      let bagId = `${component.id}:${currentBag}`;
+      currentStateBag = selectors.statebagStates(state, { stateBagId: bagId }).toJS();
+    }
 
     return {
       id: component.id,
       props: props,
       type: component.type,
       children: component.children,
+      currentBag: currentBag,
+      currentStateBag: currentStateBag,
       renderType: 'preview',
     }
 
